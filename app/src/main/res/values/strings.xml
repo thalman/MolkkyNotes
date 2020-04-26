@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">MolkkyNotes</string>
+    <string name="prepareTeams">Setup teams</string>
+    <string name="startNewGame">Start new game</string>
+
+    <string name="teams">Players</string>
+    <string name="game">Game</string>
+    <string name="results">Results</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="tab_text_1">Teams</string>
+    <string name="tab_text_2">Game</string>
+    <string name="tab_text_3">Results</string>
+
+    <!-- menu -->
+    <string name="menuStartNewGame">New Game</string>
+    <string name="menuPreferences">Setup</string>
+
+    <!-- team screen -->
+    <string name="tPlayers">All Player</string>
+    <string name="tWhoWillPlay">Who will play</string>
+    <string name="tAverage">~ %1$s</string>
+    <string name="tNumberOfRounds">Rounds: %1$d</string>
+
+    <!-- game screen -->
+    <string name="gNext">Next:</string>
+    <string name="gPlayersScore">%1$d (%2$d left)</string> <!-- 3 (47 left) -->
+    <string name="gFoul">Foul</string> <!-- crossing the foul line -->
+
+    <!-- results screen -->
+    <string name="resultsRound">Round</string>
+    <string name="resultsRoundWithNumber">Round %1$d</string>
+    <string name="resultsGame">Game</string>
+    <string name="resultsNextRound">Next round</string>
+    <string name="resultsNewGame">New game</string>
+    <string name="resultsRoundInProgress">Next round can\'t be started!</string>
+    <string name="resultsRoundInProgressDetail">Current round is not finished yet.</string>
+    <string name="resultsStartNewGame">Start new game?</string>
+    <string name="resultsStartNewGameDetail">End the game and starte new one.</string>
+    <string name="resultsNoZeros">(no zeros)</string>
+    <plurals name="resultsZeros">
+        <item quantity="one">(%1$d zero)</item>
+        <item quantity="other">(%1$d zeros)</item>
+    </plurals>
+
+    <!-- dialogs -->
+    <string name="dAddPlayer">Add new player</string>
+    <string name="dPlayersNameHint">Name</string>
+    <string name="dOK">OK</string>
+    <string name="dAdd">Add</string>
+    <string name="dCancel">Cancel</string>
+    <string name="dialogStartNewGame">Start new game?</string>
+    <string name="dialogRoundInProgress">Current round is not finished!</string>
+
+</resources>

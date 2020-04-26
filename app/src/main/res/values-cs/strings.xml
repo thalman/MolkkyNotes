@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_text_1">Týmy</string>
+    <string name="tab_text_2">Hra</string>
+    <string name="tab_text_3">Výsledky</string>
+
+    <!-- menu -->
+    <string name="menuStartNewGame">Nová hra</string>
+    <string name="menuPreferences">Nastavení</string>
+
+    <!-- team screen -->
+    <string name="tPlayers">Všichni hráči</string>
+    <string name="tWhoWillPlay">Kdo hraje</string>
+    <string name="tAverage">~ %1$s</string>
+
+    <!-- game screen -->
+    <string name="gNext">Další:</string>
+    <string name="gPlayersScore">%1$d (ještě %2$d)</string> <!-- 3 (47 left) -->
+    <string name="gFoul">Přešlap</string> <!-- crossing the foul line -->
+    <string name="tNumberOfRounds">Počet kol: %1$d</string>
+
+    <!-- results screen -->
+    <string name="resultsRound">Kolo</string>
+    <string name="resultsRoundWithNumber">%1$d. kolo</string>
+    <string name="resultsGame">Hra</string>
+    <string name="resultsNextRound">Další kolo</string>
+    <string name="resultsNewGame">Nová hra</string>
+    <string name="resultsRoundInProgress">Další kolo nemůže začít!</string>
+    <string name="resultsRoundInProgressDetail">Aktuální kolo ještě neskončilo.</string>
+    <string name="resultsStartNewGame">Začít novou hru?</string>
+    <string name="resultsStartNewGameDetail">Hra bude ukončena a začne nová.</string>
+    <string name="resultsNoZeros">(žádná nula)</string>
+    <plurals name="resultsZeros">
+        <item quantity="one">(%1$d nula)</item>
+        <item quantity="few">(%1$d nuly)</item>
+        <item quantity="other">(%1$d nul)</item>
+    </plurals>
+
+    <!-- dialogs -->
+    <string name="dAddPlayer">Nový hráč</string>
+    <string name="dPlayersNameHint">Jméno</string>
+    <string name="dOK">OK</string>
+    <string name="dAdd">Přidat</string>
+    <string name="dCancel">Zrušit</string>
+    <string name="dialogStartNewGame">Začít novou hru?</string>
+    <string name="dialogRoundInProgress">Současné kolo není dohrané!</string>
+
+</resources>
