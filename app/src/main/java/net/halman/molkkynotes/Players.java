@@ -1,14 +1,19 @@
 package net.halman.molkkynotes;
 
+import android.content.Context;
 import android.util.Log;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
 
 public class Players {
     private static final String PLAYERSDB = "players.csv";
@@ -44,7 +49,6 @@ public class Players {
         }
 
         _players.add(player);
-        save();
         return true;
     }
 
@@ -63,10 +67,12 @@ public class Players {
         return null;
     }
 
-    public void save()
+    public void save(Context context)
     {
         try {
-            CSVWriter writer = new CSVWriter(new FileWriter(PLAYERSDB));
+            FileOutputStream fos = context.openFileOutput(PLAYERSDB, context.MODE_PRIVATE);
+            OutputStreamWriter fow = new OutputStreamWriter(fos);
+            CSVWriter writer = new CSVWriter(fow);
             for (MolkkyPlayer p: _players) {
                 ArrayList<String> where = new ArrayList<String>();
                 where.add(p.name());
@@ -79,13 +85,17 @@ public class Players {
                 writer.writeNext(list);
             }
             writer.close();
-        } catch (Exception e) {};
+        } catch (Exception e) {
+            Log.d("ex", e.toString());
+        };
     }
 
-    public void load()
+    public void load(Context context)
     {
         try {
-            CSVReader reader = new CSVReader(new FileReader(PLAYERSDB));
+            FileInputStream fis = context.openFileInput(PLAYERSDB);
+            InputStreamReader isr = new InputStreamReader(fis);
+            CSVReader reader = new CSVReader(isr);
             String[] line;
             int id = 1;
             while ((line = reader.readNext()) != null) {

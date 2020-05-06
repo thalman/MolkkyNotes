@@ -211,7 +211,7 @@ public class TeamsFragment extends Fragment {
                     if (!name.isEmpty()) {
                         if (players.add(new MolkkyPlayer(name))) {
                             players.sort();
-                            players.save();
+                            players.save(getContext());
                             _players_adapter.notifyDataSetChanged();
                         }
                     }
