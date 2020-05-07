@@ -6,6 +6,7 @@
 
     <!-- menu -->
     <string name="menuStartNewGame">Nová hra</string>
+    <string name="menuPlayInTeams">Hra v týmech</string>
     <string name="menuPreferences">Nastavení</string>
 
     <!-- team screen -->

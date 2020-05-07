@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity
 
     private MolkkyGame _game = new MolkkyGame();
     private Players _players = new Players();
+    private Setup _setup = new Setup();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +68,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         _players.load(this);
+        _setup.load(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.navigation, menu);
+        MenuItem i = menu.findItem(R.id.menuPlayInTeams);
+        i.setChecked(_setup.playInTeams());
         return true;
     }
 
@@ -84,11 +88,27 @@ public class MainActivity extends AppCompatActivity
             case R.id.menuNewGame:
                 onNewGameMenuClick();
                 break;
+            case R.id.menuPlayInTeams:
+                item.setChecked(!item.isChecked());
+                _setup.playInTeams(item.isChecked());
+                break;
             case R.id.menuPreferences:
                 break;
         }
 
         return true;
+    }
+
+    @Override
+    public void onStop() {
+        _setup.save(this);
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        _setup.load(this);
+        super.onStart();
     }
 
     public void switchTab(int idx)

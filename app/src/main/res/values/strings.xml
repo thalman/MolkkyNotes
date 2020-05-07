@@ -16,6 +16,7 @@
 
     <!-- menu -->
     <string name="menuStartNewGame">New Game</string>
+    <string name="menuPlayInTeams">Play in teams</string>
     <string name="menuPreferences">Setup</string>
 
     <!-- team screen -->

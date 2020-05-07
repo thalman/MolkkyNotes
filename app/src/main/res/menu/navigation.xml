@@ -6,6 +6,11 @@
         android:title="@string/menuStartNewGame" />
 
     <item
+        android:id="@+id/menuPlayInTeams"
+        android:checkable="true"
+        android:title="@string/menuPlayInTeams" />
+
+    <item
         android:id="@+id/menuPreferences"
         android:title="@string/menuPreferences" />
 
