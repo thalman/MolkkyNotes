@@ -74,7 +74,7 @@ public class PlayersAdapter extends
         if (p!=null && team != null && score != null) {
             team.setText(p.name());
             //Resources r = getActivity().getResources();
-            score.setText(_resources.getString(R.string.tAverage, p.averageScoreString()));
+            score.setText(_resources.getString(R.string.teamsAverage, p.averageScoreString()));
         }
     }
 

@@ -65,15 +65,45 @@ public class MolkkyTeam {
     public boolean hasPlayer(MolkkyPlayer player)
     {
         for (MolkkyPlayer member: _members) {
-             if (member.equals(player)) {
-                 return true;
-             }
+            if (member.equals(player)) {
+                return true;
+            }
         }
         return false;
+    }
+
+    public boolean hasPlayer(String player)
+    {
+        for (MolkkyPlayer member: _members) {
+            if (member.name().equals(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removePlayer(String name)
+    {
+        for (MolkkyPlayer member: _members) {
+            if (member.name().equals(name)) {
+                _members.remove(member);
+                return;
+            }
+        }
+    }
+
+    public void removePlayer(MolkkyPlayer p)
+    {
+        removePlayer(p.name());
     }
 
     public ArrayList<MolkkyPlayer> members()
     {
         return _members;
+    }
+
+    public int size()
+    {
+        return _members.size();
     }
 }

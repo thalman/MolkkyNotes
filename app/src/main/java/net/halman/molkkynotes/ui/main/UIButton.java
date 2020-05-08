@@ -82,4 +82,9 @@ public class UIButton extends LinearLayout {
             }
         }
     }
+
+    public String text()
+    {
+        return _text.getText().toString();
+    }
 }

@@ -373,4 +373,40 @@ public class MolkkyGame {
 
         _teams = shuffle;
     }
+
+    public MolkkyTeam teamByTeamsName(String name)
+    {
+        for (MolkkyTeam t: _teams) {
+            if (t.name().equals(name)) {
+                return t;
+            }
+        }
+
+        return null;
+    }
+
+    public MolkkyTeam teamByPlayersName(String name)
+    {
+        for (MolkkyTeam t: _teams) {
+            if (t.hasPlayer(name)) {
+                return t;
+            }
+        }
+
+        return null;
+    }
+
+    public void removePlayerByName(String name)
+    {
+        MolkkyTeam t = teamByPlayersName(name);
+        if (t == null) {
+            return;
+        }
+
+        t.removePlayer(name);
+        if (t.size() == 0) {
+            _teams.remove(t);
+        }
+    }
+
 }

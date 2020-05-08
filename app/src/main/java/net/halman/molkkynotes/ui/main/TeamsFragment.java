@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 
 import net.halman.molkkynotes.MainActivity;
 import net.halman.molkkynotes.MolkkyGame;
+import net.halman.molkkynotes.MolkkyHit;
 import net.halman.molkkynotes.MolkkyPlayer;
 import net.halman.molkkynotes.MolkkyTeam;
 import net.halman.molkkynotes.Players;
@@ -38,6 +39,7 @@ public class TeamsFragment extends Fragment {
     private LinearLayout _selected_teams = null;
     private PlayersAdapter _players_adapter = null;
     private LinearLayoutManager _layout_manager = null;
+    private int[] _team_view_ids = {R.id.tTeam1, R.id.tTeam2, R.id.tTeam3, R.id.tTeam4, R.id.tTeam5, R.id.tTeam6, R.id.tTeam7, R.id.tTeam8, R.id.tTeam9, R.id.tTeam10 };
 
     public TeamsFragment() {
         // Required empty public constructor
@@ -66,7 +68,7 @@ public class TeamsFragment extends Fragment {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (_listener == null) {
+                    if (gameInProgress()) {
                         return;
                     }
 
@@ -78,7 +80,7 @@ public class TeamsFragment extends Fragment {
         );
 
 
-        View addUser = result.findViewById(R.id.tAddUser);
+        View addUser = result.findViewById(R.id.teamsAddUser);
         if (addUser != null) {
             addUser.setOnClickListener(
                 new View.OnClickListener() {
@@ -107,8 +109,44 @@ public class TeamsFragment extends Fragment {
             _all_players = null;
         }
 
+        for(int a = 0; a < _team_view_ids.length; a++) {
+            UIButton btn = _selected_teams.findViewById(_team_view_ids[a]);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onRemovePlayer((UIButton)view);
+                }
+            });
+        }
+
         updateScreen();
         return result;
+    }
+
+    private void onRemovePlayer(UIButton btn)
+    {
+        if (gameInProgress()) {
+            return;
+        }
+
+        String text = btn.text();
+        MolkkyGame game = _listener.game();
+        if (game.gameStarted()) {
+            // TODO: show info that game is in progress
+            return;
+        }
+
+        MolkkyTeam team = game.teamByTeamsName(text);
+        if (team == null) {
+            return;
+        }
+        if (team.size() == 1) {
+            game.removePlayerByName(text);
+        } else {
+            // TODO: ask which player to remove
+        }
+
+        updateScreen();
     }
 
     @Override
@@ -142,15 +180,18 @@ public class TeamsFragment extends Fragment {
             return;
         }
 
-        int[] ids = {R.id.tTeam1, R.id.tTeam2, R.id.tTeam3, R.id.tTeam4, R.id.tTeam5, R.id.tTeam6, R.id.tTeam7, R.id.tTeam8, R.id.tTeam9, R.id.tTeam10 };
+        if (gameInProgress()) {
+            return;
+        }
+
         MolkkyGame game = _listener.game();
         Players players = _listener.players();
         Log.d("A", "User add " + name);
 
         MolkkyPlayer p = players.get(name);
         game.addPlayer(p);
-        for(int a = 0; a < ids.length; a++) {
-            UIButton btn = _selected_teams.findViewById(ids[a]);
+        for(int a = 0; a < _team_view_ids.length; a++) {
+            UIButton btn = _selected_teams.findViewById(_team_view_ids[a]);
             if (btn != null) {
                 try {
                     MolkkyTeam t = game.teams().get(a);
@@ -172,9 +213,8 @@ public class TeamsFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
-        int[] ids = {R.id.tTeam1, R.id.tTeam2, R.id.tTeam3, R.id.tTeam4, R.id.tTeam5, R.id.tTeam6, R.id.tTeam7, R.id.tTeam8, R.id.tTeam9, R.id.tTeam10 };
-        for(int a = 0; a < ids.length; a++) {
-            UIButton btn = _selected_teams.findViewById(ids[a]);
+        for(int a = 0; a < _team_view_ids.length; a++) {
+            UIButton btn = _selected_teams.findViewById(_team_view_ids[a]);
             if (btn != null) {
                 try {
                     MolkkyTeam t =game.teams().get(a);
@@ -229,6 +269,29 @@ public class TeamsFragment extends Fragment {
         builder.show();
     }
 
+    public boolean gameInProgress () {
+        if (_listener == null) {
+            return true;
+        }
+
+        if (! _listener.game().gameStarted()) {
+            return false;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.teamsGameInProgress);
+        builder.setMessage(R.string.teamsGameInProgressDeail);
+        builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+        return true;
+    }
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -242,6 +305,5 @@ public class TeamsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         MolkkyGame game();
         Players players();
-        //void onPlayerAdd(String name);
     }
 }

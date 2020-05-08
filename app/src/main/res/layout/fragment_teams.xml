@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/tPlayers" />
+            android:text="@string/teamsPlayers" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/allPlayers"
@@ -34,7 +34,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <net.halman.molkkynotes.ui.main.UIButton
-            android:id="@+id/tAddUser"
+            android:id="@+id/teamsAddUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:text="Add Player" />
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/tWhoWillPlay" />
+            android:text="@string/teamsWhoWillPlay" />
 
         <ScrollView
             android:layout_width="match_parent"

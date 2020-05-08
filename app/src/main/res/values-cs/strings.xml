@@ -10,15 +10,16 @@
     <string name="menuPreferences">Nastavení</string>
 
     <!-- team screen -->
-    <string name="tPlayers">Všichni hráči</string>
-    <string name="tWhoWillPlay">Kdo hraje</string>
-    <string name="tAverage">~ %1$s</string>
+    <string name="teamsPlayers">Všichni hráči</string>
+    <string name="teamsWhoWillPlay">Kdo hraje</string>
+    <string name="teamsAverage">~ %1$s</string>
+    <string name="teamsGameInProgress">Už se hraje!</string>
+    <string name="teamsGameInProgressDeail">Není možné měnit týmy uprastřed hry. Použijte nabídku pro zahájení nové hry.</string>
 
     <!-- game screen -->
     <string name="gNext">Další:</string>
     <string name="gPlayersScore">%1$d (ještě %2$d)</string> <!-- 3 (47 left) -->
     <string name="gFoul">Přešlap</string> <!-- crossing the foul line -->
-    <string name="tNumberOfRounds">Počet kol: %1$d</string>
 
     <!-- results screen -->
     <string name="resultsRound">Kolo</string>

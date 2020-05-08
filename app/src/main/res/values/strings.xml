@@ -20,10 +20,11 @@
     <string name="menuPreferences">Setup</string>
 
     <!-- team screen -->
-    <string name="tPlayers">All Player</string>
-    <string name="tWhoWillPlay">Who will play</string>
-    <string name="tAverage">~ %1$s</string>
-    <string name="tNumberOfRounds">Rounds: %1$d</string>
+    <string name="teamsPlayers">All Player</string>
+    <string name="teamsWhoWillPlay">Who will play</string>
+    <string name="teamsAverage">~ %1$s</string>
+    <string name="teamsGameInProgress">Game has started already!</string>
+    <string name="teamsGameInProgressDeail">It is not possible to change teams in the middle of game. Use menu to start new game.</string>
 
     <!-- game screen -->
     <string name="gNext">Next:</string>
