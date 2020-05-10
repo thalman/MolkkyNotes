@@ -174,7 +174,20 @@ public class MainActivity extends AppCompatActivity
 
     public void onNewGameStart()
     {
-        _game.clearTeams();
+        // add score to statistic before clearing game
+        for (MolkkyRound r: _game.rounds()) {
+            if (r.over()) {
+                for (MolkkyTeam t: _game.teams()) {
+                    int score = r.teamScore(t);
+                    for(MolkkyPlayer p: t.members()) {
+                        MolkkyPlayer player = _players.get(p.name());
+                        if (player != null)
+                        player.addRoundScore(score);
+                    }
+                }
+            }
+        }
+
         _game.clearRounds();
         switchTab(0);
         onTabChange(0);

@@ -409,4 +409,8 @@ public class MolkkyGame {
         }
     }
 
+    public ArrayList<MolkkyRound> rounds()
+    {
+        return _rounds;
+    }
 }
