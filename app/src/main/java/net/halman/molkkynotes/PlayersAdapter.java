@@ -73,7 +73,7 @@ public class PlayersAdapter extends
     @Override
     public PlayersAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                           int viewType) {
-        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.ui_result, parent, false);
+        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.ui_player, parent, false);
         MyViewHolder vh = new MyViewHolder(v, _click_listener);
         return vh;
     }

@@ -1,12 +1,8 @@
 package net.halman.molkkynotes.ui.main;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,7 +30,7 @@ public class UIResult extends LinearLayout {
     private void init(Context context, AttributeSet attrs, int defStyle) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.ui_result, this);
+        inflater.inflate(R.layout.ui_player, this);
 
         _team = (TextView) this.findViewById(R.id.team);
         _score = (TextView) this.findViewById(R.id.score);
