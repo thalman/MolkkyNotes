@@ -121,4 +121,15 @@ public class Players {
 
         sort();
     }
+
+    public void remove(String name) {
+        MolkkyPlayer p = get(name);
+        if (p != null) {
+            _players.remove(p);
+        }
+    }
+
+    public void remove(MolkkyPlayer p) {
+        remove(p.name());
+    }
 }

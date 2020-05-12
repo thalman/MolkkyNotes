@@ -19,7 +19,7 @@ public class PlayersAdapter extends
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public View player_view;
         public OnPlayerListener on_player_click;
 
@@ -28,6 +28,7 @@ public class PlayersAdapter extends
 
             player_view = v;
             player_view.setOnClickListener(this);
+            player_view.setOnLongClickListener(this);
             on_player_click = l;
         }
 
@@ -43,6 +44,21 @@ public class PlayersAdapter extends
                 }
             }
         }
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (on_player_click != null) {
+                TextView tv = view.findViewById(R.id.team);
+                if (tv != null) {
+                    String name;
+                    name = tv.getText().toString();
+                    Log.d("UI", "Player " +   name + " long click");
+                    on_player_click.onPlayerLongClick(name);
+                }
+            }
+            return true;
+        }
+
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -86,5 +102,6 @@ public class PlayersAdapter extends
 
     public interface OnPlayerListener {
         void onPlayerClick(String name);
+        void onPlayerLongClick(String name);
     }
 }

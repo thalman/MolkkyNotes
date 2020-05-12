@@ -49,6 +49,9 @@
 
     <!-- dialogs -->
     <string name="dAddPlayer">Add new player</string>
+    <string name="dEditPlayer">Edit player</string>
+    <string name="dDelete">Delete</string>
+    <string name="dSave">Save</string>
     <string name="dPlayersNameHint">Name</string>
     <string name="dOK">OK</string>
     <string name="dAdd">Add</string>

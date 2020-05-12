@@ -40,6 +40,9 @@
 
     <!-- dialogs -->
     <string name="dAddPlayer">Nový hráč</string>
+    <string name="dEditPlayer">Upravit hráče</string>
+    <string name="dDelete">Smazat</string>
+    <string name="dSave">Uložit</string>
     <string name="dPlayersNameHint">Jméno</string>
     <string name="dOK">OK</string>
     <string name="dAdd">Přidat</string>

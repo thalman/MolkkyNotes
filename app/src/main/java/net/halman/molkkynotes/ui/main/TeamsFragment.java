@@ -100,6 +100,11 @@ public class TeamsFragment extends Fragment {
                 public void onPlayerClick(String name) {
                     onRecyclerViewClick(name);
                 }
+
+                @Override
+                public void onPlayerLongClick(String name) {
+                    onRecyclerViewLongClick(name);
+                }
             });
 
             _all_players.setAdapter(_players_adapter);
@@ -205,6 +210,13 @@ public class TeamsFragment extends Fragment {
         }
     }
 
+    public void onRecyclerViewLongClick(String name) {
+        if (_listener == null) {
+            return;
+        }
+
+        userEditDialog(name);
+    }
 
     public void updateScreen()
     {
@@ -260,6 +272,74 @@ public class TeamsFragment extends Fragment {
         });
 
         builder.setNegativeButton(R.string.dCancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void userEditDialog (String name) {
+        if (_listener == null) {
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.dEditPlayer);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialog_layout = inflater.inflate(R.layout.players_dialog, null);
+        final EditText t = dialog_layout.findViewById(R.id.dPlayersName);
+        t.setText(name);
+        final String old_name = name;
+
+        builder.setView(dialog_layout);
+        builder.setPositiveButton(R.string.dSave, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (_listener == null) {
+                    return;
+                }
+
+                Players players = _listener.players();
+                if (t != null) {
+                    String name = t.getText().toString();
+                    if (!name.isEmpty()) {
+                        MolkkyPlayer p = _listener.players().get(old_name);
+                        if (p != null) {
+                            p.setName(name);
+                            players.sort();
+                            players.save(getContext());
+                            _players_adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(R.string.dDelete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (_listener == null) {
+                    return;
+                }
+
+                Players players = _listener.players();
+                if (t != null) {
+                    MolkkyPlayer p = _listener.players().get(old_name);
+                    if (p != null) {
+                        players.remove(old_name);
+                        players.save(getContext());
+                        _players_adapter.notifyDataSetChanged();
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNeutralButton(R.string.dCancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
