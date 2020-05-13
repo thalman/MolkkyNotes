@@ -1,8 +1,9 @@
 package net.halman.molkkynotes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MolkkyTeam {
+public class MolkkyTeam implements Serializable {
     private ArrayList<MolkkyPlayer> _members = new ArrayList<MolkkyPlayer>();
     private int _current = 0;
     private String _name = "";
@@ -14,7 +15,11 @@ public class MolkkyTeam {
     public MolkkyTeam () { }
 
     void addPlayer (MolkkyPlayer P) {
-        _members.add(P);
+        if (P == null) {
+            return;
+        }
+
+        _members.add(new MolkkyPlayer(P));
     }
 
     ArrayList <String> memberNames () {

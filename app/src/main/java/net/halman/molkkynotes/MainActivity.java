@@ -1,8 +1,8 @@
 package net.halman.molkkynotes;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,7 +20,11 @@ import net.halman.molkkynotes.ui.main.GameFragment;
 import net.halman.molkkynotes.ui.main.ResultsFragment;
 import net.halman.molkkynotes.ui.main.SectionsPagerAdapter;
 import net.halman.molkkynotes.ui.main.TeamsFragment;
-import net.halman.molkkynotes.ui.main.UIButton;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class MainActivity extends AppCompatActivity
         implements TeamsFragment.OnFragmentInteractionListener,
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private MolkkyGame _game = new MolkkyGame();
     private Players _players = new Players();
     private Setup _setup = new Setup();
+    private final static String _game_state_file = "game.bin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,13 +107,39 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStop() {
         _setup.save(this);
+        saveGame();
         super.onStop();
     }
 
     @Override
     public void onStart() {
         _setup.load(this);
+        loadGame();
         super.onStart();
+    }
+
+    public void saveGame() {
+        try {
+            FileOutputStream file = openFileOutput(_game_state_file, Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(file);
+            oos.writeObject(_game);
+            oos.flush();
+            oos.close();
+            file.close();
+        } catch (Exception e) {
+        }
+    }
+
+    public void loadGame() {
+        try {
+            FileInputStream file = openFileInput(_game_state_file);
+            ObjectInputStream ois = new ObjectInputStream(file);
+            _game = (MolkkyGame) ois.readObject();
+            ois.close();
+            file.close();
+        } catch (Exception e) {
+            _game = new MolkkyGame();
+        }
     }
 
     public void switchTab(int idx)
@@ -122,10 +153,6 @@ public class MainActivity extends AppCompatActivity
         if (tab != null) {
             tab.select();
         }
-    }
-
-    public void onResultsFragmentInteraction(Uri uri) {
-        Log.d("UI", uri.toString());
     }
 
     public MolkkyGame game()
@@ -161,15 +188,6 @@ public class MainActivity extends AppCompatActivity
     public void onTabChange(int position)
     {
         Log.d("UI", "Selected tab " + position);
-    }
-
-    public void onNewRoundStart()
-    {
-        switchTab(1);
-        GameFragment g = gameFragment();
-        if (g != null) {
-            g.updateScreen();
-        }
     }
 
     public void onNewGameStart()

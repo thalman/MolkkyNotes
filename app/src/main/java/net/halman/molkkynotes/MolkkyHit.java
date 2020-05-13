@@ -1,6 +1,8 @@
 package net.halman.molkkynotes;
 
-public class MolkkyHit {
+import java.io.Serializable;
+
+public class MolkkyHit implements Serializable {
     public static final int NOTPLAYED = -2;
     public static final int LINECROSS = -1;
 

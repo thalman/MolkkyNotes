@@ -1,11 +1,12 @@
 package net.halman.molkkynotes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
 
-public class MolkkyGame {
+public class MolkkyGame implements Serializable {
     private ArrayList<MolkkyTeam> _teams = new ArrayList<MolkkyTeam>();
     private ArrayList<MolkkyRound> _rounds = new ArrayList<>();
     private int _current_round = -1;

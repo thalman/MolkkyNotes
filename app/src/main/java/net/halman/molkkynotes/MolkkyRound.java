@@ -1,12 +1,13 @@
 package net.halman.molkkynotes;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class MolkkyRound {
+public class MolkkyRound implements Serializable {
     public static final int GOOD = 0;
     public static final int ZERO = 1;
     public static final int TWOZEROS = 2;
