@@ -58,5 +58,9 @@
     <string name="dCancel">Cancel</string>
     <string name="dialogStartNewGame">Start new game?</string>
     <string name="dialogRoundInProgress">Current round is not finished!</string>
+    <string name="dialogSetup">Game setup</string>
+    <string name="dialogGoal">Goal</string>
+    <string name="dialogPenaltyOver">Penalty when over goal</string>
 
+    <string name="emptyString"></string>
 </resources>

@@ -14,11 +14,11 @@ public class MolkkyRoundTest {
         toms.addPlayer(tom);
         mikes.addPlayer(mike);
 
-        MolkkyRound round = new MolkkyRound();
+        MolkkyRound round = new MolkkyRound(50, 25);
         round.addTeam(toms);
         round.addTeam(mikes);
 
-
+        round.nextHit();
         round.currentHit(10);
         round.nextHit();
         round.currentHit(5);

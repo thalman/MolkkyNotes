@@ -12,9 +12,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import net.halman.molkkynotes.ui.main.GameFragment;
 import net.halman.molkkynotes.ui.main.ResultsFragment;
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity
                 _setup.playInTeams(item.isChecked());
                 break;
             case R.id.menuPreferences:
+                onSetupMenuClick();
                 break;
         }
 
@@ -207,6 +210,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         _game.clearRounds();
+        _game.setup(_setup);
         switchTab(0);
         onTabChange(0);
     }
@@ -235,5 +239,53 @@ public class MainActivity extends AppCompatActivity
 
             builder.show();
         }
+    }
+
+    public void onSetupMenuClick()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(R.string.dialogSetup);
+
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialog_layout = inflater.inflate(R.layout.setup_dialog, null);
+        final MainActivity activity = this;
+        EditText goal = dialog_layout.findViewById(R.id.goalValue);
+        goal.setText(Integer.toString(_setup.goal()));
+        EditText penalty = dialog_layout.findViewById(R.id.penaltyOverValue);
+        penalty.setText(Integer.toString(_setup.penaltyOverGoal()));
+        builder.setView(dialog_layout);
+
+        builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    EditText goal = dialog_layout.findViewById(R.id.goalValue);
+                    EditText penalty = dialog_layout.findViewById(R.id.penaltyOverValue);
+                    int g = Integer.parseInt(goal.getText().toString());
+                    int p = Integer.parseInt(penalty.getText().toString());
+                    if (p > g) {
+                        p = g;
+                    }
+
+                    _setup.goal(g);
+                    _setup.penaltyOverGoal(p);
+                    _setup.save(activity);
+                    _game.setup(_setup);
+                } catch (Exception e) {
+                    Log.d("MA", e.toString());
+                };
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(R.string.dCancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
     }
 }

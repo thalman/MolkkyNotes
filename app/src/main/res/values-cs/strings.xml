@@ -49,5 +49,10 @@
     <string name="dCancel">Zrušit</string>
     <string name="dialogStartNewGame">Začít novou hru?</string>
     <string name="dialogRoundInProgress">Současné kolo není dohrané!</string>
+    <string name="dialogSetup">Nastavení</string>
+    <string name="dialogGoal">Cíl</string>
+    <string name="dialogPenaltyOver">Body při překročení cíle</string>
+
+    <string name="emptyString"></string>
 
 </resources>

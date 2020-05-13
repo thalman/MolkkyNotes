@@ -15,9 +15,22 @@ public class MolkkyRound implements Serializable {
 
     private int _startingTeam = 0;
     private int _current = -1;
+    private int _goal = 50;
+    private int _penalty_over_goal = 25;
     private ArrayList<MolkkyTeam> _teams = new ArrayList<MolkkyTeam>();
     private ArrayList<MolkkyHit> _hits = new ArrayList<MolkkyHit>();
 
+
+    public MolkkyRound(int goal, int penalty_over_goal)
+    {
+        setup(goal, penalty_over_goal);
+    }
+
+    public void setup(int goal, int penalty_over_goal)
+    {
+        _goal = goal;
+        _penalty_over_goal = penalty_over_goal;
+    }
 
     private class MolkkyScoreComparator implements Comparator<MolkkyTeam> {
         public int compare(MolkkyTeam t1, MolkkyTeam t2) {
@@ -162,7 +175,7 @@ public class MolkkyRound implements Serializable {
                 if (teamHealth(t) == OUT) otherTeamsOut++;
             }
         }
-        if (otherTeamsOut == _teams.size() - 1) return 50;
+        if (otherTeamsOut == _teams.size() - 1) return _goal;
 
         // more players in the round
         ArrayList<MolkkyHit> hits = teamHits(team);
@@ -170,11 +183,11 @@ public class MolkkyRound implements Serializable {
         for (MolkkyHit hit : hits) {
             if (hit.hit() > 0) {
                 score += hit.hit();
-                if (score > 50) score = 25;
-                if (score == 50) return score;
+                if (score > _goal) score = _penalty_over_goal;
+                if (score == _goal) return score;
             }
-            if (hit.hit() == MolkkyHit.LINECROSS && score > 37) {
-                score = 25;
+            if (hit.hit() == MolkkyHit.LINECROSS && score >= (_goal - 12)) {
+                score = _penalty_over_goal;
             }
         }
         return score;
@@ -219,7 +232,7 @@ public class MolkkyRound implements Serializable {
     public boolean over() {
         // someone has 50?
         for (MolkkyTeam t : _teams) {
-            if (teamScore(t) == 50) return true;
+            if (teamScore(t) == _goal) return true;
         }
 
         // last team in the game?

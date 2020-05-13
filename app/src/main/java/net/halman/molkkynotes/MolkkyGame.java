@@ -11,6 +11,8 @@ public class MolkkyGame implements Serializable {
     private ArrayList<MolkkyRound> _rounds = new ArrayList<>();
     private int _current_round = -1;
     private int _starting_team = 0;
+    private int _goal = 50;
+    private int _penalty_goal_over = 25;
 
     private class MolkkyGameScoreComparator implements Comparator<MolkkyTeam> {
         public int compare(MolkkyTeam t1, MolkkyTeam t2) {
@@ -95,7 +97,7 @@ public class MolkkyGame implements Serializable {
     public void addRound()
     {
         int idx = _rounds.size();
-        MolkkyRound r = new MolkkyRound();
+        MolkkyRound r = new MolkkyRound(_goal, _penalty_goal_over);
 
         for (int t = 0; t < _teams.size(); t++) {
             r.addTeam(_teams.get((idx + t) % _teams.size()));
@@ -319,10 +321,28 @@ public class MolkkyGame implements Serializable {
         return score;
     }
 
+    public void setup(Setup s)
+    {
+        if (s == null) {
+            return;
+        }
+
+        _goal = s.goal();
+        _penalty_goal_over = s.penaltyOverGoal();
+        MolkkyRound r = currentRound();
+        if (r != null) {
+            r.setup(_goal, _penalty_goal_over);
+        }
+    }
 
     public int goal()
     {
-        return 50;
+        return _goal;
+    }
+
+    public int penaltyOverGoal()
+    {
+        return _penalty_goal_over;
     }
 
     public int round()

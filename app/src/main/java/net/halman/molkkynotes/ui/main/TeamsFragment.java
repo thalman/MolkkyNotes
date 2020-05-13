@@ -303,16 +303,14 @@ public class TeamsFragment extends Fragment {
                 }
 
                 Players players = _listener.players();
-                if (t != null) {
-                    String name = t.getText().toString();
-                    if (!name.isEmpty()) {
-                        MolkkyPlayer p = _listener.players().get(old_name);
-                        if (p != null) {
-                            p.setName(name);
-                            players.sort();
-                            players.save(getContext());
-                            _players_adapter.notifyDataSetChanged();
-                        }
+                String name = t.getText().toString();
+                if (!name.isEmpty()) {
+                    MolkkyPlayer p = _listener.players().get(old_name);
+                    if (p != null) {
+                        p.setName(name);
+                        players.sort();
+                        players.save(getContext());
+                        _players_adapter.notifyDataSetChanged();
                     }
                 }
                 dialog.dismiss();
@@ -327,13 +325,11 @@ public class TeamsFragment extends Fragment {
                 }
 
                 Players players = _listener.players();
-                if (t != null) {
-                    MolkkyPlayer p = _listener.players().get(old_name);
-                    if (p != null) {
-                        players.remove(old_name);
-                        players.save(getContext());
-                        _players_adapter.notifyDataSetChanged();
-                    }
+                MolkkyPlayer p = _listener.players().get(old_name);
+                if (p != null) {
+                    players.remove(old_name);
+                    players.save(getContext());
+                    _players_adapter.notifyDataSetChanged();
                 }
                 dialog.dismiss();
             }

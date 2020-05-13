@@ -155,7 +155,7 @@ public class GameFragment extends Fragment {
                     _current_hit.setText(getText(R.string.gFoul));
                     break;
                 default:
-                    _current_hit.setText("" + game.hit().hit());
+                    _current_hit.setText(Integer.toString(game.hit().hit()));
                     break;
             }
             _current_round.setText("" + (game.round() + 1) + "/" + (game.roundProgress() + 1));

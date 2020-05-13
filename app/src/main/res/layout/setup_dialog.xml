@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MolkkyAlertDialogStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        style="@style/MolkkyAlertDialogStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/goalLabel"
+            style="@style/MolkkyAlertDialogStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialogGoal" />
+
+        <EditText
+            android:id="@+id/goalValue"
+            style="@style/MolkkyEditTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="end"
+            android:hint="@string/emptyString"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:textCursorDrawable="@null" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/MolkkyAlertDialogStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/penaltyOverLabel"
+            style="@style/MolkkyAlertDialogStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialogPenaltyOver" />
+
+        <EditText
+            android:id="@+id/penaltyOverValue"
+            style="@style/MolkkyEditTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:hint="@string/emptyString"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:textCursorDrawable="@null" />
+    </LinearLayout>
+
+</LinearLayout>
