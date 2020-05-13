@@ -168,10 +168,9 @@ public class GameFragment extends Fragment {
     }
 
     public void hitChangeDialog (final int new_value) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
         builder.setTitle("Change the hit?");
-        builder.setTitle("Really change the hit?");
-
+        builder.setMessage("Really change the hit?");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

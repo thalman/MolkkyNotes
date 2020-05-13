@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MolkkyAlertDialogStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="15dp">
 
     <EditText
         android:id="@+id/dPlayersName"
+        style="@style/MolkkyEditTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|center_vertical"
         android:hint="@string/dPlayersNameHint"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textCursorDrawable="@null" />
 
 </LinearLayout>

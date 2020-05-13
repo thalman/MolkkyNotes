@@ -245,7 +245,7 @@ public class TeamsFragment extends Fragment {
             return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
         builder.setTitle(R.string.dAddPlayer);
         LayoutInflater inflater = getLayoutInflater();
         final View dialog_layout = inflater.inflate(R.layout.players_dialog, null);
@@ -286,7 +286,7 @@ public class TeamsFragment extends Fragment {
             return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
         builder.setTitle(R.string.dEditPlayer);
         LayoutInflater inflater = getLayoutInflater();
         final View dialog_layout = inflater.inflate(R.layout.players_dialog, null);
@@ -358,7 +358,7 @@ public class TeamsFragment extends Fragment {
             return false;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
         builder.setTitle(R.string.teamsGameInProgress);
         builder.setMessage(R.string.teamsGameInProgressDeail);
         builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {

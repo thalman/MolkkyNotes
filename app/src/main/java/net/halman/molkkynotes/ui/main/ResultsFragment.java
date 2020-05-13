@@ -137,7 +137,7 @@ public class ResultsFragment extends Fragment {
 
     private void roundInProgressInfoDialog()
     {
-        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle).create();
         alertDialog.setTitle(R.string.resultsRoundInProgress);
         alertDialog.setMessage(getString(R.string.resultsRoundInProgressDetail));
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.dOK),

@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity
         if (_game.roundOver() || !_game.roundStarted()) {
             onNewGameStart();
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MolkkyAlertDialogStyle);
             builder.setTitle(R.string.dialogStartNewGame);
             builder.setMessage(R.string.dialogRoundInProgress);
             builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {

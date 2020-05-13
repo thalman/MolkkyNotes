@@ -6,11 +6,35 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!-- item name="android:textColor">#FFFFFF</item -->
+
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
-        <!-- item name="android:background">#000000</item -->
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
+
+    <style name="MolkkyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorWhite</item>
+        <item name="colorPrimaryDark">@color/colorWhite</item>
+        <item name="colorAccent">@color/colorBlack</item>
+
+        <item name="android:textColorPrimary">@color/colorBlack</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textColorHighlight">@color/colorGray</item>
+        <item name="android:background">@color/colorWhite</item>
+    </style>
+
+    <style name="MolkkyEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorPrimary">@color/colorWhite</item>
+        <item name="colorPrimaryDark">@color/colorWhite</item>
+        <item name="colorAccent">@color/colorBlack</item>
+
+        <item name="android:textColorPrimary">@color/colorBlack</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textColorHighlight">@color/colorGray</item>
+        <item name="android:background">@color/colorWhite</item>
+    </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -20,6 +44,8 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
 
     <style name="BlackAndWhite" parent="@android:style/Theme.NoDisplay">
         <item name="android:textColor">#FFFFFF</item>
