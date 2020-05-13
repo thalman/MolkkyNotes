@@ -133,6 +133,12 @@ public class ResultsFragment extends Fragment {
         } else {
             // _game_score.setText("");
         }
+
+        if (game.roundOver()) {
+            _next_round.setVisibility(View.VISIBLE);
+        } else {
+            _next_round.setVisibility(View.GONE);
+        }
     }
 
     private void roundInProgressInfoDialog()

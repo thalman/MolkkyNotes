@@ -69,17 +69,11 @@
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/resultNextRound"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="@string/resultsNextRound" />
 
-        <net.halman.molkkynotes.ui.main.UIButton
-            android:id="@+id/resultNewGame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:text="@string/resultsNewGame" />
     </LinearLayout>
 
 </LinearLayout>
