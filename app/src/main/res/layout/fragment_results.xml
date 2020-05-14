@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="100"
-                android:textSize="24sp" />
+                android:textStyle="normal" />
         </LinearLayout>
     </ScrollView>
 
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="100"
-                android:textSize="24sp" />
+                android:textStyle="normal" />
         </LinearLayout>
     </ScrollView>
 

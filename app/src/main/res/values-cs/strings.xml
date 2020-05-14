@@ -31,11 +31,11 @@
     <string name="resultsRoundInProgressDetail">Aktuální kolo ještě neskončilo.</string>
     <string name="resultsStartNewGame">Začít novou hru?</string>
     <string name="resultsStartNewGameDetail">Hra bude ukončena a začne nová.</string>
-    <string name="resultsNoZeros">(žádná nula)</string>
+    <string name="resultsNoZeros">žádná nula</string>
     <plurals name="resultsZeros">
-        <item quantity="one">(%1$d nula)</item>
-        <item quantity="few">(%1$d nuly)</item>
-        <item quantity="other">(%1$d nul)</item>
+        <item quantity="one">%1$d nula</item>
+        <item quantity="few">%1$d nuly</item>
+        <item quantity="other">%1$d nul</item>
     </plurals>
 
     <!-- dialogs -->

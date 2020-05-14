@@ -41,10 +41,10 @@
     <string name="resultsRoundInProgressDetail">Current round is not finished yet.</string>
     <string name="resultsStartNewGame">Start new game?</string>
     <string name="resultsStartNewGameDetail">End the game and starte new one.</string>
-    <string name="resultsNoZeros">(no zeros)</string>
+    <string name="resultsNoZeros">no zeros</string>
     <plurals name="resultsZeros">
-        <item quantity="one">(%1$d zero)</item>
-        <item quantity="other">(%1$d zeros)</item>
+        <item quantity="one">%1$d zero</item>
+        <item quantity="other">%1$d zeros</item>
     </plurals>
 
     <!-- dialogs -->

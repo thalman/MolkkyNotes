@@ -2,10 +2,17 @@ package net.halman.molkkynotes.ui.main;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +99,82 @@ public class ResultsFragment extends Fragment {
         }
     }
 
+    private void updateRoundScore()
+    {
+        MolkkyTeam t;
+        MolkkyGame game = _listener.game();
+
+        if (game.roundStarted()) {
+            SpannableStringBuilder ssb = new SpannableStringBuilder();
+            ArrayList<MolkkyTeam> teams = game.roundTeamOrder();
+            String text = "";
+            int start = 0;
+
+            for (int i = 0; i < teams.size(); i++) {
+                t = teams.get(i);
+
+                text = game.roundTeamScore(t) + " - " + t.name() + "\n";
+                ssb.append(text);
+                ssb.setSpan(new StyleSpan(Typeface.BOLD), start, start + text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new RelativeSizeSpan(1.2f), start,start + text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                start += text.length();
+
+                text = "     (" + game.roundTeamScoreAsString(t) + ")\n";
+                ssb.append(text);
+                start += text.length();
+
+                text = " \n";
+                ssb.append(text);
+                ssb.setSpan(new RelativeSizeSpan(0.4f), start,start + text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                start += text.length();
+            }
+
+            _round_score.setText(ssb, TextView.BufferType.SPANNABLE);
+        } else {
+            _round_score.setText("");
+        }
+    }
+
+    private void updateGameScore() {
+        MolkkyTeam t;
+        MolkkyGame game = _listener.game();
+
+        if (game.gameStarted()) {
+            SpannableStringBuilder ssb = new SpannableStringBuilder();
+            ArrayList<MolkkyTeam> teams = game.gameTeamOrder();
+            String text;
+            int start = 0;
+
+            for (int i = 0; i < teams.size(); i++) {
+                t = teams.get(i);
+                int score = game.gameTeamScore(t);
+                String scoreString = game.gameTeamScoreAsString(t);
+                int zeros = game.gameNumberOfZeros(t);
+                String zerosString = zeros == 0 ? getString(R.string.resultsNoZeros)
+                        : getResources().getQuantityString(R.plurals.resultsZeros, zeros, zeros);
+
+                text = score + " - " + t.name() + "\n";
+                ssb.append(text);
+                ssb.setSpan(new StyleSpan(Typeface.BOLD), start, start + text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new RelativeSizeSpan(1.2f), start,start + text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                start += text.length();
+
+                text = "        (" + scoreString + ", " + zerosString + ")\n";
+                ssb.append(text);
+                start += text.length();
+
+                text = " \n";
+                ssb.append(text);
+                ssb.setSpan(new RelativeSizeSpan(0.4f), start,start + text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                start += text.length();
+            }
+
+            _game_score.setText(ssb, TextView.BufferType.SPANNABLE);
+        } else {
+            _game_score.setText("");
+        }
+    }
+
     public void updateScreen()
     {
         if (_listener == null) {
@@ -101,38 +184,8 @@ public class ResultsFragment extends Fragment {
         MolkkyTeam t;
         MolkkyGame game = _listener.game();
 
-        if (game.roundStarted()) {
-            ArrayList<MolkkyTeam> teams = game.roundTeamOrder();
-            String text = "";
-            for (int i = 0; i < teams.size(); i++) {
-                t = teams.get(i);
-                text += game.roundTeamScore(t) + " - " + t.name() + "\n          " + game.roundTeamScoreAsString(t) + "\n";
-            }
-
-            _round_score.setText(text);
-        } else {
-            // _round_score.setText("");
-        }
-
-        if (game.gameStarted()) {
-            ArrayList<MolkkyTeam> teams = game.gameTeamOrder();
-            String text = "";
-            for (int i = 0; i < teams.size(); i++) {
-                t = teams.get(i);
-                int score = game.gameTeamScore(t);
-                String scoreString = game.gameTeamScoreAsString(t);
-                int zeros = game.gameNumberOfZeros(t);
-                String zerosString = zeros == 0 ? getString(R.string.resultsNoZeros)
-                        : getResources().getQuantityString(R.plurals.resultsZeros, zeros, zeros);
-
-                text += score + " - " + t.name() + "\n          " + scoreString + " "
-                        +  zerosString + "\n";
-            }
-
-            _game_score.setText(text);
-        } else {
-            // _game_score.setText("");
-        }
+        updateRoundScore();
+        updateGameScore();
 
         if (game.roundOver()) {
             _next_round.setVisibility(View.VISIBLE);
