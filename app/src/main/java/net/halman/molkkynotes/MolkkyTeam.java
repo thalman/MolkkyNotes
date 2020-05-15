@@ -14,8 +14,8 @@ public class MolkkyTeam implements Serializable {
 
     public MolkkyTeam () { }
 
-    void addPlayer (MolkkyPlayer P) {
-        if (P == null) {
+    public void addMember (MolkkyPlayer P) {
+        if (P == null || hasPlayer(P)) {
             return;
         }
 

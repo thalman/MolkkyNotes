@@ -3,7 +3,6 @@ package net.halman.molkkynotes.ui.main;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,14 +14,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import net.halman.molkkynotes.MainActivity;
 import net.halman.molkkynotes.MolkkyGame;
-import net.halman.molkkynotes.MolkkyHit;
 import net.halman.molkkynotes.MolkkyPlayer;
 import net.halman.molkkynotes.MolkkyTeam;
 import net.halman.molkkynotes.Players;
 import net.halman.molkkynotes.PlayersAdapter;
 import net.halman.molkkynotes.R;
+import net.halman.molkkynotes.Setup;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -137,7 +135,6 @@ public class TeamsFragment extends Fragment {
         String text = btn.text();
         MolkkyGame game = _listener.game();
         if (game.gameStarted()) {
-            // TODO: show info that game is in progress
             return;
         }
 
@@ -145,10 +142,12 @@ public class TeamsFragment extends Fragment {
         if (team == null) {
             return;
         }
+
         if (team.size() == 1) {
             game.removePlayerByName(text);
         } else {
-            // TODO: ask which player to remove
+            removePlayerFromTeamDialog(team);
+            return;
         }
 
         updateScreen();
@@ -190,23 +189,20 @@ public class TeamsFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
+        Setup setup = _listener.setup();
         Players players = _listener.players();
         Log.d("A", "User add " + name);
 
         MolkkyPlayer p = players.get(name);
-        game.addPlayer(p);
-        for(int a = 0; a < _team_view_ids.length; a++) {
-            UIButton btn = _selected_teams.findViewById(_team_view_ids[a]);
-            if (btn != null) {
-                try {
-                    MolkkyTeam t = game.teams().get(a);
-                    btn.text(t.name());
-                    btn.setVisibility(View.VISIBLE);
-                } catch (Exception e) {
-                    btn.text("");
-                    btn.setVisibility(View.GONE);
-                }
-            }
+        if (playerAlreadyInTheGame(p)) {
+            return;
+        }
+
+        if (setup.playInTeams() && game.teams().size() > 0) {
+            addPlayerToTeamDialog(p);
+        } else {
+            game.addPlayer(p);
+            updateScreen();
         }
     }
 
@@ -217,6 +213,7 @@ public class TeamsFragment extends Fragment {
 
         userEditDialog(name);
     }
+
 
     public void updateScreen()
     {
@@ -345,6 +342,66 @@ public class TeamsFragment extends Fragment {
         builder.show();
     }
 
+    private void addPlayerToTeamDialog(MolkkyPlayer p)
+    {
+        if (_listener == null) {
+            return;
+        }
+
+        final MolkkyGame game = _listener.game();
+        CharSequence [] items = new CharSequence [game.teams().size() + 1];
+        items[0] = getString(R.string.dialogNewTeam);
+        final MolkkyPlayer player = new MolkkyPlayer(p);
+
+        for (int i = 0; i < game.teams().size(); ++i) {
+             items[i+1] = game.teams().get(i).name();
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(getString(R.string.dialogAddPlayerToTeam, p.name()));
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    game.addPlayer(player);
+                } else {
+                    MolkkyTeam t = game.teams().get(which - 1);
+                    t.addMember(player);
+                }
+                updateScreen();
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void removePlayerFromTeamDialog(final MolkkyTeam team)
+    {
+
+        if (team.size() <= 1) {
+            _listener.game().removePlayerByName(team.name());
+            updateScreen();
+            return;
+        }
+
+        CharSequence [] items = new CharSequence [team.size()];
+        for (int i = 0; i < team.size(); ++i) {
+            items[i] = team.members().get(i).name();
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(R.string.dialogRemovePlayerFromTeam);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                team.members().remove(which);
+                updateScreen();
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+    }
+
     public boolean gameInProgress () {
         if (_listener == null) {
             return true;
@@ -367,6 +424,29 @@ public class TeamsFragment extends Fragment {
         return true;
     }
 
+    private boolean playerAlreadyInTheGame (MolkkyPlayer p) {
+        if (_listener == null) {
+            return true;
+        }
+
+        if (! _listener.game().hasPlayer(p)) {
+            return false;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(R.string.dialogPlayerInTheGame);
+        builder.setMessage(R.string.dialogPlayerInTheGameDetail);
+        builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+        return true;
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -381,5 +461,6 @@ public class TeamsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         MolkkyGame game();
         Players players();
+        Setup setup();
     }
 }

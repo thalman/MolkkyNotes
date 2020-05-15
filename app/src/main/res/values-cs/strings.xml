@@ -14,7 +14,7 @@
     <string name="teamsWhoWillPlay">Kdo hraje</string>
     <string name="teamsAverage">~ %1$s</string>
     <string name="teamsGameInProgress">Už se hraje!</string>
-    <string name="teamsGameInProgressDeail">Není možné měnit týmy uprastřed hry. Použijte nabídku pro zahájení nové hry.</string>
+    <string name="teamsGameInProgressDeail">Není možné měnit týmy uprostřed hry. Použijte nabídku pro zahájení nové hry.</string>
 
     <!-- game screen -->
     <string name="gNext">Další:</string>
@@ -52,6 +52,11 @@
     <string name="dialogSetup">Nastavení</string>
     <string name="dialogGoal">Cíl</string>
     <string name="dialogPenaltyOver">Body při překročení cíle</string>
+    <string name="dialogAddPlayerToTeam">Přidat hráče %1$s:</string>
+    <string name="dialogNewTeam">Nový tým</string>
+    <string name="dialogRemovePlayerFromTeam">Odebrat hráče z týmu</string>
+    <string name="dialogPlayerInTheGame">Hráč už je ve hře</string>
+    <string name="dialogPlayerInTheGameDetail">Hráč nemůže být ve hře dvakrát.</string>
 
     <string name="emptyString"></string>
 

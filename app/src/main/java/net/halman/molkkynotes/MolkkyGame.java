@@ -58,7 +58,7 @@ public class MolkkyGame implements Serializable {
         }
 
         MolkkyTeam t = new MolkkyTeam();
-        t.addPlayer(p);
+        t.addMember(p);
         addTeam(t);
     }
 

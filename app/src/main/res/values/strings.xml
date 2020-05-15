@@ -61,6 +61,11 @@
     <string name="dialogSetup">Game setup</string>
     <string name="dialogGoal">Goal</string>
     <string name="dialogPenaltyOver">Penalty when over goal</string>
+    <string name="dialogAddPlayerToTeam">Add %1$s to:</string>
+    <string name="dialogNewTeam">New team</string>
+    <string name="dialogRemovePlayerFromTeam">Remove player from team</string>
+    <string name="dialogPlayerInTheGame">Player is already included</string>
+    <string name="dialogPlayerInTheGameDetail">The player can\'t be listed twice in one game.</string>
 
     <string name="emptyString"></string>
 </resources>

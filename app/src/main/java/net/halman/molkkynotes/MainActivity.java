@@ -168,6 +168,11 @@ public class MainActivity extends AppCompatActivity
         return _players;
     }
 
+    public Setup setup()
+    {
+        return _setup;
+    }
+
     private Fragment getFragment(int page)
     {
         return getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + page);
