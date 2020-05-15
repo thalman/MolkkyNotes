@@ -17,7 +17,7 @@
         android:layout_weight="1"
         android:padding="5dp"
         android:textColor="@color/colorWhite"
-        android:textSize="24sp" />
+        android:textSize="@dimen/font_size" />
 
     <TextView
         android:id="@+id/score"

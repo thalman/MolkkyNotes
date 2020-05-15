@@ -3,5 +3,6 @@
     <declare-styleable name="UIButton">
         <attr name="image" format="integer" />
         <attr name="text" format="string|reference" />
+        <attr name="imagesize" format="dimension|reference" />
     </declare-styleable>
 </resources>

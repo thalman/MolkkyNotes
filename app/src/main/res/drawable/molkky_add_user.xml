@@ -8,8 +8,8 @@
       android:strokeAlpha="1"
       android:strokeLineJoin="round"
       android:strokeWidth="1.5"
-      android:fillColor="#000000"
-      android:strokeColor="#000000"
+      android:fillColor="#ffffff"
+      android:strokeColor="#ffffff"
       android:fillAlpha="1"
       android:strokeLineCap="round"/>
   <path
@@ -17,9 +17,9 @@
       android:strokeAlpha="1"
       android:strokeLineJoin="miter"
       android:strokeWidth="1.55935299"
-      android:fillColor="#000000"
+      android:fillColor="#ffffff"
       android:strokeColor="#00000000"
-      android:fillAlpha="1"
+      android:fillAlpha="0.9626556"
       android:strokeLineCap="square"/>
   <path
       android:pathData="M12.7835,9.1121L12.7835,3.4994"
@@ -27,7 +27,7 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="2"
       android:fillColor="#00000000"
-      android:strokeColor="#000000"
+      android:strokeColor="#ffffff"
       android:strokeLineCap="round"/>
   <path
       android:pathData="m9.8436,6.3057h5.8799"
@@ -35,6 +35,6 @@
       android:strokeLineJoin="miter"
       android:strokeWidth="2"
       android:fillColor="#00000000"
-      android:strokeColor="#000000"
+      android:strokeColor="#fffff9"
       android:strokeLineCap="round"/>
 </vector>

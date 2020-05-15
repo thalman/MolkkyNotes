@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="title_activity_main">MolkkyNotes</string>
     <string name="tab_text_1">Týmy</string>
     <string name="tab_text_2">Hra</string>
     <string name="tab_text_3">Výsledky</string>

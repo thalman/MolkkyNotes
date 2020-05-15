@@ -37,7 +37,8 @@
             android:id="@+id/teamsAddUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:text="Add Player" />
+            app:image="@drawable/molkky_add_user"
+            app:imagesize="@dimen/image_button_size" />
 
     </LinearLayout>
 
@@ -64,61 +65,61 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam5"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam6"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam7"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam8"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam9"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
-                <net.halman.molkkynotes.ui.main.UIButton
+                <net.halman.molkkynotes.ui.main.UIPlayer
                     android:id="@+id/tTeam10"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -131,7 +132,8 @@
             android:id="@+id/tMix"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:text="mix" />
+            app:image="@drawable/molkky_mix"
+            app:imagesize="@dimen/image_button_size" />
 
     </LinearLayout>
 

@@ -216,7 +216,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            app:image="@drawable/molkky_back">
+            app:image="@drawable/molkky_back"
+            app:imagesize="@dimen/image_button_size">
 
         </net.halman.molkkynotes.ui.main.UIButton>
 
@@ -226,7 +227,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            app:image="@drawable/molkky_forward" />
+            app:image="@drawable/molkky_forward"
+            app:imagesize="@dimen/image_button_size" />
 
     </LinearLayout>
 

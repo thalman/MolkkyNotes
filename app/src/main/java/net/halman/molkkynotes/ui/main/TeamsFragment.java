@@ -113,11 +113,11 @@ public class TeamsFragment extends Fragment {
         }
 
         for(int a = 0; a < _team_view_ids.length; a++) {
-            UIButton btn = _selected_teams.findViewById(_team_view_ids[a]);
+            UIPlayer btn = _selected_teams.findViewById(_team_view_ids[a]);
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onRemovePlayer((UIButton)view);
+                    onRemovePlayer((UIPlayer)view);
                 }
             });
         }
@@ -126,13 +126,13 @@ public class TeamsFragment extends Fragment {
         return result;
     }
 
-    private void onRemovePlayer(UIButton btn)
+    private void onRemovePlayer(UIPlayer btn)
     {
         if (gameInProgress()) {
             return;
         }
 
-        String text = btn.text();
+        String text = btn.name();
         MolkkyGame game = _listener.game();
         if (game.gameStarted()) {
             return;
@@ -223,14 +223,14 @@ public class TeamsFragment extends Fragment {
 
         MolkkyGame game = _listener.game();
         for(int a = 0; a < _team_view_ids.length; a++) {
-            UIButton btn = _selected_teams.findViewById(_team_view_ids[a]);
+            UIPlayer btn = _selected_teams.findViewById(_team_view_ids[a]);
             if (btn != null) {
                 try {
                     MolkkyTeam t =game.teams().get(a);
-                    btn.text(t.name());
+                    btn.name(t.name());
                     btn.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
-                    btn.text("");
+                    btn.name("");
                     btn.setVisibility(View.GONE);
                 }
             }

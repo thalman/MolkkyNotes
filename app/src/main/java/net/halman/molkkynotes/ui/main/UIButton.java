@@ -15,6 +15,7 @@ import net.halman.molkkynotes.R;
 public class UIButton extends LinearLayout {
     private ImageView _image = null;
     private TextView _text = null;
+    private float _size = 20.0f;
 
     public UIButton(Context context) {
         super(context);
@@ -43,7 +44,12 @@ public class UIButton extends LinearLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UIButton);
         Drawable drawable = a.getDrawable(R.styleable.UIButton_image);
+        _size = a.getDimension(R.styleable.UIButton_imagesize, 20.0f);
         if (drawable != null) {
+            android.view.ViewGroup.LayoutParams layoutParams = _image.getLayoutParams();
+            layoutParams.width = (int)_size;
+            layoutParams.height = (int)_size;
+            _image.setLayoutParams(layoutParams);
             _image.setImageDrawable(drawable);
             _image.setVisibility(VISIBLE);
         } else {
@@ -56,18 +62,6 @@ public class UIButton extends LinearLayout {
             _text.setVisibility(VISIBLE);
         } else {
             _text.setVisibility(GONE);
-        }
-    }
-
-    public void image(Drawable d)
-    {
-        if (_image != null) {
-            if (d == null) {
-                _image.setVisibility(GONE);
-            } else {
-                _image.setImageDrawable(d);
-                _image.setVisibility(VISIBLE);
-            }
         }
     }
 

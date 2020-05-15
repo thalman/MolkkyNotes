@@ -8,21 +8,21 @@ import android.widget.TextView;
 
 import net.halman.molkkynotes.R;
 
-public class UIResult extends LinearLayout {
+public class UIPlayer extends LinearLayout {
     private TextView _team = null;
     private TextView _score = null;
 
-    public UIResult(Context context) {
+    public UIPlayer(Context context) {
         super(context);
         init(context, null, 0);
     }
 
-    public UIResult(Context context, AttributeSet attrs) {
+    public UIPlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0);
     }
 
-    public UIResult(Context context, AttributeSet attrs, int defStyle) {
+    public UIPlayer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs, defStyle);
     }
@@ -36,17 +36,23 @@ public class UIResult extends LinearLayout {
         _score = (TextView) this.findViewById(R.id.score);
     }
 
-    public void team(String team)
+    public void name(String team)
     {
-        if (_team != null) {
-            _team.setText(team);
-        }
+        _team.setText(team);
+    }
+
+    public String name()
+    {
+        return _team.getText().toString();
     }
 
     public void score(String score)
     {
-        if (_score != null) {
-            _score.setText(score);
+        _score.setText(score);
+        if (score.isEmpty()) {
+            _score.setVisibility(GONE);
+        } else {
+            _score.setVisibility(VISIBLE);
         }
     }
 }
