@@ -48,7 +48,7 @@
         android:id="@+id/currentPlayer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="5"
         android:gravity="bottom|center_horizontal"
         android:textSize="36sp" />
 
@@ -56,15 +56,15 @@
         android:id="@+id/currentScore"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="5"
         android:gravity="center_horizontal|top"
         android:textSize="24sp" />
 
     <TextView
         android:id="@+id/currentPoints"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:gravity="center"
         android:textSize="30sp" />
 
@@ -72,43 +72,45 @@
         android:id="@+id/gameSetup"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="15"
         android:src="@drawable/molkky_setup"
         tools:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        android:weightSum="4">
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="100"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             app:text="1">
 
         </net.halman.molkkynotes.ui.main.UIButton>
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="100"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             app:text="2" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="100"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             app:text="3" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="100"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             app:text="4" />
 
     </LinearLayout>
@@ -116,33 +118,35 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        android:weightSum="4">
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton5"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="5" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton6"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="6" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton7"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="7" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton8"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="8" />
@@ -151,33 +155,35 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        android:weightSum="4">
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="9" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton10"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="10" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton11"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="11" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton12"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="12" />
@@ -186,20 +192,22 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButton0"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="0" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gButtonFoul"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:text="@string/gFoul" />
 
@@ -207,13 +215,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gBack"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             app:image="@drawable/molkky_back"
@@ -223,8 +233,8 @@
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/gForward"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             app:image="@drawable/molkky_forward"
