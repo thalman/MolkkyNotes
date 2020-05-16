@@ -137,6 +137,15 @@ public class MolkkyGame implements Serializable {
         return (_rounds.size() > 0) && (currentRound().started());
     }
 
+    public int roundCursor()
+    {
+        if (_rounds.size() == 0) {
+            return -1;
+        }
+
+        return currentRound().cursor();
+    }
+
     public MolkkyTeam currentTeam()
     {
         if (_teams.size() == 0) {

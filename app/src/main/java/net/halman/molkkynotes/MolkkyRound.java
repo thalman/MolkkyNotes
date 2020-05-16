@@ -250,15 +250,30 @@ public class MolkkyRound implements Serializable {
     }
 
     public boolean started() {
-        return (_current >= 0);
+        if (_hits.size() == 0) {
+            return false;
+        }
+
+        if (_hits.size() == 1 && _hits.get(0).hit() == MolkkyHit.NOTPLAYED) {
+            return false;
+        }
+
+        return true;
     }
 
-    public boolean cursorAtTheStart() {
+    public boolean cursorAtTheStart()
+    {
         return _current == 0;
     }
 
-    public boolean cursorAtTheEnd() {
+    public boolean cursorAtTheEnd()
+    {
         return _current == _hits.size() - 1;
+    }
+
+    public int cursor()
+    {
+        return _current;
     }
 
     public ArrayList<MolkkyTeam> teamOrder()

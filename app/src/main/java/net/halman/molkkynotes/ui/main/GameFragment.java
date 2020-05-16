@@ -118,16 +118,16 @@ public class GameFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
-        if (game.roundStarted()) {
-            _setup.setVisibility(View.GONE);
-            _current_player.setVisibility(View.VISIBLE);
-            _current_score.setVisibility(View.VISIBLE);
-            _current_hit.setVisibility(View.VISIBLE);
-        } else {
+        if (game.roundCursor() == -1) {
             _setup.setVisibility(View.VISIBLE);
             _current_player.setVisibility(View.GONE);
             _current_score.setVisibility(View.GONE);
             _current_hit.setVisibility(View.GONE);
+        } else {
+            _setup.setVisibility(View.GONE);
+            _current_player.setVisibility(View.VISIBLE);
+            _current_score.setVisibility(View.VISIBLE);
+            _current_hit.setVisibility(View.VISIBLE);
         }
 
         if (_listener == null) {
@@ -226,7 +226,7 @@ public class GameFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
-        if (! game.roundStarted()) {
+        if (game.roundCursor() == -1) {
             game.nextHit();
             updateScreen();
             return;
