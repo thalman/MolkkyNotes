@@ -34,6 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textSize="24sp" />
 
         <TextView
@@ -45,11 +47,22 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/setupMolkky"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/gameSetupGame"
+        android:textSize="24sp"
+        android:visibility="gone" />
+
+    <TextView
         android:id="@+id/currentPlayer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
         android:gravity="bottom|center_horizontal"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textSize="36sp" />
 
     <TextView
@@ -73,10 +86,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="15"
+        android:padding="20dp"
         android:src="@drawable/molkky_setup"
         tools:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/gNumPad1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
@@ -117,6 +132,7 @@
 
 
     <LinearLayout
+        android:id="@+id/gNumPad2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
@@ -154,6 +170,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/gNumPad3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
@@ -191,6 +208,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/gNumPad4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
@@ -214,6 +232,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/gNumPad5"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"

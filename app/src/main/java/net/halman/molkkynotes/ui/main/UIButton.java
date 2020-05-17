@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +14,9 @@ import net.halman.molkkynotes.R;
 public class UIButton extends LinearLayout {
     private ImageView _image = null;
     private TextView _text = null;
+    private LinearLayout _root = null;
     private float _size = 20.0f;
+    private boolean _active = true;
 
     public UIButton(Context context) {
         super(context);
@@ -40,6 +41,7 @@ public class UIButton extends LinearLayout {
 
         _image = (ImageView) this.findViewById(R.id.image);
         _text = (TextView) this.findViewById(R.id.text);
+        _root = (LinearLayout) this.findViewById(R.id.uibuttonroot);
 
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.UIButton);
@@ -47,8 +49,8 @@ public class UIButton extends LinearLayout {
         _size = a.getDimension(R.styleable.UIButton_imagesize, 20.0f);
         if (drawable != null) {
             android.view.ViewGroup.LayoutParams layoutParams = _image.getLayoutParams();
-            layoutParams.width = (int)_size;
-            layoutParams.height = (int)_size;
+            layoutParams.width = (int) _size;
+            layoutParams.height = (int) _size;
             _image.setLayoutParams(layoutParams);
             _image.setImageDrawable(drawable);
             _image.setVisibility(VISIBLE);
@@ -65,14 +67,40 @@ public class UIButton extends LinearLayout {
         }
     }
 
-    public void text(String txt)
-    {
+    public void text(String txt) {
         if (_text != null) {
             if (txt.equals("")) {
                 _text.setVisibility(GONE);
             } else {
                 _text.setText(txt);
                 _text.setVisibility(VISIBLE);
+            }
+        }
+    }
+
+    public boolean active() {
+        return _active;
+    }
+
+    public void active(boolean a) {
+        if (_active == a) {
+            return;
+        }
+
+        _active = a;
+        Drawable b = _root.getBackground();
+        if (_active) {
+            _text.setTextColor(getResources().getColor(R.color.colorWhite));
+            _image.setImageAlpha(255);
+            if (b != null) {
+                b.setAlpha(255);
+            }
+        } else {
+            _text.setTextColor(getResources().getColor(R.color.colorGray));
+            _image.setImageAlpha(64);
+
+            if (b != null) {
+                b.setAlpha(64);
             }
         }
     }

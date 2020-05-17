@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.halman.molkkynotes.MolkkyGame;
@@ -25,6 +26,9 @@ public class GameFragment extends Fragment {
     private TextView _current_score = null;
     private TextView _current_hit = null;
     private TextView _current_round = null;
+    private TextView _setup_molkky = null;
+    private LinearLayout _next_player_layout = null;
+    private UIButton[] _buttons = null;
 
     public GameFragment() {
         // Required empty public constructor
@@ -50,10 +54,10 @@ public class GameFragment extends Fragment {
     {
         View topView = inflater.inflate(R.layout.fragment_game, container, false);
 
-        int [] buttons = {R.id.gBack, R.id.gForward, R.id.gButton0, R.id.gButton1, R.id.gButton2,
+        int [] buttons = {R.id.gButton0, R.id.gButton1, R.id.gButton2,
                 R.id.gButton3, R.id.gButton4, R.id.gButton5, R.id.gButton6, R.id.gButton7,
                 R.id.gButton8, R.id.gButton9, R.id.gButton10, R.id.gButton11, R.id.gButton12,
-                R.id.gButtonFoul, };
+                R.id.gButtonFoul, R.id.gBack, R.id.gForward};
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,17 +65,21 @@ public class GameFragment extends Fragment {
             }
         };
 
-        for (int id: buttons) {
-            View v = topView.findViewById(id);
+        _buttons = new UIButton[buttons.length];
+        for(int i = 0; i < buttons.length; i++) {
+            View v = topView.findViewById(buttons[i]);
             v.setOnClickListener(listener);
+            _buttons[i] = (UIButton) v;
         }
 
         _setup = topView.findViewById(R.id.gameSetup);
         _current_player = topView.findViewById(R.id.currentPlayer);
         _next_player = topView.findViewById(R.id.gNextPlayer);
+        _next_player_layout = topView.findViewById(R.id.gNextLayout);
         _current_score = topView.findViewById(R.id.currentScore);
         _current_hit = topView.findViewById(R.id.currentPoints);
         _current_round  = topView.findViewById(R.id.gRound);
+        _setup_molkky  = topView.findViewById(R.id.setupMolkky);
 
         updateScreen();
         return topView;
@@ -118,52 +126,59 @@ public class GameFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
+
         if (game.roundCursor() == -1) {
             _setup.setVisibility(View.VISIBLE);
             _current_player.setVisibility(View.GONE);
             _current_score.setVisibility(View.GONE);
             _current_hit.setVisibility(View.GONE);
+            _next_player_layout.setVisibility(View.GONE);
+            _setup_molkky.setVisibility(View.VISIBLE);
+            for (int i = 0; i < _buttons.length - 1; i++) {
+                _buttons[i].active(false);
+            }
         } else {
             _setup.setVisibility(View.GONE);
             _current_player.setVisibility(View.VISIBLE);
             _current_score.setVisibility(View.VISIBLE);
             _current_hit.setVisibility(View.VISIBLE);
-        }
-
-        if (_listener == null) {
-            return;
-        }
-
-        MolkkyTeam t;
-        t = game.nextTeam();
-        _next_player.setText(t != null ? t.name() : "");
-
-        t = game.currentTeam();
-        if (t != null) {
-            _current_player.setText(t.name());
-
-            int points = game.roundTeamScore(t);
-            int left = game.goal() - points;
-            String text = getString(R.string.gPlayersScore, points, left);
-            _current_score.setText(text);
-
-            switch (game.hit().hit()) {
-                case MolkkyHit.NOTPLAYED:
-                    _current_hit.setText("?");
-                    break;
-                case MolkkyHit.LINECROSS:
-                    _current_hit.setText(getText(R.string.gFoul));
-                    break;
-                default:
-                    _current_hit.setText(Integer.toString(game.hit().hit()));
-                    break;
+            _next_player_layout.setVisibility(View.VISIBLE);
+            _setup_molkky.setVisibility(View.GONE);
+            for (int i = 0; i < _buttons.length - 1; i++) {
+                _buttons[i].active(true);
             }
-            _current_round.setText("" + (game.round() + 1) + "/" + (game.roundProgress() + 1));
-        } else {
-            _current_player.setText("");
-            _current_score.setText("");
-            _current_hit.setText("");
-            _current_round.setText("");
+
+            MolkkyTeam t;
+            t = game.nextTeam();
+            _next_player.setText(t != null ? t.name() : "");
+
+            t = game.currentTeam();
+            if (t != null) {
+                _current_player.setText(t.name());
+
+                int points = game.roundTeamScore(t);
+                int left = game.goal() - points;
+                String text = getString(R.string.gPlayersScore, points, left);
+                _current_score.setText(text);
+
+                switch (game.hit().hit()) {
+                    case MolkkyHit.NOTPLAYED:
+                        _current_hit.setText("?");
+                        break;
+                    case MolkkyHit.LINECROSS:
+                        _current_hit.setText(getText(R.string.gFoul));
+                        break;
+                    default:
+                        _current_hit.setText(Integer.toString(game.hit().hit()));
+                        break;
+                }
+                _current_round.setText("" + (game.round() + 1) + "/" + (game.roundProgress() + 1));
+            } else {
+                _current_player.setText("");
+                _current_score.setText("");
+                _current_hit.setText("");
+                _current_round.setText("");
+            }
         }
     }
 
