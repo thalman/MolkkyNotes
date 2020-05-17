@@ -71,8 +71,11 @@ public class TeamsFragment extends Fragment {
                     }
 
                     MolkkyGame game = _listener.game();
-                    game.shuffleTeams();
-                    updateScreen();
+                    if (game.teams().size() > 1) {
+                        game.shuffleTeams();
+                        updateScreen();
+                        _listener.switchTab(1);
+                    }
                 }
             }
         );
@@ -461,6 +464,7 @@ public class TeamsFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         MolkkyGame game();
         Players players();
+        void switchTab(int i);
         Setup setup();
     }
 }
