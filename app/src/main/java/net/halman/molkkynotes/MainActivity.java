@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import net.halman.molkkynotes.ui.main.GameFragment;
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.navigation, menu);
         MenuItem i = menu.findItem(R.id.menuPlayInTeams);
         i.setChecked(_setup.playInTeams());
+        i = menu.findItem(R.id.menuKeepScreenOn);
+        i.setChecked(_setup.keepScreenOn());
         return true;
     }
 
@@ -98,6 +101,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.menuPlayInTeams:
                 item.setChecked(!item.isChecked());
                 _setup.playInTeams(item.isChecked());
+                break;
+            case R.id.menuKeepScreenOn:
+                item.setChecked(!item.isChecked());
+                _setup.keepScreenOn(item.isChecked());
+                onKeepScreenOn();
                 break;
             case R.id.menuPreferences:
                 onSetupMenuClick();
@@ -117,6 +125,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStart() {
         _setup.load(this);
+        onKeepScreenOn();
         loadGame();
         super.onStart();
     }
@@ -292,5 +301,14 @@ public class MainActivity extends AppCompatActivity
 
         builder.show();
 
+    }
+
+    private void onKeepScreenOn()
+    {
+        if (_setup.keepScreenOn()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
     }
 }

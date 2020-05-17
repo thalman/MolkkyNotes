@@ -18,6 +18,7 @@
     <string name="menuStartNewGame">New Game</string>
     <string name="menuPlayInTeams">Play in teams</string>
     <string name="menuPreferences">Setup</string>
+    <string name="menuKeepScreenOn">Keep screen on</string>
 
     <!-- team screen -->
     <string name="teamsPlayers">All Player</string>

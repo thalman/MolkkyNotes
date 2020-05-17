@@ -9,7 +9,10 @@
         android:id="@+id/menuPlayInTeams"
         android:checkable="true"
         android:title="@string/menuPlayInTeams" />
-
+    <item
+        android:id="@+id/menuKeepScreenOn"
+        android:checkable="true"
+        android:title="@string/menuKeepScreenOn" />
     <item
         android:id="@+id/menuPreferences"
         android:title="@string/menuPreferences" />

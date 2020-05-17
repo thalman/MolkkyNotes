@@ -12,6 +12,7 @@ public class Setup {
     private int _goal = 50;
     private int _penaltyWhenOverGoal = 25;
     private int _penaltyFor3Zeros = ELIMINATION;
+    private boolean _keep_screen_on = false;
 
     public int penaltyOverGoal()
     {
@@ -57,6 +58,16 @@ public class Setup {
         _goal = goal;
     }
 
+    public boolean keepScreenOn()
+    {
+        return _keep_screen_on;
+    }
+
+    public void keepScreenOn(boolean keep_screen_on)
+    {
+        _keep_screen_on = keep_screen_on;
+    }
+
     public void save(Activity activity)
     {
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
@@ -65,6 +76,7 @@ public class Setup {
         editor.putInt("goal", _goal);
         editor.putInt("penalty-when-over", _penaltyWhenOverGoal);
         editor.putInt("penalty-for-3-zeros", _penaltyFor3Zeros);
+        editor.putBoolean("keep-screen-on", _keep_screen_on);
         editor.apply();
     }
 
@@ -75,5 +87,6 @@ public class Setup {
         _goal = sharedPref.getInt("goal", 50);
         _penaltyWhenOverGoal = sharedPref.getInt("penalty-when-over", 25);
         penaltyFor3Zeros(sharedPref.getInt("penalty-for-3-zeros", ELIMINATION));
+        _keep_screen_on =  sharedPref.getBoolean("keep-screen-on", false);
     }
 }
