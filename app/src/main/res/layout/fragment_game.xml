@@ -227,7 +227,7 @@
             android:layout_weight="1"
             android:gravity="center"
             app:image="@drawable/molkky_back"
-            app:imagesize="@dimen/image_button_size">
+            app:imagesize="@dimen/font_size">
 
         </net.halman.molkkynotes.ui.main.UIButton>
 
@@ -238,7 +238,7 @@
             android:layout_weight="1"
             android:gravity="center"
             app:image="@drawable/molkky_forward"
-            app:imagesize="@dimen/image_button_size" />
+            app:imagesize="@dimen/font_size" />
 
     </LinearLayout>
 
