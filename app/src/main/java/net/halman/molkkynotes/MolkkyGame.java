@@ -443,4 +443,9 @@ public class MolkkyGame implements Serializable {
     {
         return _rounds;
     }
+
+    public int teamHealth(MolkkyTeam team)
+    {
+        return currentRound().teamHealth(team);
+    }
 }

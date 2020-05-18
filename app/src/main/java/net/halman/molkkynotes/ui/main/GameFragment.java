@@ -3,7 +3,10 @@ package net.halman.molkkynotes.ui.main;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +17,9 @@ import android.widget.TextView;
 
 import net.halman.molkkynotes.MolkkyGame;
 import net.halman.molkkynotes.MolkkyHit;
+import net.halman.molkkynotes.MolkkyRound;
 import net.halman.molkkynotes.MolkkyTeam;
 import net.halman.molkkynotes.R;
-
 
 public class GameFragment extends Fragment {
     private OnGameFragmentInteractionListener _listener;
@@ -119,6 +122,33 @@ public class GameFragment extends Fragment {
         }
     }
 
+    private String zerosWarning()
+    {
+        if (_listener == null) {
+            return "";
+        }
+
+        MolkkyGame game = _listener.game();
+        MolkkyTeam team = game.currentTeam();
+        switch (game.teamHealth(team)) {
+            case MolkkyRound.ZERO:
+                return getResources().getQuantityString(R.plurals.resultsZeros, 1, 1);
+            case MolkkyRound.TWOZEROS:
+                if (game.hit().hit() == MolkkyHit.NOTPLAYED) {
+                    Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        //deprecated in API 26
+                        v.vibrate(300);
+                    }
+                }
+                return getResources().getQuantityString(R.plurals.resultsZeros, 2, 2);
+            default:
+                return "";
+        }
+    }
+
     public void updateScreen()
     {
         if (_listener == null) {
@@ -158,9 +188,15 @@ public class GameFragment extends Fragment {
 
                 int points = game.roundTeamScore(t);
                 int left = game.goal() - points;
-                String text = getString(R.string.gPlayersScore, points, left);
-                _current_score.setText(text);
+                String text;
+                String warning = zerosWarning();
+                if (warning.isEmpty()) {
+                    text = getString(R.string.gPlayersScore, points, left);
+                } else {
+                    text = getString(R.string.gPlayersScoreWithWarning, points, left, warning);
+                }
 
+                _current_score.setText(text);
                 switch (game.hit().hit()) {
                     case MolkkyHit.NOTPLAYED:
                         _current_hit.setText("?");

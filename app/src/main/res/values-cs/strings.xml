@@ -20,6 +20,7 @@
     <!-- game screen -->
     <string name="gNext">Další:</string>
     <string name="gPlayersScore">%1$d (ještě %2$d)</string> <!-- 3 (47 left) -->
+    <string name="gPlayersScoreWithWarning">%1$d (ještě %2$d), %3$s!</string> <!-- 3 (47 left), 2 zeros!-->
     <string name="gFoul">Přešlap</string> <!-- crossing the foul line -->
     <string name="gameSetupGame">Postavte mölkky</string>
     <string name="menuKeepScreenOn">Nezhasínat obrazovku</string>
