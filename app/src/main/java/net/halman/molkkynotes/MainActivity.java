@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         _game.clearRounds();
+        _game.clearTeams();
         _game.setup(_setup);
         switchTab(0);
         onTabChange(0);
