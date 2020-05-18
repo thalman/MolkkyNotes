@@ -87,7 +87,7 @@
         android:layout_height="0dp"
         android:layout_weight="15"
         android:padding="20dp"
-        android:src="@drawable/molkky_setup"
+        app:srcCompat="@drawable/molkky_setup"
         tools:visibility="gone" />
 
     <LinearLayout

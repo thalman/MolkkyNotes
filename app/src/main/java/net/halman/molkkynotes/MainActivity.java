@@ -226,6 +226,11 @@ public class MainActivity extends AppCompatActivity
         _game.clearRounds();
         _game.clearTeams();
         _game.setup(_setup);
+        TeamsFragment t = teamsFragment();
+        if (t != null) {
+            t.updateScreen();
+        }
+
         switchTab(0);
         onTabChange(0);
     }
