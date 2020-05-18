@@ -167,6 +167,7 @@ public class GameFragment extends Fragment {
             for (int i = 0; i < _buttons.length - 1; i++) {
                 _buttons[i].active(false);
             }
+            _buttons[_buttons.length - 1].active(game.teams().size()  > 1);
         } else {
             _setup.setVisibility(View.GONE);
             _current_player.setVisibility(View.VISIBLE);
@@ -174,7 +175,7 @@ public class GameFragment extends Fragment {
             _current_hit.setVisibility(View.VISIBLE);
             _next_player_layout.setVisibility(View.VISIBLE);
             _setup_molkky.setVisibility(View.GONE);
-            for (int i = 0; i < _buttons.length - 1; i++) {
+            for (int i = 0; i < _buttons.length; i++) {
                 _buttons[i].active(true);
             }
 
@@ -277,6 +278,11 @@ public class GameFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
+        if (game.teams().size() < 2) {
+            updateScreen();
+            return;
+        }
+
         if (game.roundCursor() == -1) {
             game.nextHit();
             updateScreen();
