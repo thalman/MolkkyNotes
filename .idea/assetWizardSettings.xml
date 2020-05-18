@@ -63,7 +63,6 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="scalingPercent" value="80" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -75,7 +74,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="66afdc" />
+                                      <entry key="backgroundColor" value="9f9f9f" />
                                       <entry key="backgroundImage" value="$USER_HOME$/Pictures/icon-mollky.svg.png" />
                                       <entry key="foregroundImage" value="$PROJECT_DIR$/fastlane/metadata/android/en-US/images/icon.png" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
