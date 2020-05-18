@@ -90,13 +90,13 @@ public class UIButton extends LinearLayout {
         _active = a;
         Drawable b = _root.getBackground();
         if (_active) {
-            _text.setTextColor(getResources().getColor(R.color.colorWhite));
+            _text.setAlpha(1.0f);
             _image.setImageAlpha(255);
             if (b != null) {
                 b.setAlpha(255);
             }
         } else {
-            _text.setTextColor(getResources().getColor(R.color.colorGray));
+            _text.setAlpha(0.25f);
             _image.setImageAlpha(64);
 
             if (b != null) {
