@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        _players.save(this);
         _game.clearRounds();
         _game.clearTeams();
         _game.setup(_setup);
