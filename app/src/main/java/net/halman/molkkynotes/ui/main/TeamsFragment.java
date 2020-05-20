@@ -38,6 +38,7 @@ public class TeamsFragment extends Fragment {
     private PlayersAdapter _players_adapter = null;
     private LinearLayoutManager _layout_manager = null;
     private int[] _team_view_ids = {R.id.tTeam1, R.id.tTeam2, R.id.tTeam3, R.id.tTeam4, R.id.tTeam5, R.id.tTeam6, R.id.tTeam7, R.id.tTeam8, R.id.tTeam9, R.id.tTeam10 };
+    private UIButton _mix = null;
 
     public TeamsFragment() {
         // Required empty public constructor
@@ -61,8 +62,8 @@ public class TeamsFragment extends Fragment {
         _all_players = result.findViewById(R.id.allPlayers);
         _selected_teams = result.findViewById(R.id.frgSelectedTeams);
 
-        View mix = result.findViewById(R.id.tMix);
-        mix.setOnClickListener(
+        _mix = result.findViewById(R.id.tMix);
+        _mix.setOnClickListener(
             new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -229,7 +230,7 @@ public class TeamsFragment extends Fragment {
             UIPlayer btn = _selected_teams.findViewById(_team_view_ids[a]);
             if (btn != null) {
                 try {
-                    MolkkyTeam t =game.teams().get(a);
+                    MolkkyTeam t = game.teams().get(a);
                     btn.name(t.name());
                     btn.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
@@ -238,6 +239,8 @@ public class TeamsFragment extends Fragment {
                 }
             }
         }
+
+        _mix.active(game.teams().size() > 1 && !_listener.game().gameStarted());
     }
 
     public void userAddDialog () {
