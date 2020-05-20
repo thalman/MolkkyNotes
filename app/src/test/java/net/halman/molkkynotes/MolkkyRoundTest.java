@@ -11,8 +11,8 @@ public class MolkkyRoundTest {
         MolkkyPlayer mike = new MolkkyPlayer("Mike");
         MolkkyTeam toms = new MolkkyTeam();
         MolkkyTeam mikes = new MolkkyTeam();
-        toms.addPlayer(tom);
-        mikes.addPlayer(mike);
+        toms.addMember(tom);
+        mikes.addMember(mike);
 
         MolkkyRound round = new MolkkyRound(50, 25);
         round.addTeam(toms);
