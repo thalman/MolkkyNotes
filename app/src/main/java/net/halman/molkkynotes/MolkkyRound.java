@@ -186,7 +186,7 @@ public class MolkkyRound implements Serializable {
                 if (score > _goal) score = _penalty_over_goal;
                 if (score == _goal) return score;
             }
-            if (hit.hit() == MolkkyHit.LINECROSS && score >= (_goal - 12)) {
+            if (hit.hit() == MolkkyHit.LINECROSS && score >= (_goal - 13)) {
                 score = _penalty_over_goal;
             }
         }
