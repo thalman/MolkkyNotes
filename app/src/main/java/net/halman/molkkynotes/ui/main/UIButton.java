@@ -103,6 +103,8 @@ public class UIButton extends LinearLayout {
                 b.setAlpha(64);
             }
         }
+
+        setClickable(_active);
     }
 
     public String text()
