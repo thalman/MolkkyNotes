@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity
                 item.setChecked(!item.isChecked());
                 _setup.playInTeams(item.isChecked());
                 break;
+            case R.id.menuRules:
+                onRules();
+                break;
             case R.id.menuKeepScreenOn:
                 item.setChecked(!item.isChecked());
                 _setup.keepScreenOn(item.isChecked());
@@ -317,5 +320,20 @@ public class MainActivity extends AppCompatActivity
         } else {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+    }
+
+    private void onRules()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(R.string.dialogRules);
+        builder.setMessage(R.string.dialogRulesDetail);
+        builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
     }
 }

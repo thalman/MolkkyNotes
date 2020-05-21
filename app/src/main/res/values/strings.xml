@@ -1,14 +1,6 @@
 <resources>
-    <string name="app_name">MolkkyNotes</string>
-    <string name="prepareTeams">Setup teams</string>
-    <string name="startNewGame">Start new game</string>
+    <string name="app_name">Mölkky Notes</string>
 
-    <string name="teams">Players</string>
-    <string name="game">Game</string>
-    <string name="results">Results</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MolkkyNotes</string>
     <string name="tab_text_1">Teams</string>
     <string name="tab_text_2">Game</string>
@@ -17,8 +9,9 @@
     <!-- menu -->
     <string name="menuStartNewGame">New Game</string>
     <string name="menuPlayInTeams">Play in teams</string>
-    <string name="menuPreferences">Setup</string>
+    <string name="menuRules">Mölkky Rules</string>
     <string name="menuKeepScreenOn">Keep screen on</string>
+    <string name="menuPreferences">Setup</string>
 
     <!-- team screen -->
     <string name="teamsPlayers">All Player</string>
@@ -69,6 +62,23 @@
     <string name="dialogRemovePlayerFromTeam">Remove player from team</string>
     <string name="dialogPlayerInTheGame">Player is already included</string>
     <string name="dialogPlayerInTheGameDetail">The player can\'t be listed twice in one game.</string>
+    <string name="dialogRules">Mölkky Rules</string>
+    <string name="dialogRulesDetail">The aim of the game is to reach exactly 50 points.\n
+\nAll throws are taken into account.\n
+\nA pin is not considered fallen if it is leaning on another pin or on the Mölkky throwing
+skittle. After a throw, fallen pins are put upright at the place where they fell.\n
+\nIf one pin falls, the score is equal the number on the skittle. When more than one skittle
+falls, the score is equal the number of fallen skittles.\n
+\nIf a player (team) misses (has no scores) three times in a row, he/she (it) is out of
+the game with 0 points. The game ends, when the first player (or team) reaches
+exactly 50 points.\n
+\nIf a player (or team) scores over 50, that player’s (team’s) score is lowered to 25 points
+and continues playing.\n
+\nSides of the Mölkky frame are set to 45 degree angle and thrower has to leave the frame,
+to the rear, if the thrower goes forward and/or sideways, in other words over the Mölkky
+frame, it is a foul and throw is (the) called as a miss (0 points).\n
+\nWhen the team has 37 points or more, foul will be penalized by dropping the points to 25.
+    </string>
 
     <string name="emptyString"></string>
 </resources>

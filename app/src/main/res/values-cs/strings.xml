@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Mölkky Notes</string>
+
     <string name="title_activity_main">MolkkyNotes</string>
     <string name="tab_text_1">Týmy</string>
     <string name="tab_text_2">Hra</string>
@@ -8,6 +10,8 @@
     <!-- menu -->
     <string name="menuStartNewGame">Nová hra</string>
     <string name="menuPlayInTeams">Hra v týmech</string>
+    <string name="menuRules">Pravidla hry</string>
+    <string name="menuKeepScreenOn">Nezhasínat obrazovku</string>
     <string name="menuPreferences">Nastavení</string>
 
     <!-- team screen -->
@@ -23,7 +27,6 @@
     <string name="gPlayersScoreWithWarning">%1$d (ještě %2$d), %3$s!</string> <!-- 3 (47 left), 2 zeros!-->
     <string name="gFoul">Přešlap</string> <!-- crossing the foul line -->
     <string name="gameSetupGame">Postavte mölkky</string>
-    <string name="menuKeepScreenOn">Nezhasínat obrazovku</string>
 
     <!-- results screen -->
     <string name="resultsRound">Kolo</string>
@@ -61,6 +64,22 @@
     <string name="dialogRemovePlayerFromTeam">Odebrat hráče z týmu</string>
     <string name="dialogPlayerInTheGame">Hráč už je ve hře</string>
     <string name="dialogPlayerInTheGameDetail">Hráč nemůže být ve hře dvakrát.</string>
+    <string name="dialogRules">Pravidla Mölkky</string>
+    <string name="dialogRulesDetail">Cílem hry je dosáhnout přesně 50 bodů.\n
+\nVšechny hody jsou brány v úvahu.\n
+\nKuželka se nepovažuje za straženou, pokud se opírá o jinou nebo o házeci Mölkku.
+Po hodu jsou shozené kuželky vztyčeny na místě, kam dopadly.\n
+\nPokud je sražena jedna kuželka, skóre se rovná číslu na kuželce. Když je shozeno více kuželek,
+skóre se rovná počtu sražených kuželek.\n
+\nPokud hráč (tým) neboduje třikrát v řadě za sebou, je mimo
+hru s 0 body. Hra končí, když první hráč (nebo tým) dosáhne
+přesně 50 bodů.\n
+\nPokud hráč (nebo tým) dosáhne více než 50 bodů, jeho skóre se sníží na 25 bodů
+a pokračuje ve hře.\n
+\nStrany odhodiště Mölkky jsou postaveny pod úhlem 45 stupňů a hráč musí odhodiště opustit
+dozadu. Pokud by hráč šel dopředu a nebo do strany, jinými slovy přes vyznačené Mölkky
+odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou kuželku (0 bodů).\n
+\nPokud má hráč (tým) 37 bodů a více, je přešlap penalizován snížením skóre na 25 bodů.</string>
 
     <string name="emptyString"></string>
 

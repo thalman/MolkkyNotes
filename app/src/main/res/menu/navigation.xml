@@ -14,6 +14,9 @@
         android:checkable="true"
         android:title="@string/menuKeepScreenOn" />
     <item
+        android:id="@+id/menuRules"
+        android:title="@string/menuRules" />
+    <item
         android:id="@+id/menuPreferences"
         android:title="@string/menuPreferences" />
 
