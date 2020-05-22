@@ -53,6 +53,11 @@ public class MolkkyRound implements Serializable {
         }
     }
 
+    public ArrayList<MolkkyTeam> teams()
+    {
+        return _teams;
+    }
+
     void addTeam(MolkkyTeam team) {
         if (!_teams.contains(team)) {
             _teams.add(team);
@@ -319,5 +324,4 @@ public class MolkkyRound implements Serializable {
 
         return _current / _teams.size();
     }
-
 }

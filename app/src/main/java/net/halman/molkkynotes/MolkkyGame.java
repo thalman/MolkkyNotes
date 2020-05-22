@@ -1,5 +1,12 @@
 package net.halman.molkkynotes;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.opencsv.CSVWriter;
+
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -447,5 +454,38 @@ public class MolkkyGame implements Serializable {
     public int teamHealth(MolkkyTeam team)
     {
         return currentRound().teamHealth(team);
+    }
+
+    public void save(Context context, String file_name)
+    {
+        try {
+            String[] title = {"Player/Team", "Points", "Zeros", "", "Hits"};
+            String[] empty = {};
+            FileOutputStream fos = context.openFileOutput(file_name, context.MODE_PRIVATE);
+            OutputStreamWriter fow = new OutputStreamWriter(fos);
+            CSVWriter writer = new CSVWriter(fow);
+
+            writer.writeNext(title);
+
+            ArrayList<String> columns = new ArrayList<>();
+            for (MolkkyRound round : _rounds) {
+                for (MolkkyTeam team: round.teams()) {
+                    columns.clear();
+                    columns.add(team.name());
+                    columns.add(Integer.toString(round.teamScore(team)));
+                    columns.add(Integer.toString(round.numberOfZeros(team)));
+                    columns.add("");
+                    for(MolkkyHit hit: round.teamHits(team)) {
+                        columns.add(Integer.toString(hit.hit()));
+                    }
+                    String[] columns_array = new String[columns.size()];
+                    columns.toArray(columns_array);
+                    writer.writeNext(columns_array);
+                }
+                writer.writeNext(empty);
+            }
+        } catch (Exception e) {
+            Log.d("ex", e.toString());
+        };
     }
 }
