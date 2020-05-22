@@ -4,7 +4,7 @@
     <string name="title_activity_main">MolkkyNotes</string>
     <string name="tab_text_1">Teams</string>
     <string name="tab_text_2">Game</string>
-    <string name="tab_text_3">Results</string>
+    <string name="tab_text_3">Score</string>
 
     <!-- menu -->
     <string name="menuStartNewGame">New Game</string>
