@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import net.halman.molkkynotes.ui.main.GameFragment;
+import net.halman.molkkynotes.ui.main.HistoryFragment;
 import net.halman.molkkynotes.ui.main.ResultsFragment;
 import net.halman.molkkynotes.ui.main.SectionsPagerAdapter;
 import net.halman.molkkynotes.ui.main.TeamsFragment;
@@ -32,7 +33,8 @@ import java.io.ObjectOutputStream;
 public class MainActivity extends AppCompatActivity
         implements TeamsFragment.OnFragmentInteractionListener,
         GameFragment.OnGameFragmentInteractionListener,
-        ResultsFragment.OnResultsFragmentInteractionListener
+        ResultsFragment.OnResultsFragmentInteractionListener,
+        HistoryFragment.OnHistoryFragmentInteractionListener
 {
 
     private MolkkyGame _game = new MolkkyGame();

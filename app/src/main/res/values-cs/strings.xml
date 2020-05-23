@@ -6,6 +6,7 @@
     <string name="tab_text_1">Hráči</string>
     <string name="tab_text_2">Hra</string>
     <string name="tab_text_3">Skóre</string>
+    <string name="tab_text_4">Historie</string>
 
     <!-- menu -->
     <string name="menuStartNewGame">Nová hra</string>
