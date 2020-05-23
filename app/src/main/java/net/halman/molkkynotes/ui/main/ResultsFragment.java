@@ -37,6 +37,7 @@ import java.util.ArrayList;
 public class ResultsFragment extends Fragment {
     private OnResultsFragmentInteractionListener _listener;
     private UIButton _next_round = null;
+    private UIButton _game_over = null;
     private TextView _game_score = null;
     private TextView _round_score = null;
 
@@ -68,6 +69,7 @@ public class ResultsFragment extends Fragment {
             }
         );
 
+        _game_over = v.findViewById(R.id.resultGameOver);
         _round_score = v.findViewById(R.id.resultRoundScore);
         _game_score = v.findViewById(R.id.resultGameScore);
         updateScreen();
@@ -187,10 +189,12 @@ public class ResultsFragment extends Fragment {
         updateRoundScore();
         updateGameScore();
 
-        if (game.roundOver()) {
-            _next_round.setVisibility(View.VISIBLE);
+        if (game.roundOver() && game.gameStarted()) {
+            _next_round.active(true);
+            _game_over.active(true);
         } else {
-            _next_round.setVisibility(View.GONE);
+            _next_round.active(false);
+            _game_over.active(false);
         }
     }
 

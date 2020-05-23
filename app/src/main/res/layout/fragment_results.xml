@@ -81,6 +81,13 @@
             android:layout_weight="1"
             app:text="@string/resultsNextRound" />
 
+        <net.halman.molkkynotes.ui.main.UIButton
+            android:id="@+id/resultGameOver"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:text="@string/resultsGameOver" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -34,6 +34,7 @@
     <string name="resultsRoundWithNumber">%1$d. kolo</string>
     <string name="resultsGame">Hra</string>
     <string name="resultsNextRound">Další kolo</string>
+    <string name="resultsGameOver">Konec hry</string>
     <string name="resultsNewGame">Nová hra</string>
     <string name="resultsRoundInProgress">Další kolo nemůže začít!</string>
     <string name="resultsRoundInProgressDetail">Aktuální kolo ještě neskončilo.</string>

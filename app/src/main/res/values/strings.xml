@@ -32,7 +32,8 @@
     <string name="resultsRound">Round</string>
     <string name="resultsRoundWithNumber">Round %1$d</string>
     <string name="resultsGame">Game</string>
-    <string name="resultsNextRound">Next round</string>
+    <string name="resultsNextRound">Next Round</string>
+    <string name="resultsGameOver">End Of Game</string>
     <string name="resultsNewGame">New game</string>
     <string name="resultsRoundInProgress">Next round can\'t be started!</string>
     <string name="resultsRoundInProgressDetail">Current round is not finished yet.</string>
