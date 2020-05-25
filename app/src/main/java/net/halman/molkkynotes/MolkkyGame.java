@@ -5,12 +5,15 @@ import android.util.Log;
 
 import com.opencsv.CSVWriter;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Random;
 
 public class MolkkyGame implements Serializable {
@@ -20,6 +23,7 @@ public class MolkkyGame implements Serializable {
     private int _starting_team = 0;
     private int _goal = 50;
     private int _penalty_goal_over = 25;
+    private Date _date = null;
 
     private class MolkkyGameScoreComparator implements Comparator<MolkkyTeam> {
         public int compare(MolkkyTeam t1, MolkkyTeam t2) {
@@ -185,6 +189,10 @@ public class MolkkyGame implements Serializable {
             return;
         }
 
+        if (_date == null) {
+            _date = new Date();
+        }
+
         MolkkyRound r = currentRound();
         if (r != null) {
             r.currentHit(hit);
@@ -193,10 +201,7 @@ public class MolkkyGame implements Serializable {
 
     public void hit(int value)
     {
-        MolkkyRound r = currentRound();
-        if (r != null) {
-            r.currentHit(value);
-        }
+        hit(new MolkkyHit(value));
     }
 
     public MolkkyHit hit()
@@ -461,7 +466,11 @@ public class MolkkyGame implements Serializable {
         try {
             String[] title = {"Player/Team", "Points", "Zeros", "", "Hits"};
             String[] empty = {};
-            FileOutputStream fos = context.openFileOutput(file_name, context.MODE_PRIVATE);
+            File f = null;
+            File dir = context.getExternalFilesDir("history");
+            File path = new File(dir, file_name);
+
+            FileOutputStream fos = new FileOutputStream(path); //context.openFileOutput(path, context.MODE_PRIVATE);
             OutputStreamWriter fow = new OutputStreamWriter(fos);
             CSVWriter writer = new CSVWriter(fow);
 
@@ -484,8 +493,25 @@ public class MolkkyGame implements Serializable {
                 }
                 writer.writeNext(empty);
             }
+
+            writer.close();
         } catch (Exception e) {
             Log.d("ex", e.toString());
         };
+    }
+
+    public Date date()
+    {
+        return _date;
+    }
+
+    public String dateAsString()
+    {
+        if (_date == null) {
+            _date = new Date();
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd--HH-mm");
+        return format.format(_date);
     }
 }

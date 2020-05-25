@@ -3,14 +3,11 @@ package net.halman.molkkynotes.ui.main;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
@@ -18,9 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import net.halman.molkkynotes.MainActivity;
 import net.halman.molkkynotes.MolkkyGame;
-import net.halman.molkkynotes.MolkkyRound;
 import net.halman.molkkynotes.MolkkyTeam;
 import net.halman.molkkynotes.R;
 
@@ -64,12 +59,21 @@ public class ResultsFragment extends Fragment {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startNextRound();
+                    onNextRound();
                 }
             }
         );
 
         _game_over = v.findViewById(R.id.resultGameOver);
+        _game_over.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onGameOver();
+                    }
+                }
+        );
+
         _round_score = v.findViewById(R.id.resultRoundScore);
         _game_score = v.findViewById(R.id.resultGameScore);
         updateScreen();
@@ -213,7 +217,7 @@ public class ResultsFragment extends Fragment {
 
     }
 
-    private void startNextRound()
+    private void onNextRound()
     {
         if (_listener == null) {
             return;
@@ -227,6 +231,16 @@ public class ResultsFragment extends Fragment {
 
         g.startNextRound();
         _listener.switchTab(1);
+    }
+
+    private void onGameOver() {
+        if (_listener == null) {
+            return;
+        }
+
+        MolkkyGame g = _listener.game();
+        g.save(getContext(),g.dateAsString() + ".csv");
+        _listener.switchTab(3);
     }
 
     /**

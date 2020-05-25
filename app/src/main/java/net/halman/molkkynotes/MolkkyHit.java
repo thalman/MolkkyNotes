@@ -8,6 +8,14 @@ public class MolkkyHit implements Serializable {
 
     private int _hit = NOTPLAYED;
 
+    public MolkkyHit() {
+        _hit = NOTPLAYED;
+    }
+
+    public MolkkyHit(int hit) {
+        _hit = hit;
+    }
+
     public int hit()
     {
         return _hit;
