@@ -146,8 +146,10 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
         int padding = 10;
         x1 += padding;
         y1 += padding;
-        int width = x2 - x1 - 2*padding;
-        int height = y2 - y1 - 2*padding;
+        x2 -= padding;
+        y2 -= padding;
+        int width = x2 - x1;
+        int height = y2 - y1;
 
         StaticLayout sl = new StaticLayout(text, tp, width,
                 centered ? Layout.Alignment.ALIGN_CENTER : Layout.Alignment.ALIGN_NORMAL,
