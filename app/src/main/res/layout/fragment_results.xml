@@ -8,66 +8,12 @@
     android:orientation="vertical"
     tools:context=".ui.main.ResultsFragment">
 
-    <TextView
-        android:id="@+id/resultRoundTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/resultsRound"
-        android:textSize="30sp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorWhite"/>
-    <ScrollView
+    <net.halman.molkkynotes.ui.main.UIGameRecord
+        android:id="@+id/resultRoundScore"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/resultRoundScore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="100"
-                android:textStyle="normal" />
-        </LinearLayout>
-    </ScrollView>
-
-    <TextView
-        android:id="@+id/resultGameTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/resultsGame"
-        android:textSize="30sp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorWhite"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/resultGameScore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="100"
-                android:textStyle="normal" />
-        </LinearLayout>
-    </ScrollView>
+        android:layout_weight="1"
+        android:visibility="visible" />
 
     <LinearLayout
         android:layout_width="match_parent"

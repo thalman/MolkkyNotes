@@ -211,6 +211,32 @@ public class MolkkyRound implements Serializable {
         return zeros;
     }
 
+    public int numberOfPenalties(MolkkyTeam team) {
+        int penalties = 0;
+        ArrayList<MolkkyHit> hits = teamHits(team);
+
+        int score = 0;
+        for (MolkkyHit hit : hits) {
+            if (hit.hit() > 0) {
+                score += hit.hit();
+                if (score > _goal) {
+                    score = _penalty_over_goal;
+                    penalties++;
+                }
+
+                if (score == _goal) {
+                    return penalties;
+                }
+            }
+            if (hit.hit() == MolkkyHit.LINECROSS && score >= (_goal - 13)) {
+                score = _penalty_over_goal;
+                penalties++;
+            }
+        }
+
+        return penalties;
+    }
+
     public int teamHealth(MolkkyTeam team) {
         ArrayList<MolkkyHit> hits = teamHits(team);
         int zeros = 0;
@@ -323,5 +349,10 @@ public class MolkkyRound implements Serializable {
         }
 
         return _current / _teams.size();
+    }
+
+    public int numberOfHits()
+    {
+        return _hits.size();
     }
 }

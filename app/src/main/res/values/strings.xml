@@ -82,5 +82,13 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
 \nWhen the team has 37 points or more, foul will be penalized by dropping the points to 25.
     </string>
 
+    <!-- sheets -->
+    <string name="sheetTeams">Player/Team</string>
+    <string name="sheetPoints">Points</string>
+    <string name="sheetScore">Score</string>
+    <string name="sheetRound">Round %1$d</string>
+    <string name="sheetGame">Game</string>
+    <string name="sheetTotal">Total</string>
+
     <string name="emptyString"></string>
 </resources>

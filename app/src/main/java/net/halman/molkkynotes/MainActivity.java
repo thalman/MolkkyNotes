@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
     private MolkkyGame _game = new MolkkyGame();
     private Players _players = new Players();
     private Setup _setup = new Setup();
+    private History _history = new History();
     private final static String _game_state_file = "game.bin";
 
     @Override
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         _players.load(this);
         _setup.load(this);
+        _history.load(this);
     }
 
     @Override
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity
 
     public void switchTab(int idx)
     {
-        if (idx < 0 || idx > 2) {
+        if (idx < 0 || idx > 3) {
             return;
         }
 
@@ -187,6 +189,20 @@ public class MainActivity extends AppCompatActivity
         return _setup;
     }
 
+    public History history()
+    {
+        return _history;
+    }
+
+    public void notifyGameSaved()
+    {
+        HistoryFragment f = historyFragment();
+        _history.load(this);
+        if (f != null) {
+            f.notifyGameSaved();
+        }
+    }
+
     private Fragment getFragment(int page)
     {
         return getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + page);
@@ -205,6 +221,11 @@ public class MainActivity extends AppCompatActivity
     private ResultsFragment resultsFragment()
     {
         return (ResultsFragment) getFragment(2);
+    }
+
+    private HistoryFragment historyFragment()
+    {
+        return (HistoryFragment) getFragment(3);
     }
 
     public void onTabChange(int position)

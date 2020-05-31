@@ -83,6 +83,14 @@ dozadu. Pokud by hráč šel dopředu a nebo do strany, jinými slovy přes vyzn
 odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou kuželku (0 bodů).\n
 \nPokud má hráč (tým) 37 bodů a více, je přešlap penalizován snížením skóre na 25 bodů.</string>
 
+    <!-- sheets -->
+    <string name="sheetTeams">Hráč/Tým</string>
+    <string name="sheetPoints">Body</string>
+    <string name="sheetScore">Skóre</string>
+    <string name="sheetRound">%1$d. kolo</string>
+    <string name="sheetGame">Hra</string>
+    <string name="sheetTotal">Celkem</string>
+
     <string name="emptyString"></string>
 
 </resources>

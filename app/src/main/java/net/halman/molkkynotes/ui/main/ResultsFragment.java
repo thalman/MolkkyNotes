@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.halman.molkkynotes.MolkkyGame;
+import net.halman.molkkynotes.MolkkySheet;
 import net.halman.molkkynotes.MolkkyTeam;
 import net.halman.molkkynotes.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -33,8 +35,7 @@ public class ResultsFragment extends Fragment {
     private OnResultsFragmentInteractionListener _listener;
     private UIButton _next_round = null;
     private UIButton _game_over = null;
-    private TextView _game_score = null;
-    private TextView _round_score = null;
+    private UIGameRecord _round_score = null;
 
     public ResultsFragment() {
         // Required empty public constructor
@@ -75,7 +76,6 @@ public class ResultsFragment extends Fragment {
         );
 
         _round_score = v.findViewById(R.id.resultRoundScore);
-        _game_score = v.findViewById(R.id.resultGameScore);
         updateScreen();
         return v;
     }
@@ -135,9 +135,11 @@ public class ResultsFragment extends Fragment {
                 start += text.length();
             }
 
-            _round_score.setText(ssb, TextView.BufferType.SPANNABLE);
+            _round_score.game(game);
+            _round_score.whatToDraw(UIGameRecord.DRAW_CURRENT_ROUND);
+            _round_score.invalidate();
         } else {
-            _round_score.setText("");
+            _round_score.invalidate();
         }
     }
 
@@ -175,9 +177,9 @@ public class ResultsFragment extends Fragment {
                 start += text.length();
             }
 
-            _game_score.setText(ssb, TextView.BufferType.SPANNABLE);
+            //_game_score.setText(ssb, TextView.BufferType.SPANNABLE);
         } else {
-            _game_score.setText("");
+            //_game_score.setText("");
         }
     }
 
@@ -239,7 +241,12 @@ public class ResultsFragment extends Fragment {
         }
 
         MolkkyGame g = _listener.game();
-        g.save(getContext(),g.dateAsString() + ".csv");
+
+        File dir = getContext().getExternalFilesDir("history");
+        File path = new File(dir, g.dateAsString() + ".csv");
+
+        g.CSVExport(path.toString());
+        _listener.notifyGameSaved();
         _listener.switchTab(3);
     }
 
@@ -256,5 +263,6 @@ public class ResultsFragment extends Fragment {
     public interface OnResultsFragmentInteractionListener {
         MolkkyGame game();
         void switchTab(int tab);
+        void notifyGameSaved();
     }
 }

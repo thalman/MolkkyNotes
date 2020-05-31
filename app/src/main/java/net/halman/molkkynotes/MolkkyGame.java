@@ -1,12 +1,14 @@
 package net.halman.molkkynotes;
 
-import android.content.Context;
 import android.util.Log;
 
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -20,15 +22,12 @@ public class MolkkyGame implements Serializable {
     private ArrayList<MolkkyTeam> _teams = new ArrayList<MolkkyTeam>();
     private ArrayList<MolkkyRound> _rounds = new ArrayList<>();
     private int _current_round = -1;
-    private int _starting_team = 0;
     private int _goal = 50;
     private int _penalty_goal_over = 25;
     private Date _date = null;
 
     private class MolkkyGameScoreComparator implements Comparator<MolkkyTeam> {
         public int compare(MolkkyTeam t1, MolkkyTeam t2) {
-            // usually toString should not be used,
-            // instead one of the attributes or more in a comparator chain
             int score1 = gameTeamScore(t1);
             int score2 = gameTeamScore(t2);
             if (score1 > score2) {
@@ -75,7 +74,6 @@ public class MolkkyGame implements Serializable {
 
     void clearTeams() {
         _teams.clear();
-        _starting_team = 0;
     }
 
     void clearRounds() {
@@ -96,7 +94,7 @@ public class MolkkyGame implements Serializable {
         return _current_round;
     }
 
-    private MolkkyRound currentRound()
+    public MolkkyRound currentRound()
     {
         if (_current_round < 0) {
             return null;
@@ -330,6 +328,26 @@ public class MolkkyGame implements Serializable {
         return r.numberOfZeros(t);
     }
 
+    public int gameNumberOfPenalties(MolkkyTeam t)
+    {
+        int penalties = 0;
+        for (MolkkyRound r: _rounds) {
+            penalties += r.numberOfPenalties(t);
+        }
+
+        return penalties;
+    }
+
+    public int roundNumberOfPenalties(MolkkyTeam t)
+    {
+        MolkkyRound r = currentRound();
+        if (r == null) {
+            return 0;
+        }
+
+        return r.numberOfPenalties(t);
+    }
+
     public String gameTeamScoreAsString(MolkkyTeam t)
     {
         String prefix = "";
@@ -461,16 +479,22 @@ public class MolkkyGame implements Serializable {
         return currentRound().teamHealth(team);
     }
 
-    public void save(Context context, String file_name)
+    /*
+        Player/Team, Points, Zeros, , Hits
+        team1, 50, 2, , 3,0,0,7,6,8,9
+        team2, 40, 0, , 3,1,1,7,6,8,9
+
+        team2, 50, 2, , 3,0,0,7,6,8,9
+        team1, 40, 0, , 3,1,1,7,6,8,9
+        [EOF]
+     */
+    public void CSVExport(String full_file_name)
     {
         try {
             String[] title = {"Player/Team", "Points", "Zeros", "", "Hits"};
             String[] empty = {};
-            File f = null;
-            File dir = context.getExternalFilesDir("history");
-            File path = new File(dir, file_name);
 
-            FileOutputStream fos = new FileOutputStream(path); //context.openFileOutput(path, context.MODE_PRIVATE);
+            FileOutputStream fos = new FileOutputStream(full_file_name);
             OutputStreamWriter fow = new OutputStreamWriter(fos);
             CSVWriter writer = new CSVWriter(fow);
 
@@ -498,6 +522,78 @@ public class MolkkyGame implements Serializable {
         } catch (Exception e) {
             Log.d("ex", e.toString());
         };
+    }
+
+    public void CSVImport(String full_file_name)
+    {
+        _teams.clear();
+        _rounds.clear();
+        try {
+            FileInputStream fis = new FileInputStream(full_file_name);
+            InputStreamReader isr = new InputStreamReader(fis);
+            CSVReader reader = new CSVReader(isr);
+            String[] line;
+            ArrayList<String[]> lines = new ArrayList<>();
+
+            // skip first line
+            reader.readNext();
+
+            while (true) {
+                line = reader.readNext();
+                if (line != null && line.length > 0 && !line[0].isEmpty()) {
+                    lines.add(line);
+                }
+
+                if (line == null || line.length == 0 || line[0].isEmpty()) {
+                    if (lines.size() > 0) {
+                        // fill teams in game if not done yet (i. e. parsing first round)
+                        if (_teams.size() == 0) {
+                            for(String [] l: lines) {
+                                addPlayer(new MolkkyPlayer(l[0]));
+                            }
+                        }
+
+                        // find teams and add them to the game
+                        MolkkyRound round = new MolkkyRound(_goal, _penalty_goal_over);
+                        for(String [] l: lines) {
+                            MolkkyTeam t = teamByTeamsName(l[0]);
+                            if (t == null) {
+                                t = new MolkkyTeam();
+                                t.addMember(new MolkkyPlayer(l[0]));
+                            }
+                            round.addTeam(t);
+                        }
+
+                        // fill hits
+                        round.nextHit();
+                        int idx = 4;
+                        boolean cont = true;
+                        while (cont) {
+                            cont = false;
+                            for(String [] l: lines) {
+                                if (l.length > idx) {
+                                    cont = true;
+                                    round.currentHit(Integer.parseInt(l[idx]));
+                                    round.nextHit();
+                                }
+                            }
+                            idx++;
+                        }
+
+                        _rounds.add(round);
+                        lines.clear();
+                    }
+                }
+
+                if (line == null) {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            _teams.clear();
+            _rounds.clear();
+            _current_round = -1;
+        }
     }
 
     public Date date()
