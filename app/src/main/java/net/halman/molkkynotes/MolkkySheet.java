@@ -163,7 +163,7 @@ public class MolkkySheet {
         drawBoxedLine(sheet, 0, 1f, 0, line, true);
         drawBoxedLine(sheet, width, 1f, width, line, true);
 
-        return new Rect(0,0, width,(int)(line * _box_height));
+        return new Rect(0,0, width * _box_width,(int)(line * _box_height));
     }
 
     public Rect currentGame(MolkkyGame game, SheetDrawable sheet, Context context)

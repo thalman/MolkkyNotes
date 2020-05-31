@@ -35,6 +35,7 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
     private float _last_touch_x = 0.0f;
     private float _last_touch_y = 0.0f;
     private int _what_to_draw = -1;
+    private boolean _need_fit = true;
 
     public static final int DRAW_CURRENT_ROUND = 1;
     public static final int DRAW_GAME = 2;
@@ -188,14 +189,24 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
         _canvas.scale(_scale_factor, _scale_factor, _scale_point_x, _scale_point_y);
         _canvas.translate(_pan_x, _pan_y);
         MolkkySheet sheet = new MolkkySheet();
+        Rect R = null;
         switch (_what_to_draw) {
             case DRAW_CURRENT_ROUND:
                 sheet.setOffset(10,10);
-                Rect R = sheet.currentRound(_game, this, getContext());
+                R = sheet.currentRound(_game, this, getContext());
                 sheet.setOffset(10, R.bottom);
-                sheet.currentGame(_game, this, getContext());
+                Rect R2 = sheet.currentGame(_game, this, getContext());
+                R.bottom += R2.bottom;
+                R.right = Math.max(R.right, R2.right);
                 break;
         }
         _canvas.restore();
+        if (_need_fit && R != null) {
+            float w = getWidth();
+            float h = getHeight();
+            _scale_factor = Math.min(w / (R.right + 20), h / (R.bottom + 20));
+            invalidate();
+            _need_fit = false;
+        }
     }
 }
