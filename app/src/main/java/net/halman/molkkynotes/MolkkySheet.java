@@ -170,7 +170,7 @@ public class MolkkySheet {
     {
         ArrayList<MolkkyTeam> teams = game.gameTeamOrder();
         ArrayList<MolkkyRound> rounds = game.rounds();
-        int width = 3 + 3*rounds.size();
+        int width = 4 + 3*rounds.size();
         int lines = teams.size();
         Resources res = context.getResources();
 
@@ -180,22 +180,22 @@ public class MolkkySheet {
         drawBoxedLine(sheet, 0, 1.5f, width, 1.5f, false);
         drawBoxedLine(sheet, 0, 2, width, 2, true);
 
-        for (int i = 0; i <= rounds.size(); i++) {
-            if (i == 0) {
-                drawBoxedTextCN(sheet, i * 3, 1f, i * 3 + 3, 1.5f, res.getString(R.string.sheetTotal), _text_size / 2);
-            } else {
-                drawBoxedTextCN(sheet, i * 3, 1f, i * 3 + 3, 1.5f, res.getString(R.string.sheetRound, i), _text_size / 2);
-            }
+        drawBoxedTextCN(sheet, 0, 1f, 4, 1.5f, res.getString(R.string.sheetTotal), _text_size / 2);
+        drawBoxedTextCN(sheet,0, 1.5f, 2, 2f, res.getString(R.string.sheetPoints), _text_size / 2);
+        drawBoxedTextCN(sheet,2, 1.5f, 3, 2f, "0", _text_size / 2);
+        drawBoxedTextPenalty(sheet,3, 1.5f, 4, 2f, Integer.toString(game.penaltyOverGoal()), _text_size / 2);
+        drawBoxedLine(sheet, 2, 1.5f, 2, 2f, false);
+        drawBoxedLine(sheet, 3, 1.5f, 3, 2f, false);
+        for (int i = 1; i <= rounds.size(); i++) {
+            drawBoxedTextCN(sheet, i * 3 + 1, 1f, i * 3 + 4, 1.5f, res.getString(R.string.sheetRound, i), _text_size / 2);
 
-            drawBoxedTextCN(sheet,i * 3, 1.5f, i*3 + 1, 2f, res.getString(R.string.sheetPoints), _text_size / 2);
-            drawBoxedTextCN(sheet,i * 3 + 1, 1.5f, i * 3 + 2, 2f, "0", _text_size / 2);
-            drawBoxedTextPenalty(sheet,i * 3 + 2, 1.5f, i * 3 + 3, 2f, Integer.toString(game.penaltyOverGoal()), _text_size / 2);
+            drawBoxedTextCN(sheet,i * 3 + 1, 1.5f, i*3 + 2, 2f, res.getString(R.string.sheetPoints), _text_size / 2);
+            drawBoxedTextCN(sheet,i * 3 + 2, 1.5f, i * 3 + 3, 2f, "0", _text_size / 2);
+            drawBoxedTextPenalty(sheet,i * 3 + 3, 1.5f, i * 3 + 4, 2f, Integer.toString(game.penaltyOverGoal()), _text_size / 2);
 
-            drawBoxedLine(sheet, i * 3 + 1, 1.5f, i * 3 + 1, 2f, false);
+            drawBoxedLine(sheet, i * 3 + 1, 1.0f, i * 3 + 1, 2f, true);
             drawBoxedLine(sheet, i * 3 + 2, 1.5f, i * 3 + 2, 2f, false);
-            if (i < rounds.size()) {
-                drawBoxedLine(sheet, i * 3 + 3, 1.0f, i * 3 + 3, 2f, true);
-            }
+            drawBoxedLine(sheet, i * 3 + 3, 1.5f, i * 3 + 3, 2f, false);
         }
 
         float line = 2;
@@ -203,13 +203,13 @@ public class MolkkySheet {
             drawBoxedText(sheet,0f, line, width, line + 0.7f, team.name(), _text_size, Typeface.BOLD, false);
             drawBoxedLine(sheet, 0f, line + 0.7f, width, line + 0.7f, false);
 
-            drawBoxedText(sheet,0f, line + 0.7f, 1f, line + 1.5f, Integer.toString(game.gameTeamScore(team)), _text_size, Typeface.BOLD, true);
-            drawBoxedLine(sheet, 1, line + 0.7f, 1, line + 1.5f, false);
-            drawBoxedTextCN(sheet,1f, line + 0.7f, 2f, line + 1.5f, Integer.toString(game.gameNumberOfZeros(team)), _text_size);
+            drawBoxedText(sheet,0f, line + 0.7f, 2f, line + 1.5f, Integer.toString(game.gameTeamScore(team)), _text_size, Typeface.BOLD, true);
             drawBoxedLine(sheet, 2, line + 0.7f, 2, line + 1.5f, false);
-            drawBoxedTextCN(sheet,2f, line + 0.7f, 3f, line + 1.5f, Integer.toString(game.gameNumberOfPenalties(team)), _text_size);
+            drawBoxedTextCN(sheet,2f, line + 0.7f, 3f, line + 1.5f, Integer.toString(game.gameNumberOfZeros(team)), _text_size);
+            drawBoxedLine(sheet, 3, line + 0.7f, 3, line + 1.5f, false);
+            drawBoxedTextCN(sheet,3f, line + 0.7f, 4f, line + 1.5f, Integer.toString(game.gameNumberOfPenalties(team)), _text_size);
 
-            int col = 3;
+            int col = 4;
             for (MolkkyRound round: game.rounds()) {
                 drawBoxedLine(sheet, col, line + 0.7f, col, line + 1.5f, true);
                 drawBoxedTextCN(sheet, col, line + 0.7f, col + 1, line + 1.5f, Integer.toString(round.teamScore(team)), _text_size);
@@ -217,6 +217,7 @@ public class MolkkySheet {
                 drawBoxedTextCN(sheet,col + 1, line + 0.7f, col + 2, line + 1.5f, Integer.toString(round.numberOfZeros(team)), _text_size);
                 drawBoxedLine(sheet, col + 2, line + 0.7f, col + 2, line + 1.5f, false);
                 drawBoxedTextCN(sheet,col + 2, line + 0.7f, col + 3, line + 1.5f, Integer.toString(round.numberOfPenalties(team)), _text_size);
+                col += 3;
             }
 
             drawBoxedLine(sheet, 0f, line + 1.5f, width, line + 1.5f, true);
