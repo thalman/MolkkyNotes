@@ -155,8 +155,7 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
                 centered ? Layout.Alignment.ALIGN_CENTER : Layout.Alignment.ALIGN_NORMAL,
                 1.0f, 0.0f, false);
 
-        // TODO: investigate how to vertically center text better
-        int h = sl.getHeight() - fontSize / 10;
+        int h = sl.getHeight();
         _canvas.save();
         _canvas.translate(x1, y1 + (height - h) / 2);
         sl.draw(_canvas);
