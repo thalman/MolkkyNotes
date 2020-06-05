@@ -77,7 +77,7 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
 
         Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
         for (int i = 1; i <= 2; ++i) {
-            _bitmap = Bitmap.createBitmap(size.right, size.bottom, conf); // this creates a MUTABLE bitmap
+            _bitmap = Bitmap.createBitmap(size.right, size.bottom, conf);
             _canvas = new Canvas(_bitmap);
             _canvas.drawColor(Color.WHITE);
 
@@ -87,7 +87,7 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
             int y = R.bottom;
             for (int idx = 0; idx < game.rounds().size(); idx++) {
                 sheet.setOffset(10, y);
-                Rect R2 = sheet.round(game, idx, false, this, _context);
+                Rect R2 = sheet.round(game, idx, false, true, this, _context);
                 y += R2.bottom;
                 R.right = Math.max(R.right, R2.right);
             }

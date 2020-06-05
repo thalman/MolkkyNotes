@@ -67,7 +67,7 @@ public class MolkkySheet {
     }
 
 
-    public Rect round(MolkkyGame game, int roundidx, boolean sortTeams, SheetDrawable sheet, Context context)
+    public Rect round(MolkkyGame game, int roundidx, boolean sortTeams, boolean alignColumns, SheetDrawable sheet, Context context)
     {
         if (game == null || sheet == null || context == null) {
             return new Rect(0, 0, 0, 0);
@@ -87,8 +87,15 @@ public class MolkkySheet {
 
         Resources res = context.getResources();
 
-        int columns = round.numberOfHits() / teams.size();
-        if (round.numberOfHits() % teams.size() != 0) {
+        int nhits = round.numberOfHits();
+        if (alignColumns) {
+            for (MolkkyRound r: game.rounds()) {
+                nhits = Math.max(nhits, r.numberOfHits());
+            }
+        }
+
+        int columns = nhits / teams.size();
+        if (nhits % teams.size() != 0) {
             ++columns;
         }
 
@@ -181,7 +188,7 @@ public class MolkkySheet {
             return new Rect(0, 0, 0, 0);
         }
 
-        return round(game, game.round(), sortTeams, sheet, context);
+        return round(game, game.round(), sortTeams, false, sheet, context);
     }
 
     public Rect currentGame(MolkkyGame game, SheetDrawable sheet, Context context)

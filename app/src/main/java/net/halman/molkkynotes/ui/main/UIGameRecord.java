@@ -223,7 +223,7 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
                 int y = R.bottom;
                 for (int idx = 0; idx <  _game.rounds().size(); idx++) {
                     sheet.setOffset(10, y);
-                    Rect R2 = sheet.round(_game, idx, false, this, getContext());
+                    Rect R2 = sheet.round(_game, idx, false, true, this, getContext());
                     y += R2.bottom;
                     R.right = Math.max(R.right, R2.right);
                 }
