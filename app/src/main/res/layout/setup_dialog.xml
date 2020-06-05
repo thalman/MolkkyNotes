@@ -4,14 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingLeft="?dialogPreferredPadding"
+    android:paddingRight="?dialogPreferredPadding"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    >
 
     <LinearLayout
         style="@style/MolkkyAlertDialogStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="0dp">
 
         <TextView
             android:id="@+id/goalLabel"
@@ -39,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/penaltyOverLabel"

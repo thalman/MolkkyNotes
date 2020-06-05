@@ -296,7 +296,6 @@ public class TeamsFragment extends Fragment {
         final EditText t = dialog_layout.findViewById(R.id.dPlayersName);
         t.setText(name);
         final String old_name = name;
-
         builder.setView(dialog_layout);
         builder.setPositiveButton(R.string.dSave, new DialogInterface.OnClickListener() {
             @Override

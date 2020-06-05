@@ -12,7 +12,7 @@ public class HistoryAdapter extends
     private History _history;
     private OnHistoryListener _click_listener;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public View history_view;
         public OnHistoryListener on_history_click;
 
@@ -21,6 +21,7 @@ public class HistoryAdapter extends
 
             history_view = v;
             history_view.setOnClickListener(this);
+            history_view.setOnLongClickListener(this);
             on_history_click = l;
         }
 
@@ -29,6 +30,15 @@ public class HistoryAdapter extends
             if (on_history_click != null) {
                 on_history_click.onHistoryClick(view);
             }
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (on_history_click != null) {
+                on_history_click.onHistoryLongClick(view);
+            }
+
+            return true;
         }
     }
 
@@ -70,5 +80,6 @@ public class HistoryAdapter extends
 
     public interface OnHistoryListener {
         void onHistoryClick(View view);
+        void onHistoryLongClick(View view);
     }
 }

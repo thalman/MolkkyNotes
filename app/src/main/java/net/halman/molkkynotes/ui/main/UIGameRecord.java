@@ -18,6 +18,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import net.halman.molkkynotes.MolkkyGame;
+import net.halman.molkkynotes.MolkkyRound;
 import net.halman.molkkynotes.MolkkySheet;
 import net.halman.molkkynotes.R;
 
@@ -25,7 +26,7 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
     private MolkkyGame _game = null;
     private ShapeDrawable _line = new ShapeDrawable(new RectShape());
     private ScaleGestureDetector _scale_detector;
-    private GestureDetector _gesture_detector;
+//    private GestureDetector _gesture_detector;
     private Canvas _canvas = null;
     private float _scale_factor = 1.0f;
     private float _scale_point_x = 0.0f;
@@ -73,7 +74,7 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
         _scale_detector = new ScaleGestureDetector(context, new ScaleListener());
-        _gesture_detector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener());
+//        _gesture_detector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener());
 //        setPivotX(0.0f);
 //        setPivotY(0.0f);
 //        setScaleX(1.0f);
@@ -126,8 +127,12 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
 
     public void game(MolkkyGame game)
     {
-        _game = game;
-        invalidate();
+        if (_game != game) {
+            _game = game;
+            fit();
+        } else {
+            invalidate();
+        }
     }
 
     public void whatToDraw(int what)
@@ -182,6 +187,17 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
         _canvas.drawLine(x1, y1, x2, y2, tp);
     }
 
+    public void fit()
+    {
+        _pan_y = 0;
+        _pan_x = 0;
+        _scale_factor = 1.0f;
+        _scale_point_x = 0;
+        _scale_point_y = 0;
+        _need_fit = true;
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -192,15 +208,31 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
         MolkkySheet sheet = new MolkkySheet();
         Rect R = null;
         switch (_what_to_draw) {
-            case DRAW_CURRENT_ROUND:
-                sheet.setOffset(10,10);
-                R = sheet.currentRound(_game, this, getContext());
+            case DRAW_CURRENT_ROUND: {
+                sheet.setOffset(10, 10);
+                R = sheet.currentRound(_game, true, this, getContext());
                 sheet.setOffset(10, R.bottom);
                 Rect R2 = sheet.currentGame(_game, this, getContext());
                 R.bottom += R2.bottom;
                 R.right = Math.max(R.right, R2.right);
                 break;
+            }
+            case DRAW_GAME: {
+                sheet.setOffset(10, 10);
+                R = sheet.currentGame(_game, this, getContext());
+                int y = R.bottom;
+                for (int idx = 0; idx <  _game.rounds().size(); idx++) {
+                    sheet.setOffset(10, y);
+                    Rect R2 = sheet.round(_game, idx, false, this, getContext());
+                    y += R2.bottom;
+                    R.right = Math.max(R.right, R2.right);
+                }
+
+                R.bottom = y;
+                break;
+            }
         }
+
         _canvas.restore();
         if (_need_fit && R != null) {
             float w = getWidth();

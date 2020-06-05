@@ -63,18 +63,28 @@ public class MolkkySheet {
                 text, textSize, Typeface.NORMAL, true);
         float dx = (x2 - x1) * 0.2f;
         float dy = (y2 - y1) * 0.4f;
-        drawBoxedLine(d, x1 + dx, y2 - dy, x2 - dx, y1 + dy, false);
+        drawBoxedLine(d, x1 + dx, y2 - dy, x2 - dx, y1 + dy, textSize > 35);
     }
 
 
-    public Rect currentRound(MolkkyGame game, SheetDrawable sheet, Context context)
+    public Rect round(MolkkyGame game, int roundidx, boolean sortTeams, SheetDrawable sheet, Context context)
     {
-        if (game == null || sheet == null || game.currentRound() == null) {
+        if (game == null || sheet == null || context == null) {
+            return new Rect(0, 0, 0, 0);
+        }
+
+        MolkkyRound round = null;
+        try {
+            round = game.rounds().get(roundidx);
+        } catch (Exception e) {
             return new Rect(0,0,0,0);
         }
-        MolkkyRound round = game.currentRound();
 
-        ArrayList<MolkkyTeam> teams = round.teamOrder();
+        ArrayList<MolkkyTeam> teams = round.teams();
+        if (sortTeams) {
+            round.teamOrder();
+        }
+
         Resources res = context.getResources();
 
         int columns = round.numberOfHits() / teams.size();
@@ -89,7 +99,7 @@ public class MolkkySheet {
         int width = 4 + columns;
         int lines = teams.size();
 
-        drawBoxedText(sheet, 0, 0, width, 1, context.getResources().getString(R.string.sheetRound, game.round() + 1), _text_size, Typeface.NORMAL, false);
+        drawBoxedText(sheet, 0, 0, width, 1, context.getResources().getString(R.string.sheetRound, roundidx + 1), _text_size, Typeface.NORMAL, false);
         // table header
         drawBoxedLine(sheet, 0, 1, width, 1, true);
         drawBoxedLine(sheet, 0, 2, width, 2, true);
@@ -166,8 +176,20 @@ public class MolkkySheet {
         return new Rect(0,0, width * _box_width,(int)(line * _box_height));
     }
 
+    public Rect currentRound(MolkkyGame game, boolean sortTeams, SheetDrawable sheet, Context context) {
+        if (game == null || sheet == null || context == null) {
+            return new Rect(0, 0, 0, 0);
+        }
+
+        return round(game, game.round(), sortTeams, sheet, context);
+    }
+
     public Rect currentGame(MolkkyGame game, SheetDrawable sheet, Context context)
     {
+        if (game == null || sheet == null || context == null) {
+            return new Rect(0, 0, 0, 0);
+        }
+
         ArrayList<MolkkyTeam> teams = game.gameTeamOrder();
         ArrayList<MolkkyRound> rounds = game.rounds();
         int width = 4 + 3*rounds.size();

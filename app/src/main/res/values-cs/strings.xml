@@ -28,6 +28,8 @@
     <string name="gPlayersScoreWithWarning">%1$d (ještě %2$d), %3$s!</string> <!-- 3 (47 left), 2 zeros!-->
     <string name="gFoul">Přešlap</string> <!-- crossing the foul line -->
     <string name="gameSetupGame">Postavte mölkky</string>
+    <string name="gameChangeTheHit">Změnit hod?</string>
+    <string name="gameChangeTheHitDetail">Opravdu změnit hodnotu?</string>
 
     <!-- results screen -->
     <string name="resultsRound">Kolo</string>
@@ -46,6 +48,7 @@
         <item quantity="few">%1$d nuly</item>
         <item quantity="other">%1$d nul</item>
     </plurals>
+    <string name="resultsExportAs">Sdílet záznam hry</string>
 
     <!-- dialogs -->
     <string name="dAddPlayer">Nový hráč</string>
@@ -82,6 +85,15 @@ a pokračuje ve hře.\n
 dozadu. Pokud by hráč šel dopředu a nebo do strany, jinými slovy přes vyznačené Mölkky
 odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou kuželku (0 bodů).\n
 \nPokud má hráč (tým) 37 bodů a více, je přešlap penalizován snížením skóre na 25 bodů.</string>
+
+    <!-- history -->
+    <string name="historyDelete">Smazat hru?</string>
+    <string name="historyDeleteDetail">Záznam hry bude odstraněn.</string>
+    <string name="historyShare">Sdílet prostřednictvím ...</string>
+    <string-array name="historyExports">
+        <item>CSV soubor</item>
+        <item>JPG obrázek</item>
+    </string-array>
 
     <!-- sheets -->
     <string name="sheetTeams">Hráč/Tým</string>

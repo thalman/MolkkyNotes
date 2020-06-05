@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
 
 public class MolkkyGame implements Serializable {
@@ -479,6 +480,16 @@ public class MolkkyGame implements Serializable {
         return currentRound().teamHealth(team);
     }
 
+    private int teamIndex(MolkkyTeam team)
+    {
+        for (int i = 0; i < _teams.size(); ++i) {
+            if (_teams.get(i) == team || _teams.get(i).name().equals(team.name())) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
     /*
         Player/Team, Points, Zeros, , Hits
         team1, 50, 2, , 3,0,0,7,6,8,9
@@ -491,25 +502,65 @@ public class MolkkyGame implements Serializable {
     public void CSVExport(String full_file_name)
     {
         try {
-            String[] title = {"Player/Team", "Points", "Zeros", "", "Hits"};
             String[] empty = {};
 
             FileOutputStream fos = new FileOutputStream(full_file_name);
             OutputStreamWriter fow = new OutputStreamWriter(fos);
             CSVWriter writer = new CSVWriter(fow);
 
-            writer.writeNext(title);
+            // Write header
+            // game name
+            {
+                ArrayList<MolkkyTeam> teams = gameTeamOrder();
+                String value = dateAsString();
+                for (MolkkyTeam t: teams) {
+                    value = value + ", " + t.name();
+                }
+
+                writer.writeNext(new String[]{"title:", value});
+            }
+
+            // goal/penalty
+            writer.writeNext(new String[]{"goal:", Integer.toString(_goal)});
+            writer.writeNext(new String[]{"penalty:", Integer.toString(_penalty_goal_over)});
+
+            // teams
+            {
+                for (MolkkyTeam t: _teams) {
+                    ArrayList<MolkkyPlayer> members = t.members();
+                    String [] line = new String[members.size() + 1];
+                    line[0] = "team" + (teamIndex(t) + 1) + ":";
+                    int c = 1;
+                    for(MolkkyPlayer p: members) {
+                        line[c] = p.name();
+                        ++c;
+                    }
+                    writer.writeNext(line);
+                }
+            }
+
+            // end of header
+            writer.writeNext(empty);
+
+            // Write result
+            writer.writeNext(new String[] {"Team", "Players", "Points", "Zeros", "Penalties", "", "Hits"});
 
             ArrayList<String> columns = new ArrayList<>();
             for (MolkkyRound round : _rounds) {
                 for (MolkkyTeam team: round.teams()) {
                     columns.clear();
+                    columns.add("team" + (teamIndex(team) + 1));
                     columns.add(team.name());
                     columns.add(Integer.toString(round.teamScore(team)));
                     columns.add(Integer.toString(round.numberOfZeros(team)));
+                    columns.add(Integer.toString(round.numberOfPenalties(team)));
                     columns.add("");
                     for(MolkkyHit hit: round.teamHits(team)) {
-                        columns.add(Integer.toString(hit.hit()));
+                        if (hit.hit() == MolkkyHit.LINECROSS) {
+                            columns.add("X");
+                        } else {
+                            columns.add(Integer.toString(hit.hit()));
+                        }
                     }
                     String[] columns_array = new String[columns.size()];
                     columns.toArray(columns_array);
@@ -534,50 +585,99 @@ public class MolkkyGame implements Serializable {
             CSVReader reader = new CSVReader(isr);
             String[] line;
             ArrayList<String[]> lines = new ArrayList<>();
+            HashMap<String, MolkkyTeam> team_map = new HashMap<>();
 
-            // skip first line
-            reader.readNext();
+            // header
+            line = reader.readNext();
+            while (line != null && line.length > 0 && !line[0].isEmpty()) {
+                if (line[0].equalsIgnoreCase("goal:")) {
+                    _goal = Integer.parseInt(line[1]);
+                }
 
-            while (true) {
+                if (line[0].equalsIgnoreCase("penalty:")) {
+                    _penalty_goal_over = Integer.parseInt(line[1]);
+                }
+
+                if (line[0].toLowerCase().startsWith("team")) {
+                    MolkkyTeam t = new MolkkyTeam();
+                    for (int i = 1; i < line.length; i++) {
+                        if (!line[i].isEmpty()) {
+                            t.addMember(new MolkkyPlayer(line[i]));
+                        }
+                    }
+                    if (t.size() > 0) {
+                        team_map.put(line[0], t);
+                        _teams.add(t);
+                    }
+                }
+
                 line = reader.readNext();
-                if (line != null && line.length > 0 && !line[0].isEmpty()) {
+            }
+
+            while(line != null && (line.length == 0 || (line.length > 0 && line[0].isEmpty()))) {
+                line = reader.readNext();
+            }
+
+            // on title
+            if (line != null) {
+                line = reader.readNext();
+            }
+
+            // read rounds
+            while (line != null) {
+                String [] nextLine = reader.readNext();
+                if (line.length > 0 && !line[0].isEmpty()) {
+                    // line is not empty, just add it for future evaluation
                     lines.add(line);
                 }
 
-                if (line == null || line.length == 0 || line[0].isEmpty()) {
+                if (line.length == 0 || line[0].isEmpty() || nextLine == null) {
                     if (lines.size() > 0) {
-                        // fill teams in game if not done yet (i. e. parsing first round)
-                        if (_teams.size() == 0) {
-                            for(String [] l: lines) {
-                                addPlayer(new MolkkyPlayer(l[0]));
-                            }
-                        }
-
+                        // we have some lines to be evaluated
                         // find teams and add them to the game
                         MolkkyRound round = new MolkkyRound(_goal, _penalty_goal_over);
                         for(String [] l: lines) {
-                            MolkkyTeam t = teamByTeamsName(l[0]);
+                            MolkkyTeam t = team_map.get(l[0] + ":");
                             if (t == null) {
-                                t = new MolkkyTeam();
-                                t.addMember(new MolkkyPlayer(l[0]));
+                                throw new IOException();
                             }
+
                             round.addTeam(t);
                         }
 
                         // fill hits
                         round.nextHit();
-                        int idx = 4;
+
+                        // find empty column
+                        String [] tmp = lines.get(0);
+                        int idx = 2;
+                        for (int i = 2; i < tmp.length; i++) {
+                            if (tmp[i].isEmpty()) {
+                                idx = i + 1;
+                                break;
+                            }
+                        }
+
                         boolean cont = true;
                         while (cont) {
                             cont = false;
-                            for(String [] l: lines) {
+                            for (String l[] : lines) {
                                 if (l.length > idx) {
                                     cont = true;
-                                    round.currentHit(Integer.parseInt(l[idx]));
+                                    if (l[idx].equalsIgnoreCase("X")) {
+                                        round.currentHit(MolkkyHit.LINECROSS);
+                                    } else {
+                                        round.currentHit(Integer.parseInt(l[idx]));
+                                    }
                                     round.nextHit();
+                                } else {
+                                    if (!round.over()) {
+                                        round.currentHit(MolkkyHit.NOTPLAYED);
+                                        round.nextHit();
+                                    }
                                 }
                             }
-                            idx++;
+                            ++idx;
                         }
 
                         _rounds.add(round);
@@ -585,9 +685,7 @@ public class MolkkyGame implements Serializable {
                     }
                 }
 
-                if (line == null) {
-                    break;
-                }
+                line = nextLine;
             }
         } catch (IOException e) {
             _teams.clear();

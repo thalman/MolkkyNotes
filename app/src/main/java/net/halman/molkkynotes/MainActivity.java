@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity
     private Setup _setup = new Setup();
     private History _history = new History();
     private final static String _game_state_file = "game.bin";
+    private String _history_open_file = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,9 +196,10 @@ public class MainActivity extends AppCompatActivity
         return _history;
     }
 
-    public void notifyGameSaved()
+    public void notifyGameOver()
     {
         HistoryFragment f = historyFragment();
+        _game = new MolkkyGame();
         _history.load(this);
         if (f != null) {
             f.notifyGameSaved();
@@ -358,5 +361,15 @@ public class MainActivity extends AppCompatActivity
         });
 
         builder.show();
+    }
+
+    public String historyOpenFile()
+    {
+        return _history_open_file;
+    }
+
+    public void historySaveStatus(String file)
+    {
+        _history_open_file = file;
     }
 }

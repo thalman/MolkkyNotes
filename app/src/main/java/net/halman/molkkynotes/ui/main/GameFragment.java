@@ -115,7 +115,11 @@ public class GameFragment extends Fragment {
             MolkkyGame game = _listener.game();
             if (!game.gameStarted()) {
                 if (game.teams().size() > 1) {
+                    int cursor = game.roundCursor();
                     game.start();
+                    if (cursor != -1) {
+                        game.nextHit();
+                    }
                 }
             }
             updateScreen();
@@ -221,8 +225,8 @@ public class GameFragment extends Fragment {
 
     public void hitChangeDialog (final int new_value) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
-        builder.setTitle("Change the hit?");
-        builder.setMessage("Really change the hit?");
+        builder.setTitle(R.string.gameChangeTheHit);
+        builder.setMessage(R.string.gameChangeTheHitDetail);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
