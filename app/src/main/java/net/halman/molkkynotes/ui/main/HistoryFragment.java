@@ -224,10 +224,8 @@ public class HistoryFragment extends Fragment {
                     File file = new File(item);
                     file.delete();
                     if (_listener != null) {
-                        _listener.history().load(getContext());
+                        _listener.history().reload();
                     }
-
-                    _history_adapter.notifyDataSetChanged();
                 } catch (Exception e) {}
             }
         });

@@ -171,7 +171,7 @@ public class ResultsFragment extends Fragment {
 
         g.CSVExport(path.toString());
         _listener.historySaveStatus(path.getAbsolutePath());
-        _listener.notifyGameOver();
+        _listener.onGameOver();
         _listener.switchTab(3);
         updateScreen();
     }
@@ -189,7 +189,7 @@ public class ResultsFragment extends Fragment {
     public interface OnResultsFragmentInteractionListener {
         MolkkyGame game();
         void switchTab(int tab);
-        void notifyGameOver();
+        void onGameOver();
         void historySaveStatus(String file);
     }
 }

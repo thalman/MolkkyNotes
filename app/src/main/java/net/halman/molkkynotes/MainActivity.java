@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity
     private History _history = new History();
     private final static String _game_state_file = "game.bin";
     private String _history_open_file = "";
-
+    private Handler _handler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +73,26 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        _handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message inputMessage) {
+                switch (inputMessage.what) {
+                    case History.HISTORY_UPDATED:
+                        HistoryFragment f = historyFragment();
+                        if (f != null) {
+                            f.notifyGameSaved();
+                        }
+                        break;
+                    default:
+                        super.handleMessage(inputMessage);
+                }
+            }
+        };
+
         _players.load(this);
         _setup.load(this);
-        _history.load(this);
+        _history.load(this, _handler);
+
     }
 
     @Override
@@ -186,14 +206,10 @@ public class MainActivity extends AppCompatActivity
         return _history;
     }
 
-    public void notifyGameOver()
+    public void onGameOver()
     {
-        HistoryFragment f = historyFragment();
         _game = new MolkkyGame();
-        _history.load(this);
-        if (f != null) {
-            f.notifyGameSaved();
-        }
+        _history.reload();
     }
 
     private Fragment getFragment(int page)

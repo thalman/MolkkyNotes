@@ -62,7 +62,7 @@ public class HistoryAdapter extends
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        String item = _history.get(position);
+        String item = _history.getName(position);
         TextView team = holder.history_view.findViewById(R.id.team);
         team.setText(item);
         holder.history_view.setTag(_history.getPath(position));
