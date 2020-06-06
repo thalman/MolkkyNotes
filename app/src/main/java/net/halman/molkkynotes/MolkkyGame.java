@@ -513,12 +513,13 @@ public class MolkkyGame implements Serializable {
             // game name
             {
                 ArrayList<MolkkyTeam> teams = gameTeamOrder();
-                String value = dateAsString();
-                for (MolkkyTeam t: teams) {
-                    value = value + ", " + t.name();
+                String title = "";
+                if (teams.size() >= 2) {
+                    title = teams.get(0).name() + "; " + teams.get(1).name();
                 }
 
-                writer.writeNext(new String[]{"title:", value});
+                writer.writeNext(new String[]{"title:", title});
+                writer.writeNext(new String[]{"date:", dateAsString()});
             }
 
             // goal/penalty
