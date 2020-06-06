@@ -5,9 +5,11 @@ import android.os.Handler;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 public class History {
     public static final int HISTORY_UPDATED = 1;
@@ -16,6 +18,8 @@ public class History {
     private LoadingTask _loading_task;
     private File _history_dir;
     private Handler _handler;
+    private DateFormat _date_format;
+    private DateFormat _time_format;
 
     private class HistoryItem {
         String path = "";
@@ -23,6 +27,16 @@ public class History {
     }
 
     class LoadingTask implements Runnable {
+
+        private String niceDate(Date date)
+        {
+            if (date == null) {
+                return "???";
+            }
+
+            return _date_format.format(date) + " " + _time_format.format(date);
+        }
+
         public void run() {
             _history_items.clear();
             File[] files = _history_dir.listFiles(new FilenameFilter() {
@@ -35,7 +49,7 @@ public class History {
             for(File F: files) {
                 HistoryItem i = new HistoryItem();
                 i.path = F.getAbsolutePath();
-                i.name = F.getName();
+                i.name = niceDate(MolkkyGame.CVSDate(F.getAbsolutePath())) + " - " + MolkkyGame.CVSTitle(F.getAbsolutePath());
                 _history_items.add(i);
             }
 
@@ -72,6 +86,8 @@ public class History {
     {
         _history_dir = context.getExternalFilesDir("history");
         _handler = handler;
+        _date_format = android.text.format.DateFormat.getDateFormat(context);
+        _time_format = android.text.format.DateFormat.getTimeFormat(context);
         _loading_task = new LoadingTask();
         _load_thread = new Thread(_loading_task);
         _load_thread.start();

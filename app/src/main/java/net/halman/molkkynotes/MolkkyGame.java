@@ -5,6 +5,7 @@ import android.util.Log;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -707,5 +708,47 @@ public class MolkkyGame implements Serializable {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd--HH-mm");
         return format.format(_date);
+    }
+
+    private static String CSVHeaderItem(String full_file_name, String item)
+    {
+        try {
+            FileInputStream fis = new FileInputStream(full_file_name);
+            InputStreamReader isr = new InputStreamReader(fis);
+            CSVReader reader = new CSVReader(isr);
+
+            String[] line = reader.readNext();
+            while (line != null && line.length > 0 && !line[0].isEmpty()) {
+                if (line[0].equalsIgnoreCase(item)) {
+                    return line[1];
+                }
+
+                line = reader.readNext();
+            }
+        } catch (Exception e) { }
+
+        return "";
+    }
+
+    public static String CVSTitle(String full_file_name)
+    {
+        return CSVHeaderItem(full_file_name, "title:");
+    }
+
+    public static Date CVSDate(String full_file_name)
+    {
+        String sdate = CSVHeaderItem(full_file_name, "date:");
+        if (sdate.isEmpty()) {
+            File F = new File(full_file_name);
+            String name = F.getName();
+            sdate = name.substring(0, 17);
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd--HH-mm");
+        try {
+            return format.parse(sdate);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
