@@ -26,7 +26,7 @@ public class History {
         String name = "";
     }
 
-    class LoadingTask implements Runnable {
+    private class LoadingTask implements Runnable {
 
         private String niceDate(Date date)
         {
@@ -79,6 +79,8 @@ public class History {
             return;
         }
 
+        _loading_task = new LoadingTask();
+        _load_thread = new Thread(_loading_task);
         _load_thread.start();
     }
 
