@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -206,12 +204,6 @@ public class MainActivity extends AppCompatActivity
         return _history;
     }
 
-    public void onGameOver()
-    {
-        _game = new MolkkyGame();
-        _history.reload();
-    }
-
     private Fragment getFragment(int page)
     {
         return getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + page);
@@ -242,9 +234,8 @@ public class MainActivity extends AppCompatActivity
         Log.d("UI", "Selected tab " + position);
     }
 
-    public void onNewGameStart()
+    private void updatePlayersStatistics()
     {
-        // add score to statistic before clearing game
         for (MolkkyRound r: _game.rounds()) {
             if (r.over()) {
                 for (MolkkyTeam t: _game.teams()) {
@@ -252,16 +243,23 @@ public class MainActivity extends AppCompatActivity
                     for(MolkkyPlayer p: t.members()) {
                         MolkkyPlayer player = _players.get(p.name());
                         if (player != null)
-                        player.addRoundScore(score);
+                            player.addRoundScore(score);
                     }
                 }
             }
         }
 
         _players.save(this);
-        _game.clearRounds();
-        _game.clearTeams();
+    }
+
+    public void onNewGameStart()
+    {
+        // this is called from menu -> new game
+        updatePlayersStatistics();
+
+        _game = new MolkkyGame();
         _game.setup(_setup);
+
         TeamsFragment t = teamsFragment();
         if (t != null) {
             t.updateScreen();
@@ -270,6 +268,16 @@ public class MainActivity extends AppCompatActivity
         switchTab(0);
         onTabChange(0);
     }
+
+    public void onGameOver()
+    {
+        // this is called from result fragment
+        updatePlayersStatistics();
+        _game = new MolkkyGame();
+        _game.setup(_setup);
+        _history.reload();
+    }
+
 
     public void onNewGameMenuClick()
     {
