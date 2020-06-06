@@ -182,6 +182,16 @@ public class TeamsFragment extends Fragment {
         }
     }
 
+    public void notifyPlayersChanged()
+    {
+        if (_listener == null) {
+            return;
+        }
+
+        _players_adapter.notifyDataSetChanged();
+    }
+
+
     public void onRecyclerViewClick(String name)
     {
         if (_listener == null) {

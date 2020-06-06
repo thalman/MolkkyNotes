@@ -75,6 +75,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void handleMessage(Message inputMessage) {
                 switch (inputMessage.what) {
+                    case Players.PLAYERS_UPDATED:
+                        TeamsFragment t = teamsFragment();
+                        if (t != null) {
+                            t.notifyPlayersChanged();
+                        }
+                        break;
                     case History.HISTORY_UPDATED:
                         HistoryFragment f = historyFragment();
                         if (f != null) {
@@ -87,10 +93,9 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        _players.load(this);
+        _players.load(this, _handler);
         _setup.load(this);
         _history.load(this, _handler);
-
     }
 
     @Override
@@ -250,6 +255,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         _players.save(this);
+        _players.notifyUpdate();
     }
 
     public void onNewGameStart()
