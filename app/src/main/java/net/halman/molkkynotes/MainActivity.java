@@ -26,6 +26,7 @@ import net.halman.molkkynotes.ui.main.ResultsFragment;
 import net.halman.molkkynotes.ui.main.SectionsPagerAdapter;
 import net.halman.molkkynotes.ui.main.TeamsFragment;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -262,6 +263,13 @@ public class MainActivity extends AppCompatActivity
     {
         // this is called from menu -> new game
         updatePlayersStatistics();
+
+        if (_game.roundOver()) {
+            File dir = getExternalFilesDir("history");
+            File path = new File(dir, _game.dateAsString() + ".csv");
+            _game.CSVExport(path.toString());
+            _history.reload();
+        }
 
         _game = new MolkkyGame();
         _game.setup(_setup);
