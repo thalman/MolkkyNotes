@@ -6,10 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <!-- item name="android:textStyle">bold</item -->
-        <!-- item name="android:textSize">20sp</item -->
-        <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
@@ -49,13 +45,10 @@
 
     <style name="BlackAndWhite" parent="@android:style/Theme.NoDisplay">
         <item name="android:textColor">#FFFFFF</item>
-        <!-- item name="android:background">#0a0a0a</item -->
-        <!-- item name="android:buttonStyle">@style/BlackAndWhite.Button</item -->
     </style>
 
     <style name="BlackAndWhite.Button">
         <item name="android:textColor">#FFFFFF</item>
-        <!-- item name="android:background">@drawable/button_frame</item -->
     </style>
 
 </resources>
