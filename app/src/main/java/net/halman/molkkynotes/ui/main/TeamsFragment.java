@@ -215,8 +215,12 @@ public class TeamsFragment extends Fragment {
         if (setup.playInTeams() && game.teams().size() > 0) {
             addPlayerToTeamDialog(p);
         } else {
-            game.addPlayer(p);
-            updateScreen();
+            if (game.teams().size() < 10) {
+                game.addPlayer(p);
+                updateScreen();
+            } else {
+                limitedTeamNumber(false);
+            }
         }
     }
 
@@ -377,7 +381,11 @@ public class TeamsFragment extends Fragment {
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
-                    game.addPlayer(player);
+                    if (game.teams().size() < 10) {
+                        game.addPlayer(player);
+                    } else {
+                        limitedTeamNumber(true);
+                    }
                 } else {
                     MolkkyTeam t = game.teams().get(which - 1);
                     t.addMember(player);
@@ -460,6 +468,29 @@ public class TeamsFragment extends Fragment {
 
         builder.show();
         return true;
+    }
+
+    private void limitedTeamNumber (boolean playInTeams) {
+        if (_listener == null) {
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
+        if (playInTeams) {
+            builder.setTitle(R.string.dialogNumberOfTeams);
+            builder.setMessage(R.string.dialogNumberOfTeamsDetail);
+        } else {
+            builder.setTitle(R.string.dialogNumberOfPlayers);
+            builder.setMessage(R.string.dialogNumberOfPlayersDetail);
+        }
+        builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
     }
 
 

@@ -84,6 +84,10 @@ to the rear, if the thrower goes forward and/or sideways, in other words over th
 frame, it is a foul and throw is (the) called as a miss (0 points).\n
 \nWhen the team has 37 points or more, foul will be penalized by dropping the points to 25.
     </string>
+    <string name="dialogNumberOfTeams">Too many teams!</string>
+    <string name="dialogNumberOfTeamsDetail">The application supports up to 10 teams in one game.</string>
+    <string name="dialogNumberOfPlayers">Too many players!</string>
+    <string name="dialogNumberOfPlayersDetail">The application supports up to 10 players in one game.</string>
 
     <!-- history -->
     <string name="historyDelete">Delete game record?</string>

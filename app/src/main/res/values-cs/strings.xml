@@ -85,6 +85,10 @@ a pokračuje ve hře.\n
 dozadu. Pokud by hráč šel dopředu a nebo do strany, jinými slovy přes vyznačené Mölkky
 odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou kuželku (0 bodů).\n
 \nPokud má hráč (tým) 37 bodů a více, je přešlap penalizován snížením skóre na 25 bodů.</string>
+    <string name="dialogNumberOfTeams">Příliš mnoho týmů!</string>
+    <string name="dialogNumberOfTeamsDetail">Aplikace podporuje hru maximálně deseti týmů.</string>
+    <string name="dialogNumberOfPlayers">Příliš mnoho hráčů!</string>
+    <string name="dialogNumberOfPlayersDetail">Aplikace podporuje hru maximálně deseti hráčů.</string>
 
     <!-- history -->
     <string name="historyDelete">Smazat hru?</string>
