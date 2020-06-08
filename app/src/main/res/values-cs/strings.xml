@@ -9,7 +9,7 @@
     <string name="tab_text_4">Historie</string>
 
     <!-- menu -->
-    <string name="menuStartNewGame">Nová hra</string>
+    <string name="menuStartNewGame">Nový zápas</string>
     <string name="menuPlayInTeams">Hra v týmech</string>
     <string name="menuRules">Pravidla hry</string>
     <string name="menuKeepScreenOn">Nezhasínat obrazovku</string>
@@ -20,7 +20,7 @@
     <string name="teamsWhoWillPlay">Kdo hraje</string>
     <string name="teamsAverage">~ %1$s</string>
     <string name="teamsGameInProgress">Už se hraje!</string>
-    <string name="teamsGameInProgressDeail">Není možné měnit týmy uprostřed hry. Použijte nabídku pro zahájení nové hry.</string>
+    <string name="teamsGameInProgressDeail">Není možné měnit týmy uprostřed zápasu. Použijte nabídku pro zahájení nového zápasu.</string>
 
     <!-- game screen -->
     <string name="gNext">Další:</string>
@@ -32,23 +32,22 @@
     <string name="gameChangeTheHitDetail">Opravdu změnit hodnotu?</string>
 
     <!-- results screen -->
-    <string name="resultsRound">Kolo</string>
-    <string name="resultsRoundWithNumber">%1$d. kolo</string>
-    <string name="resultsGame">Hra</string>
-    <string name="resultsNextRound">Další kolo</string>
-    <string name="resultsGameOver">Konec hry</string>
-    <string name="resultsNewGame">Nová hra</string>
-    <string name="resultsRoundInProgress">Další kolo nemůže začít!</string>
-    <string name="resultsRoundInProgressDetail">Aktuální kolo ještě neskončilo.</string>
-    <string name="resultsStartNewGame">Začít novou hru?</string>
-    <string name="resultsStartNewGameDetail">Hra bude ukončena a začne nová.</string>
+    <string name="resultsRound">Hra</string>
+    <string name="resultsRoundWithNumber">%1$d. hra</string>
+    <string name="resultsGame">Zápas</string>
+    <string name="resultsNextRound">Další hra</string>
+    <string name="resultsGameOver">Konec zápasu</string>
+    <string name="resultsRoundInProgress">Další hra nemůže začít!</string>
+    <string name="resultsRoundInProgressDetail">Aktuální hra ještě neskončilo.</string>
+    <string name="resultsStartNewGame">Začít nový zápas?</string>
+    <string name="resultsStartNewGameDetail">Zapas bude ukončen a začne nový.</string>
     <string name="resultsNoZeros">žádná nula</string>
     <plurals name="resultsZeros">
         <item quantity="one">%1$d nula</item>
         <item quantity="few">%1$d nuly</item>
         <item quantity="other">%1$d nul</item>
     </plurals>
-    <string name="resultsExportAs">Sdílet záznam hry</string>
+    <string name="resultsExportAs">Sdílet záznam zápasu</string>
 
     <!-- dialogs -->
     <string name="dAddPlayer">Nový hráč</string>
@@ -59,10 +58,10 @@
     <string name="dOK">OK</string>
     <string name="dAdd">Přidat</string>
     <string name="dCancel">Zrušit</string>
-    <string name="dialogStartNewGame">Začít novou hru?</string>
-    <string name="dialogRoundInProgress">Současné kolo není dohrané!</string>
+    <string name="dialogStartNewGame">Začít nový zápas?</string>
+    <string name="dialogRoundInProgress">Současná hra není dohraná!</string>
     <string name="dialogSetup">Nastavení</string>
-    <string name="dialogGoal">Cíl</string>
+    <string name="dialogGoal">Cíl hry</string>
     <string name="dialogPenaltyOver">Body při překročení cíle</string>
     <string name="dialogAddPlayerToTeam">Přidat hráče %1$s:</string>
     <string name="dialogNewTeam">Nový tým</string>
@@ -91,8 +90,8 @@ odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou
     <string name="dialogNumberOfPlayersDetail">Aplikace podporuje hru maximálně deseti hráčů.</string>
 
     <!-- history -->
-    <string name="historyDelete">Smazat hru?</string>
-    <string name="historyDeleteDetail">Záznam hry bude odstraněn.</string>
+    <string name="historyDelete">Smazat zápas?</string>
+    <string name="historyDeleteDetail">Záznam zápasu bude odstraněn.</string>
     <string name="historyShare">Sdílet prostřednictvím ...</string>
     <string-array name="historyExports">
         <item>CSV soubor</item>
@@ -103,8 +102,8 @@ odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou
     <string name="sheetTeams">Hráč/Tým</string>
     <string name="sheetPoints">Body</string>
     <string name="sheetScore">Skóre</string>
-    <string name="sheetRound">%1$d. kolo</string>
-    <string name="sheetGame">Hra</string>
+    <string name="sheetRound">%1$d. hra</string>
+    <string name="sheetGame">Zápas</string>
     <string name="sheetTotal">Celkem</string>
 
     <string name="emptyString"></string>

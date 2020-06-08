@@ -31,16 +31,15 @@
     <string name="gameChangeTheHitDetail">Do you really want to change the hit?</string>
 
     <!-- results screen -->
-    <string name="resultsRound">Round</string>
-    <string name="resultsRoundWithNumber">Round %1$d</string>
+    <string name="resultsRound">Set</string>
+    <string name="resultsRoundWithNumber">Set %1$d</string>
     <string name="resultsGame">Game</string>
-    <string name="resultsNextRound">Next Round</string>
-    <string name="resultsGameOver">End Of Game</string>
-    <string name="resultsNewGame">New game</string>
-    <string name="resultsRoundInProgress">Next round can\'t be started!</string>
-    <string name="resultsRoundInProgressDetail">Current round is not finished yet.</string>
+    <string name="resultsNextRound">Next Set</string>
+    <string name="resultsGameOver">End Of The Game</string>
+    <string name="resultsRoundInProgress">Next set can\'t be started!</string>
+    <string name="resultsRoundInProgressDetail">Current set is not finished yet.</string>
     <string name="resultsStartNewGame">Start new game?</string>
-    <string name="resultsStartNewGameDetail">End the game and starte new one.</string>
+    <string name="resultsStartNewGameDetail">End the game and start a new one.</string>
     <string name="resultsNoZeros">no zeros</string>
     <plurals name="resultsZeros">
         <item quantity="one">%1$d zero</item>
@@ -58,7 +57,7 @@
     <string name="dAdd">Add</string>
     <string name="dCancel">Cancel</string>
     <string name="dialogStartNewGame">Start new game?</string>
-    <string name="dialogRoundInProgress">Current round is not finished!</string>
+    <string name="dialogRoundInProgress">Current set is not finished!</string>
     <string name="dialogSetup">Game setup</string>
     <string name="dialogGoal">Goal</string>
     <string name="dialogPenaltyOver">Penalty when over goal</string>
@@ -103,7 +102,7 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="sheetTeams">Player/Team</string>
     <string name="sheetPoints">Points</string>
     <string name="sheetScore">Score</string>
-    <string name="sheetRound">Round %1$d</string>
+    <string name="sheetRound">Set %1$d</string>
     <string name="sheetGame">Game</string>
     <string name="sheetTotal">Total</string>
 
