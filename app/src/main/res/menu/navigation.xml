@@ -10,6 +10,10 @@
         android:checkable="true"
         android:title="@string/menuPlayInTeams" />
     <item
+        android:id="@+id/menuAutoForward"
+        android:checkable="true"
+        android:title="@string/menuAutoForward" />
+    <item
         android:id="@+id/menuKeepScreenOn"
         android:checkable="true"
         android:title="@string/menuKeepScreenOn" />

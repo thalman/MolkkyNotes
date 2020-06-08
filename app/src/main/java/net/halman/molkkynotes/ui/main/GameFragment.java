@@ -260,6 +260,7 @@ public class GameFragment extends Fragment {
         if (game.hit().hit() == MolkkyHit.NOTPLAYED) {
             game.hit(value);
             updateScreen();
+            _listener.scheduleForwardMove();
         } else {
             hitChangeDialog(value);
         }
@@ -307,6 +308,12 @@ public class GameFragment extends Fragment {
     }
 
     private void onButtonClick(int button) {
+        if (_listener == null) {
+            return;
+        }
+
+        _listener.cancelForwardMove();
+        
         switch (button) {
             case R.id.gButton0:
                 setGameHit(0);
@@ -362,5 +369,7 @@ public class GameFragment extends Fragment {
     public interface OnGameFragmentInteractionListener {
         MolkkyGame game();
         void switchTab(int tab);
+        void scheduleForwardMove();
+        void cancelForwardMove();
     }
 }

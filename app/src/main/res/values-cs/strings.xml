@@ -11,6 +11,7 @@
     <!-- menu -->
     <string name="menuStartNewGame">Nový zápas</string>
     <string name="menuPlayInTeams">Hra v týmech</string>
+    <string name="menuAutoForward">Automatický posun vpřed</string>
     <string name="menuRules">Pravidla hry</string>
     <string name="menuKeepScreenOn">Nezhasínat obrazovku</string>
     <string name="menuPreferences">Nastavení</string>

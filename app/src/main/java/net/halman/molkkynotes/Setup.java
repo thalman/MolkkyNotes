@@ -13,6 +13,7 @@ public class Setup {
     private int _penaltyWhenOverGoal = 25;
     private int _penaltyFor3Zeros = ELIMINATION;
     private boolean _keep_screen_on = false;
+    private boolean _auto_forward = false;
 
     public int penaltyOverGoal()
     {
@@ -48,6 +49,16 @@ public class Setup {
         _playInTeams = playInTeams;
     }
 
+    public boolean autoForward()
+    {
+        return _auto_forward;
+    }
+
+    public void autoForward(boolean autoforward)
+    {
+        _auto_forward = autoforward;
+    }
+
     public int goal()
     {
         return _goal;
@@ -77,6 +88,7 @@ public class Setup {
         editor.putInt("penalty-when-over", _penaltyWhenOverGoal);
         editor.putInt("penalty-for-3-zeros", _penaltyFor3Zeros);
         editor.putBoolean("keep-screen-on", _keep_screen_on);
+        editor.putBoolean("auto-forward", _auto_forward);
         editor.apply();
     }
 
@@ -88,5 +100,6 @@ public class Setup {
         _penaltyWhenOverGoal = sharedPref.getInt("penalty-when-over", 25);
         penaltyFor3Zeros(sharedPref.getInt("penalty-for-3-zeros", ELIMINATION));
         _keep_screen_on =  sharedPref.getBoolean("keep-screen-on", false);
+        _auto_forward =  sharedPref.getBoolean("auto-forward", false);
     }
 }

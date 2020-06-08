@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
         ResultsFragment.OnResultsFragmentInteractionListener,
         HistoryFragment.OnHistoryFragmentInteractionListener
 {
+    static final int MOVE_FORWARD = 3;
 
     private MolkkyGame _game = new MolkkyGame();
     private Players _players = new Players();
@@ -88,6 +89,11 @@ public class MainActivity extends AppCompatActivity
                             f.notifyGameSaved();
                         }
                         break;
+                    case MOVE_FORWARD:
+                        GameFragment g = gameFragment();
+                        if (g != null) {
+                            g.gameStepForward();
+                        }
                     default:
                         super.handleMessage(inputMessage);
                 }
@@ -107,6 +113,8 @@ public class MainActivity extends AppCompatActivity
         i.setChecked(_setup.playInTeams());
         i = menu.findItem(R.id.menuKeepScreenOn);
         i.setChecked(_setup.keepScreenOn());
+        i = menu.findItem(R.id.menuAutoForward);
+        i.setChecked(_setup.autoForward());
         return true;
     }
 
@@ -121,6 +129,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.menuPlayInTeams:
                 item.setChecked(!item.isChecked());
                 _setup.playInTeams(item.isChecked());
+                break;
+            case R.id.menuAutoForward:
+                item.setChecked(!item.isChecked());
+                _setup.autoForward(item.isChecked());
                 break;
             case R.id.menuRules:
                 onRules();
@@ -399,5 +411,20 @@ public class MainActivity extends AppCompatActivity
     public void historySaveStatus(String file)
     {
         _history_open_file = file;
+    }
+
+    public void scheduleForwardMove()
+    {
+        if (_setup.autoForward()) {
+            cancelForwardMove();
+            _handler.sendEmptyMessageDelayed(3, 2500);
+        }
+    }
+
+    public void cancelForwardMove()
+    {
+        if (_setup.autoForward()) {
+            _handler.removeMessages(MOVE_FORWARD);
+        }
     }
 }
