@@ -261,6 +261,21 @@ public class MolkkyGame implements Serializable {
         return true;
     }
 
+    public void stripUnfinishedRound()
+    {
+        if (_current_round == 0) {
+            return;
+        }
+
+        MolkkyRound r = currentRound();
+        if (r != null) {
+            if (!r.over()) {
+                _rounds.remove(r);
+                _current_round--;
+            }
+        }
+    }
+
     public ArrayList<MolkkyTeam> roundTeamOrder()
     {
         MolkkyRound r = currentRound();

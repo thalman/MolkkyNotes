@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity
     {
         // this is called from menu -> new game
         updatePlayersStatistics();
-
+        _game.stripUnfinishedRound();
         if (_game.roundOver()) {
             File dir = getExternalFilesDir("history");
             File path = new File(dir, _game.dateAsString() + ".csv");
