@@ -23,6 +23,7 @@ public class History {
 
     private class HistoryItem {
         String path = "";
+        String filename = "";
         String name = "";
     }
 
@@ -50,13 +51,14 @@ public class History {
                 HistoryItem i = new HistoryItem();
                 i.path = F.getAbsolutePath();
                 i.name = niceDate(MolkkyGame.CVSDate(F.getAbsolutePath())) + " - " + MolkkyGame.CVSTitle(F.getAbsolutePath());
+                i.filename = F.getName();
                 _history_items.add(i);
             }
 
             Collections.sort(_history_items, new Comparator<HistoryItem>() {
                 @Override
                 public int compare(HistoryItem t0, HistoryItem t1) {
-                    return t1.name.compareTo(t0.name);
+                    return t1.filename.compareTo(t0.filename);
                 }
             });
 
