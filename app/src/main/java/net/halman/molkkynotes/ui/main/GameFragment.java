@@ -26,6 +26,7 @@ public class GameFragment extends Fragment {
     private ImageView _setup = null;
     private TextView _current_player = null;
     private TextView _next_player = null;
+    private TextView _next_score = null;
     private TextView _current_score = null;
     private TextView _current_hit = null;
     private TextView _current_round = null;
@@ -78,6 +79,7 @@ public class GameFragment extends Fragment {
         _setup = topView.findViewById(R.id.gameSetup);
         _current_player = topView.findViewById(R.id.currentPlayer);
         _next_player = topView.findViewById(R.id.gNextPlayer);
+        _next_score = topView.findViewById(R.id.gNextScore);
         _next_player_layout = topView.findViewById(R.id.gNextLayout);
         _current_score = topView.findViewById(R.id.currentScore);
         _current_hit = topView.findViewById(R.id.currentPoints);
@@ -185,7 +187,11 @@ public class GameFragment extends Fragment {
 
             MolkkyTeam t;
             t = game.nextTeam();
-            _next_player.setText(t != null ? t.name() : "");
+            if (t != null) {
+                _next_player.setText(t.name());
+                int points = game.roundTeamScore(t);
+                _next_score.setText(getString(R.string.gNextScore, points, game.goal() - points));
+            }
 
             t = game.currentTeam();
             if (t != null) {
