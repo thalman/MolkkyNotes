@@ -141,12 +141,15 @@ public class GameFragment extends Fragment {
                 return getResources().getQuantityString(R.plurals.resultsZeros, 1, 1);
             case MolkkyRound.TWOZEROS:
                 if (game.hit().hit() == MolkkyHit.NOTPLAYED) {
-                    Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
-                    } else {
-                        //deprecated in API 26
-                        v.vibrate(300);
+                    Context context = getContext();
+                    if (context != null) {
+                        Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
+                        } else {
+                            //deprecated in API 26
+                            v.vibrate(300);
+                        }
                     }
                 }
                 return getResources().getQuantityString(R.plurals.resultsZeros, 2, 2);
