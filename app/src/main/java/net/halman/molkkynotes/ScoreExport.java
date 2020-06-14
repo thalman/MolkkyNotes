@@ -43,8 +43,16 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
         StaticLayout sl = new StaticLayout(text, tp, width,
                 centered ? Layout.Alignment.ALIGN_CENTER : Layout.Alignment.ALIGN_NORMAL,
                 1.0f, 0.0f, false);
-
         int h = sl.getHeight();
+        while (h > y2 - y1 && fontSize > 1) {
+            fontSize--;
+            tp.setTextSize(fontSize);
+            sl = new StaticLayout(text, tp, width,
+                    centered ? Layout.Alignment.ALIGN_CENTER : Layout.Alignment.ALIGN_NORMAL,
+                    1.0f, 0.0f, false);
+            h = sl.getHeight();
+        }
+
         _canvas.save();
         _canvas.translate(x1, y1 + (height - h) / 2);
         sl.draw(_canvas);
