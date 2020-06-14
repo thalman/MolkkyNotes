@@ -767,4 +767,15 @@ public class MolkkyGame implements Serializable {
             return null;
         }
     }
+
+    public String orderedTeamName(MolkkyTeam team, int offset)
+    {
+        MolkkyRound round = currentRound();
+        if (round == null) {
+            return "";
+        }
+
+        return round.orderedTeamName(team, offset);
+    }
+
 }

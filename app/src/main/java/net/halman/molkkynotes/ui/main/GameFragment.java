@@ -191,14 +191,14 @@ public class GameFragment extends Fragment {
             MolkkyTeam t;
             t = game.nextTeam();
             if (t != null) {
-                _next_player.setText(t.name());
+                _next_player.setText(game.orderedTeamName(t, +1));
                 int points = game.roundTeamScore(t);
                 _next_score.setText(getString(R.string.gNextScore, points, game.goal() - points));
             }
 
             t = game.currentTeam();
             if (t != null) {
-                _current_player.setText(t.name());
+                _current_player.setText(game.orderedTeamName(t, 0));
 
                 int points = game.roundTeamScore(t);
                 int left = game.goal() - points;
