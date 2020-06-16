@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +20,18 @@ import android.widget.TextView;
 
 import net.halman.molkkynotes.MolkkyGame;
 import net.halman.molkkynotes.MolkkyHit;
+import net.halman.molkkynotes.MolkkyPlayer;
 import net.halman.molkkynotes.MolkkyRound;
 import net.halman.molkkynotes.MolkkyTeam;
 import net.halman.molkkynotes.R;
+
+import java.util.ArrayList;
 
 public class GameFragment extends Fragment {
     private OnGameFragmentInteractionListener _listener;
     private ImageView _setup = null;
     private TextView _current_player = null;
     private TextView _next_player = null;
-    private TextView _next_score = null;
     private TextView _current_score = null;
     private TextView _current_hit = null;
     private TextView _current_round = null;
@@ -79,7 +84,6 @@ public class GameFragment extends Fragment {
         _setup = topView.findViewById(R.id.gameSetup);
         _current_player = topView.findViewById(R.id.currentPlayer);
         _next_player = topView.findViewById(R.id.gNextPlayer);
-        _next_score = topView.findViewById(R.id.gNextScore);
         _next_player_layout = topView.findViewById(R.id.gNextLayout);
         _current_score = topView.findViewById(R.id.currentScore);
         _current_hit = topView.findViewById(R.id.currentPoints);
@@ -158,6 +162,80 @@ public class GameFragment extends Fragment {
         }
     }
 
+    private void updateNextPlayer()
+    {
+        if (_listener == null) {
+            return;
+        }
+
+        MolkkyGame game = _listener.game();
+        MolkkyTeam team = game.nextTeam();
+        if (team == null) {
+            _next_player.setText("");
+            return;
+        }
+
+        ArrayList<MolkkyPlayer> members = game.inTurnTeamMembers(team, +1);
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        int start = 0;
+
+        String text = getString(R.string.gNext);
+        ssb.append(text);
+        start += text.length();
+
+        int points = game.roundTeamScore(team);
+        text = " " + members.get(0).name() + " (" + points + "/" + (game.goal() - points) + ")";
+        ssb.append(text);
+        ssb.setSpan(new RelativeSizeSpan(1.2f), start, start + text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // start += text.length();
+
+        if (members.size() > 1) {
+            StringBuilder textb = new StringBuilder();
+            for (int i = 1; i < members.size(); ++i) {
+                textb.append(", ").append(members.get(i).name());
+            }
+
+            ssb.append(textb);
+            // start += textb.length();
+        }
+        _next_player.setText(ssb, TextView.BufferType.SPANNABLE);
+    }
+
+    private void updateCurrentPlayer()
+    {
+        if (_listener == null) {
+            return;
+        }
+
+        MolkkyGame game = _listener.game();
+        MolkkyTeam team = game.currentTeam();
+        if (team == null || team.size() == 0) {
+            _current_player.setText("");
+            return;
+        }
+
+        ArrayList<MolkkyPlayer> members = game.inTurnTeamMembers(team, +1);
+        SpannableStringBuilder ssb = new SpannableStringBuilder();
+        int start = 0;
+
+        String text = members.get(0).name();
+        ssb.append(text);
+        start += text.length();
+
+
+        if (members.size() > 1) {
+            StringBuilder textb = new StringBuilder();
+            for (int i = 1; i < members.size(); ++i) {
+                textb.append(", ").append(members.get(i).name());
+            }
+
+            ssb.append(textb);
+            ssb.setSpan(new RelativeSizeSpan(0.83f), start, start + textb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            // start += textb.length();
+        }
+        _current_player.setText(ssb, TextView.BufferType.SPANNABLE);
+    }
+
     public void updateScreen()
     {
         if (_listener == null) {
@@ -188,18 +266,12 @@ public class GameFragment extends Fragment {
                 _buttons[i].active(true);
             }
 
-            MolkkyTeam t;
-            t = game.nextTeam();
-            if (t != null) {
-                _next_player.setText(game.orderedTeamName(t, +1));
-                int points = game.roundTeamScore(t);
-                _next_score.setText(getString(R.string.gNextScore, points, game.goal() - points));
-            }
+            updateNextPlayer();
+            updateCurrentPlayer();
 
+            MolkkyTeam t;
             t = game.currentTeam();
             if (t != null) {
-                _current_player.setText(game.orderedTeamName(t, 0));
-
                 int points = game.roundTeamScore(t);
                 int left = game.goal() - points;
                 String text;

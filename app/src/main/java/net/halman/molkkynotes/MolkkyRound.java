@@ -356,27 +356,20 @@ public class MolkkyRound implements Serializable {
         return _hits.size();
     }
 
-    public String orderedTeamName(MolkkyTeam team, int offset)
+    public ArrayList<MolkkyPlayer> inTurnTeamMembers(MolkkyTeam team, int offset)
     {
+        ArrayList<MolkkyPlayer> result = new ArrayList<>();
         ArrayList<MolkkyPlayer> members = team.members();
         int hit_round = (_current + offset) / _teams.size();
         int idx = hit_round % members.size();
-        StringBuilder name = new StringBuilder();
-        name.append(members.get(idx).name());
-        if (members.size() > 1) {
-            name.append(" (");
-            String prefix = "";
-            for (int i = idx + 1; i < members.size(); i++) {
-                name.append(prefix).append(members.get(i).name());
-                prefix = ", ";
-            }
-            for (int i = 0; i < idx; i++) {
-                name.append(prefix).append(members.get(i).name());
-                prefix = ", ";
-            }
-            name.append(")");
+        result.add(members.get(idx));
+        for (int i = idx + 1; i < members.size(); i++) {
+            result.add(members.get(i));
+        }
+        for (int i = 0; i < idx; i++) {
+            result.add(members.get(i));
         }
 
-        return name.toString();
+        return result;
     }
 }

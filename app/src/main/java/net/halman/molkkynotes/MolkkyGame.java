@@ -768,14 +768,14 @@ public class MolkkyGame implements Serializable {
         }
     }
 
-    public String orderedTeamName(MolkkyTeam team, int offset)
+    public ArrayList<MolkkyPlayer> inTurnTeamMembers(MolkkyTeam team, int offset)
     {
         MolkkyRound round = currentRound();
         if (round == null) {
-            return "";
+            return null;
         }
 
-        return round.orderedTeamName(team, offset);
+        return round.inTurnTeamMembers(team, offset);
     }
 
 }
