@@ -55,7 +55,7 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public synchronized View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View topView = inflater.inflate(R.layout.fragment_history, container, false);
         _history_list_view = topView.findViewById(R.id.historyItemsView);
@@ -120,7 +120,7 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public synchronized void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof HistoryFragment.OnHistoryFragmentInteractionListener) {
             _listener = (HistoryFragment.OnHistoryFragmentInteractionListener) context;
@@ -131,7 +131,7 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
+    public synchronized void onDetach() {
         super.onDetach();
         _listener = null;
     }
@@ -162,13 +162,15 @@ public class HistoryFragment extends Fragment {
         updateScreen();
     }
 
-    public void notifyGameSaved()
+    public synchronized void notifyGameSaved()
     {
         if (_listener == null) {
             return;
         }
 
-        _history_adapter.notifyDataSetChanged();
+        if (_history_adapter != null) {
+            _history_adapter.notifyDataSetChanged();
+        }
     }
 
     public void updateScreen() {
