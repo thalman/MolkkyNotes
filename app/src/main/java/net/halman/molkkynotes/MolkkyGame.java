@@ -778,4 +778,30 @@ public class MolkkyGame implements Serializable {
         return round.inTurnTeamMembers(team, offset);
     }
 
+    public void expandTeams()
+    {
+        int idx = 0;
+        while (idx < _teams.size()) {
+            MolkkyTeam team = _teams.get(idx);
+            if (team.size() > 1) {
+                _teams.remove(idx);
+                for (MolkkyPlayer player: team.members())
+                {
+                    MolkkyTeam new_team = new MolkkyTeam();
+                    new_team.addMember(player);
+                    _teams.add(idx, new_team);
+                    ++idx;
+                }
+            }
+            ++idx;
+        }
+    }
+
+    public void roundSaveTeams()
+    {
+        MolkkyRound round = currentRound();
+        if (round != null) {
+            round.saveTeams();
+        }
+    }
 }

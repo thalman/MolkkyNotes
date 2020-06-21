@@ -366,10 +366,26 @@ public class MolkkyRound implements Serializable {
         for (int i = idx + 1; i < members.size(); i++) {
             result.add(members.get(i));
         }
+
         for (int i = 0; i < idx; i++) {
             result.add(members.get(i));
         }
 
         return result;
+    }
+
+    public void saveTeams()
+    {
+        ArrayList<MolkkyTeam> copy = new ArrayList<>();
+        for (MolkkyTeam team: _teams) {
+            MolkkyTeam copy_team = new MolkkyTeam();
+            for (MolkkyPlayer player: team.members()) {
+                copy_team.addMember(player);
+            }
+
+            copy.add(copy_team);
+        }
+
+        _teams = copy;
     }
 }

@@ -22,6 +22,14 @@ public class MolkkyTeam implements Serializable {
         _members.add(new MolkkyPlayer(P));
     }
 
+    public void addMember (int index, MolkkyPlayer P) {
+        if (P == null || hasPlayer(P)) {
+            return;
+        }
+
+        _members.add(index, new MolkkyPlayer(P));
+    }
+
     ArrayList <String> memberNames () {
         ArrayList <String> result = new ArrayList <String> ();
         for (int i = _current; i < _members.size(); i++) {
@@ -67,24 +75,34 @@ public class MolkkyTeam implements Serializable {
         return result.toString();
     }
 
-    public boolean hasPlayer(MolkkyPlayer player)
+    public int getPlayersIndex(String player)
     {
         for (MolkkyPlayer member: _members) {
-            if (member.equals(player)) {
-                return true;
+            if (member.name().equals(player)) {
+                return _members.indexOf(member);
             }
         }
-        return false;
+
+        return -1;
+    }
+
+    public int getPlayersIndex(MolkkyPlayer player)
+    {
+        if (player == null) {
+            return -1;
+        }
+
+        return getPlayersIndex(player.name());
+    }
+
+    public boolean hasPlayer(MolkkyPlayer player)
+    {
+        return (getPlayersIndex(player) >= 0);
     }
 
     public boolean hasPlayer(String player)
     {
-        for (MolkkyPlayer member: _members) {
-            if (member.name().equals(player)) {
-                return true;
-            }
-        }
-        return false;
+        return (getPlayersIndex(player) >= 0);
     }
 
     public void removePlayer(String name)
@@ -102,6 +120,13 @@ public class MolkkyTeam implements Serializable {
         removePlayer(p.name());
     }
 
+    public void removePlayer(int index)
+    {
+        if (index >= 0 && index < _members.size()) {
+            _members.remove(index);
+        }
+    }
+
     public ArrayList<MolkkyPlayer> members()
     {
         return _members;
@@ -111,4 +136,5 @@ public class MolkkyTeam implements Serializable {
     {
         return _members.size();
     }
+
 }
