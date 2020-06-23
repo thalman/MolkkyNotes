@@ -18,12 +18,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import net.halman.molkkynotes.ui.main.GameFragment;
 import net.halman.molkkynotes.ui.main.HistoryFragment;
 import net.halman.molkkynotes.ui.main.ResultsFragment;
 import net.halman.molkkynotes.ui.main.SectionsPagerAdapter;
+import net.halman.molkkynotes.ui.main.TeamListDialog;
 import net.halman.molkkynotes.ui.main.TeamsFragment;
 
 import java.io.File;
@@ -133,6 +137,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.menuAutoForward:
                 item.setChecked(!item.isChecked());
                 _setup.autoForward(item.isChecked());
+                break;
+            case R.id.menuChangeStartingTeam:
+                onChangeStartingTeam();
                 break;
             case R.id.menuRules:
                 onRules();
@@ -343,8 +350,31 @@ public class MainActivity extends AppCompatActivity
         goal.setText(Integer.toString(_setup.goal()));
         EditText penalty = dialog_layout.findViewById(R.id.penaltyOverValue);
         penalty.setText(Integer.toString(_setup.penaltyOverGoal()));
-        builder.setView(dialog_layout);
+        Spinner spinner = dialog_layout.findViewById(R.id.setupNextSetTeamValue);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+               R.array.dialogNextSetTeamValues, R.layout.white_spinner);
+        adapter.setDropDownViewResource(R.layout.white_spinner_dropdown);
+        spinner.setAdapter(adapter);
 
+        final int[] next_set_start_team_candidate = new int[1];
+        next_set_start_team_candidate[0] = _setup.nextSetStartingTeam();
+        spinner.setSelection(next_set_start_team_candidate[0]);
+
+        Spinner.OnItemSelectedListener spinnerListener = new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                next_set_start_team_candidate[0] = pos;
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Empty interface callback
+            }
+        };
+
+        spinner.setOnItemSelectedListener(spinnerListener);
+
+        builder.setView(dialog_layout);
         builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -360,6 +390,7 @@ public class MainActivity extends AppCompatActivity
                     _setup.goal(g);
                     _setup.penaltyOverGoal(p);
                     _setup.save(activity);
+                    _setup.nextSetStartingTeam(next_set_start_team_candidate[0]);
                     _game.setup(_setup);
                 } catch (Exception e) {
                     Log.d("MA", e.toString());
@@ -400,6 +431,38 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        builder.show();
+    }
+
+    private void onChangeStartingTeam()
+    {
+        if (_game.roundStarted()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MolkkyAlertDialogStyle);
+            builder.setTitle(R.string.dialogRoundInProgress);
+            builder.setTitle(R.string.dialogRoundInProgressChangeTeam);
+            builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            builder.show();
+            return;
+        }
+
+        AlertDialog.Builder builder = TeamListDialog.getBuilder(this, _game.teams(), false, new TeamListDialog.OnTeamSelectedListener() {
+            @Override
+            public void onTeamSelected(int which) {
+                _game.changeCurrentRoundTeams(which);
+                GameFragment gf = gameFragment();
+                if (gf != null) {
+                    gf.updateScreen();
+                }
+            }
+        });
+
+        builder.setTitle(R.string.dialogNextSetTeam);
         builder.show();
     }
 

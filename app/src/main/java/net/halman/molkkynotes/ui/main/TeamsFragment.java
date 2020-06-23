@@ -55,7 +55,7 @@ public class TeamsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public synchronized View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View result = inflater.inflate(R.layout.fragment_teams, container, false);
@@ -158,7 +158,7 @@ public class TeamsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public synchronized void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             _listener = (OnFragmentInteractionListener) context;
@@ -169,7 +169,7 @@ public class TeamsFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
+    public synchronized void onDetach() {
         super.onDetach();
         _listener = null;
     }
@@ -182,13 +182,15 @@ public class TeamsFragment extends Fragment {
         }
     }
 
-    public void notifyPlayersChanged()
+    public synchronized void notifyPlayersChanged()
     {
         if (_listener == null) {
             return;
         }
 
-        _players_adapter.notifyDataSetChanged();
+        if (_players_adapter != null) {
+            _players_adapter.notifyDataSetChanged();
+        }
     }
 
 
@@ -355,33 +357,21 @@ public class TeamsFragment extends Fragment {
         }
 
         final MolkkyGame game = _listener.game();
-        CharSequence [] items = new CharSequence [game.teams().size() + 1];
-        items[0] = getString(R.string.dialogNewTeam);
         final MolkkyPlayer player = new MolkkyPlayer(p);
-
-        for (int i = 0; i < game.teams().size(); ++i) {
-             items[i+1] = game.teams().get(i).name();
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
-        builder.setTitle(getString(R.string.dialogAddPlayerToTeam, p.name()));
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    if (game.teams().size() < 10) {
-                        game.addPlayer(player);
-                    } else {
-                        limitedTeamNumber(true);
-                    }
+        AlertDialog.Builder builder = TeamListDialog.getBuilder(getContext(), game.teams(), true, new TeamListDialog.OnTeamSelectedListener() {
+            @Override
+            public void onTeamSelected(int which) {
+                if (which == game.teams().size()) {
+                    game.addPlayer(player);
                 } else {
-                    MolkkyTeam t = game.teams().get(which - 1);
+                    MolkkyTeam t = game.teams().get(which);
                     t.addMember(player);
                 }
                 updateScreen();
-                dialog.dismiss();
             }
         });
 
+        builder.setTitle(getString(R.string.dialogAddPlayerToTeam, p.name()));
         builder.show();
     }
 

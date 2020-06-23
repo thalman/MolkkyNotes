@@ -4,16 +4,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import net.halman.molkkynotes.MolkkyGame;
+import net.halman.molkkynotes.MolkkyTeam;
 import net.halman.molkkynotes.R;
+import net.halman.molkkynotes.Setup;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,12 +53,12 @@ public class ResultsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_results, container, false);
         _next_round = v.findViewById(R.id.resultNextRound);
         _next_round.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onNextRound();
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onNextRound();
+                    }
                 }
-            }
         );
 
         _game_over = v.findViewById(R.id.resultGameOver);
@@ -110,8 +113,7 @@ public class ResultsFragment extends Fragment {
         }
     }
 
-    public void updateScreen()
-    {
+    public void updateScreen() {
         if (_listener == null) {
             return;
         }
@@ -128,35 +130,57 @@ public class ResultsFragment extends Fragment {
         }
     }
 
-    private void roundInProgressInfoDialog()
-    {
+    private void roundInProgressInfoDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle).create();
         alertDialog.setTitle(R.string.resultsRoundInProgress);
         alertDialog.setMessage(getString(R.string.resultsRoundInProgressDetail));
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.dOK),
-            new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
         alertDialog.show();
 
     }
 
-    private void onNextRound()
-    {
+    private void onNextRound() {
         if (_listener == null) {
             return;
         }
 
-        MolkkyGame g = _listener.game();
-        if (! g.roundOver()) {
+        final MolkkyGame game = _listener.game();
+        if (!game.roundOver()) {
             roundInProgressInfoDialog();
             return;
         }
 
-        g.startNextRound();
-        _listener.switchTab(1);
+        boolean ask = false;
+        switch (_listener.setup().nextSetStartingTeam()) {
+            case Setup.NEXT_SET_STARTING_ASK_ME:
+                ask = true;
+                break;
+            case Setup.NEXT_SET_STARTING_NEXT:
+            default:
+                game.startNextRound();
+                _listener.switchTab(1);
+                break;
+        }
+
+        if (ask) {
+            AlertDialog.Builder b = TeamListDialog.getBuilder(getContext(), game.teams(), false, new TeamListDialog.OnTeamSelectedListener() {
+                @Override
+                public void onTeamSelected(int which) {
+                    if (_listener != null) {
+                        game.startNextRound();
+                        game.changeCurrentRoundTeams(which);
+                        _listener.switchTab(1);
+                    }
+                }
+            });
+            b.setTitle(R.string.dialogNextSetTeam);
+            b.show();
+        }
     }
 
     private void onGameOver() {
@@ -188,8 +212,13 @@ public class ResultsFragment extends Fragment {
      */
     public interface OnResultsFragmentInteractionListener {
         MolkkyGame game();
+
         void switchTab(int tab);
+
         void onGameOver();
+
         void historySaveStatus(String file);
+
+        Setup setup();
     }
 }

@@ -14,55 +14,103 @@
         style="@style/MolkkyAlertDialogStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="0dp">
 
         <TextView
             android:id="@+id/goalLabel"
             style="@style/MolkkyAlertDialogStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/dialogGoal" />
 
         <EditText
             android:id="@+id/goalValue"
             style="@style/MolkkyEditTextStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
             android:gravity="end"
             android:hint="@string/emptyString"
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
+            android:minWidth="60dp"
             android:textCursorDrawable="@null" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray" />
 
     <LinearLayout
         style="@style/MolkkyAlertDialogStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/penaltyOverLabel"
             style="@style/MolkkyAlertDialogStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/dialogPenaltyOver" />
 
         <EditText
             android:id="@+id/penaltyOverValue"
             style="@style/MolkkyEditTextStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="end"
             android:hint="@string/emptyString"
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
+            android:minWidth="60dp"
             android:textCursorDrawable="@null" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray" />
+
+    <LinearLayout
+        style="@style/MolkkyAlertDialogStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/setupNextSetTeamLabel"
+            style="@style/MolkkyAlertDialogStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dialogNextSetTeamLabel" />
+
+        <Spinner
+            android:id="@+id/setupNextSetTeamValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:minWidth="60dp"
+            android:spinnerMode="dropdown"
+            android:textCursorDrawable="@null" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGray"
+        android:text="@string/tab_text_1" />
+
 
 </LinearLayout>

@@ -59,7 +59,7 @@ public class GameFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public synchronized View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View topView = inflater.inflate(R.layout.fragment_game, container, false);
 
@@ -95,7 +95,7 @@ public class GameFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public synchronized void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnGameFragmentInteractionListener) {
             _listener = (OnGameFragmentInteractionListener) context;
@@ -106,7 +106,7 @@ public class GameFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
+    public synchronized void onDetach() {
         super.onDetach();
         _listener = null;
     }
@@ -357,7 +357,7 @@ public class GameFragment extends Fragment {
         updateScreen();
     }
 
-    public void gameStepForward()
+    public synchronized void gameStepForward()
     {
         if (_listener == null) {
             return;
