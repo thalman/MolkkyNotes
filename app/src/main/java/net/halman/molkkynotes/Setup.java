@@ -8,12 +8,16 @@ public class Setup {
     final static int ELIMINATION = 0;
     final static int ZEROPOINTS = 1;
 
+    public final static int NEXT_SET_STARTING_NEXT = 0;
+    public final static int NEXT_SET_STARTING_ASK_ME = 1;
+
     private boolean _playInTeams = false;
     private int _goal = 50;
     private int _penaltyWhenOverGoal = 25;
     private int _penaltyFor3Zeros = ELIMINATION;
     private boolean _keep_screen_on = false;
     private boolean _auto_forward = false;
+    private int _next_set_starting_team = NEXT_SET_STARTING_NEXT;
 
     public int penaltyOverGoal()
     {
@@ -89,6 +93,7 @@ public class Setup {
         editor.putInt("penalty-for-3-zeros", _penaltyFor3Zeros);
         editor.putBoolean("keep-screen-on", _keep_screen_on);
         editor.putBoolean("auto-forward", _auto_forward);
+        editor.putInt("next-set-starting-team", _next_set_starting_team);
         editor.apply();
     }
 
@@ -101,5 +106,18 @@ public class Setup {
         penaltyFor3Zeros(sharedPref.getInt("penalty-for-3-zeros", ELIMINATION));
         _keep_screen_on =  sharedPref.getBoolean("keep-screen-on", false);
         _auto_forward =  sharedPref.getBoolean("auto-forward", false);
+        _next_set_starting_team = sharedPref.getInt("next-set-starting-team", NEXT_SET_STARTING_NEXT);
+    }
+
+    public void nextSetStartingTeam(int the_way)
+    {
+        if (the_way >= NEXT_SET_STARTING_NEXT && the_way <= NEXT_SET_STARTING_ASK_ME) {
+            _next_set_starting_team = the_way;
+        }
+    }
+
+    public int nextSetStartingTeam()
+    {
+        return _next_set_starting_team;
     }
 }

@@ -11,6 +11,7 @@
     <string name="menuStartNewGame">New Game</string>
     <string name="menuPlayInTeams">Play in teams</string>
     <string name="menuAutoForward">Move forward automatically</string>
+    <string name="menuChangeStartingTeam">Change staring team</string>
     <string name="menuRules">Mölkky Rules</string>
     <string name="menuKeepScreenOn">Keep screen on</string>
     <string name="menuPreferences">Setup</string>
@@ -60,9 +61,16 @@
     <string name="dCancel">Cancel</string>
     <string name="dialogStartNewGame">Start new game?</string>
     <string name="dialogRoundInProgress">Current set is not finished!</string>
+    <string name="dialogRoundInProgressChangeTeam">It is not possible to change the starting team in the middle of the set.</string>
     <string name="dialogSetup">Game setup</string>
     <string name="dialogGoal">Goal</string>
     <string name="dialogPenaltyOver">Penalty when over goal</string>
+    <string name="dialogNextSetTeamLabel">Who starts the set</string>
+    <string-array name="dialogNextSetTeamValues">
+        <item>Next team in order</item>
+        <item>Ask</item>
+    </string-array>
+    <string name="dialogNextSetTeam">Who will start the set?</string>
     <string name="dialogAddPlayerToTeam">Add %1$s to:</string>
     <string name="dialogNewTeam">New team</string>
     <string name="dialogRemovePlayerFromTeam">Remove player from team</string>

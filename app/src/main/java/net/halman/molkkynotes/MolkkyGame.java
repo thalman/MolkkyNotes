@@ -27,6 +27,7 @@ public class MolkkyGame implements Serializable {
     private int _goal = 50;
     private int _penalty_goal_over = 25;
     private Date _date = null;
+    private int _starting_team = 0;
 
     private class MolkkyGameScoreComparator implements Comparator<MolkkyTeam> {
         public int compare(MolkkyTeam t1, MolkkyTeam t2) {
@@ -46,6 +47,18 @@ public class MolkkyGame implements Serializable {
                 return -1;
             }
             return 0;
+        }
+    }
+
+    public int startingTeam()
+    {
+        return _starting_team;
+    }
+
+    public void startingTeam(int idx)
+    {
+        if (idx < _teams.size()) {
+            _starting_team = idx;
         }
     }
 
@@ -80,7 +93,6 @@ public class MolkkyGame implements Serializable {
 
     void clearRounds() {
         _rounds.clear();
-        _current_round = 0;
         addRound();
     }
 
@@ -88,7 +100,6 @@ public class MolkkyGame implements Serializable {
     {
         _rounds.clear();
         addRound();
-        _current_round = 0;
     }
 
     public int currentRoundIndex()
@@ -105,25 +116,51 @@ public class MolkkyGame implements Serializable {
         return _rounds.get(_current_round);
     }
 
-    public void addRound()
+    private void setRoundTeams(MolkkyRound round, int starting_team_idx)
     {
-        int idx = _rounds.size();
+        if (round == null) {
+            return;
+        }
+
+        ArrayList<MolkkyTeam> teams = round.teams();
+        teams.clear();
+        for (int t = 0; t < _teams.size(); t++) {
+            round.addTeam(_teams.get((starting_team_idx + t) % _teams.size()));
+        }
+    }
+
+    public void changeCurrentRoundTeams(int start)
+    {
+        if (currentRound() == null || currentRound().started()) {
+            return;
+        }
+
+        startingTeam(start);
+        setRoundTeams(currentRound(), start);
+    }
+
+    private void addRound()
+    {
         MolkkyRound r = new MolkkyRound(_goal, _penalty_goal_over);
 
-        for (int t = 0; t < _teams.size(); t++) {
-            r.addTeam(_teams.get((idx + t) % _teams.size()));
-        }
+        setRoundTeams(r, startingTeam());
         _rounds.add(r);
+        _current_round = _rounds.size() - 1;
     }
 
     public void startNextRound()
     {
+        if (currentRound() == null) {
+            addRound();
+            return;
+        }
+
         if (currentRound() != null && !currentRound().over()) {
             return;
         }
 
+        _starting_team = (_starting_team + 1) % _teams.size();
         addRound();
-        _current_round = _rounds.size() - 1;
     }
 
     int numberOfRounds()

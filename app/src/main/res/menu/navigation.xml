@@ -4,7 +4,6 @@
     <item
         android:id="@+id/menuNewGame"
         android:title="@string/menuStartNewGame" />
-
     <item
         android:id="@+id/menuPlayInTeams"
         android:checkable="true"
@@ -13,6 +12,9 @@
         android:id="@+id/menuAutoForward"
         android:checkable="true"
         android:title="@string/menuAutoForward" />
+    <item
+        android:id="@+id/menuChangeStartingTeam"
+        android:title="@string/menuChangeStartingTeam" />
     <item
         android:id="@+id/menuKeepScreenOn"
         android:checkable="true"
