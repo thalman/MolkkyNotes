@@ -23,6 +23,7 @@
     <string name="teamsAverage">~ %1$s</string>
     <string name="teamsGameInProgress">Už se hraje!</string>
     <string name="teamsGameInProgressDeail">Není možné měnit týmy uprostřed utkání. Použijte nabídku pro zahájení nového utkání.</string>
+    <string name="teamsTitle">%1$d. tým</string>
 
     <!-- game screen -->
     <string name="gNext">Další:</string>

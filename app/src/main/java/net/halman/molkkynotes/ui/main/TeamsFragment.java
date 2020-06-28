@@ -3,6 +3,7 @@ package net.halman.molkkynotes.ui.main;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +32,7 @@ import net.halman.molkkynotes.Setup;
  * Use the {@link TeamsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TeamsFragment extends Fragment {
+public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMembersListener {
     private OnFragmentInteractionListener _listener;
 
     private RecyclerView _all_players = null;
@@ -39,6 +40,7 @@ public class TeamsFragment extends Fragment {
     private LinearLayoutManager _layout_manager = null;
     private RecyclerView _teams_view = null;
     private TeamMembersAdapter _teams_adapter = null;
+    private ItemTouchHelper _teams_touch_helper = null;
     private UIButton _mix = null;
 
     public TeamsFragment() {
@@ -114,12 +116,11 @@ public class TeamsFragment extends Fragment {
             _layout_manager = new LinearLayoutManager(getContext());
             _all_players.setLayoutManager(_layout_manager);
 
-            _teams_adapter = new TeamMembersAdapter(_listener.game());
+            _teams_adapter = new TeamMembersAdapter(getContext(), _listener.game(), this);
             _teams_view.setAdapter(_teams_adapter);
             _teams_view.setLayoutManager(new LinearLayoutManager(getContext()));
-            ItemTouchHelper ta = new ItemTouchHelper(createItemTouchHelper(_teams_adapter));
-            ta.attachToRecyclerView(_teams_view);
-
+            _teams_touch_helper = new ItemTouchHelper(createItemTouchHelper(_teams_adapter));
+            _teams_touch_helper.attachToRecyclerView(_teams_view);
         } else {
             _all_players = null;
         }
@@ -127,6 +128,14 @@ public class TeamsFragment extends Fragment {
 
         updateScreen();
         return result;
+    }
+
+    @Override
+    public void onTeamsStartDrag(RecyclerView.ViewHolder viewHolder)
+    {
+        if (_teams_touch_helper != null) {
+            _teams_touch_helper.startDrag(viewHolder);
+        }
     }
 
     private void onRemovePlayer(UIPlayer btn)
@@ -178,7 +187,14 @@ public class TeamsFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
+            if (_teams_adapter != null) {
+                _teams_adapter.cleanupEmptyTeams();
+            }
             updateScreen();
+        } else {
+            if (_teams_adapter != null) {
+                _teams_adapter.removeTrailingEmptyTeams();
+            }
         }
     }
 
@@ -242,6 +258,8 @@ public class TeamsFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
+        _teams_adapter.setGame(game);
+        _teams_adapter.cleanupEmptyTeams();
         _teams_adapter.notifyDataSetChanged();
         _mix.active(game.teams().size() > 1 && !_listener.game().gameStarted());
     }
@@ -334,7 +352,6 @@ public class TeamsFragment extends Fragment {
                 if (p != null) {
                     players.remove(old_name);
                     players.save(getContext());
-                    _players_adapter.notifyDataSetChanged();
                 }
                 dialog.dismiss();
             }
@@ -365,7 +382,7 @@ public class TeamsFragment extends Fragment {
                     game.addPlayer(player);
                 } else {
                     MolkkyTeam t = game.teams().get(which);
-                    t.addMember(player);
+                    t.addPlayer(player);
                 }
                 updateScreen();
             }
@@ -386,14 +403,14 @@ public class TeamsFragment extends Fragment {
 
         CharSequence [] items = new CharSequence [team.size()];
         for (int i = 0; i < team.size(); ++i) {
-            items[i] = team.members().get(i).name();
+            items[i] = team.players().get(i).name();
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
         builder.setTitle(R.string.dialogRemovePlayerFromTeam);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                team.members().remove(which);
+                team.players().remove(which);
                 updateScreen();
                 dialog.dismiss();
             }
@@ -413,8 +430,7 @@ public class TeamsFragment extends Fragment {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                //adapter.removeItem(viewHolder.getAdapterPosition());
-                adapter.notifyDataSetChanged();
+                adapter.onRemoveItem(viewHolder.getAdapterPosition());
             }
 
             @Override
@@ -424,6 +440,39 @@ public class TeamsFragment extends Fragment {
                 final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
                 final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
                 return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+            @Override
+            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder,
+                                          int actionState) {   // We only want the active item
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                    if (viewHolder instanceof TeamMembersAdapter.TeamMembersViewHolder) {
+                        TeamMembersAdapter.TeamMembersViewHolder vh =
+                                (TeamMembersAdapter.TeamMembersViewHolder) viewHolder;
+                        if (vh.drag_handle != null) {
+                            // this is player
+                            vh.root.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                        }
+                    }
+                }
+
+                super.onSelectedChanged(viewHolder, actionState);
+            }
+
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+
+                if (viewHolder instanceof TeamMembersAdapter.TeamMembersViewHolder) {
+                    TeamMembersAdapter.TeamMembersViewHolder vh =
+                            (TeamMembersAdapter.TeamMembersViewHolder) viewHolder;
+                    if (vh.drag_handle != null) {
+                        // this is player
+                        vh.root.setBackgroundColor(Color.TRANSPARENT);
+                    }
+                }
+
+                adapter.cleanupEmptyTeams();
             }
         };
         return simpleCallback;

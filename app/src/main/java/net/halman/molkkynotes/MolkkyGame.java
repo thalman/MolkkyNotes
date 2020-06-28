@@ -68,7 +68,7 @@ public class MolkkyGame implements Serializable {
             return;
         }
 
-        for (MolkkyPlayer p: team.members()) {
+        for (MolkkyPlayer p: team.players()) {
             if (hasPlayer(p)) {
                 return;
             }
@@ -83,7 +83,7 @@ public class MolkkyGame implements Serializable {
         }
 
         MolkkyTeam t = new MolkkyTeam();
-        t.addMember(p);
+        t.addPlayer(p);
         addTeam(t);
     }
 
@@ -581,7 +581,7 @@ public class MolkkyGame implements Serializable {
             // teams
             {
                 for (MolkkyTeam t: _teams) {
-                    ArrayList<MolkkyPlayer> members = t.members();
+                    ArrayList<MolkkyPlayer> members = t.players();
                     String [] line = new String[members.size() + 1];
                     line[0] = "team" + (teamIndex(t) + 1) + ":";
                     int c = 1;
@@ -656,7 +656,7 @@ public class MolkkyGame implements Serializable {
                     MolkkyTeam t = new MolkkyTeam();
                     for (int i = 1; i < line.length; i++) {
                         if (!line[i].isEmpty()) {
-                            t.addMember(new MolkkyPlayer(line[i]));
+                            t.addPlayer(new MolkkyPlayer(line[i]));
                         }
                     }
                     if (t.size() > 0) {
@@ -822,23 +822,15 @@ public class MolkkyGame implements Serializable {
             MolkkyTeam team = _teams.get(idx);
             if (team.size() > 1) {
                 _teams.remove(idx);
-                for (MolkkyPlayer player: team.members())
+                for (MolkkyPlayer player: team.players())
                 {
                     MolkkyTeam new_team = new MolkkyTeam();
-                    new_team.addMember(player);
+                    new_team.addPlayer(player);
                     _teams.add(idx, new_team);
                     ++idx;
                 }
             }
             ++idx;
-        }
-    }
-
-    public void roundSaveTeams()
-    {
-        MolkkyRound round = currentRound();
-        if (round != null) {
-            round.saveTeams();
         }
     }
 }

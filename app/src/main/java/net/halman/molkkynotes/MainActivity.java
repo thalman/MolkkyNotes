@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity
             if (r.over()) {
                 for (MolkkyTeam t: _game.teams()) {
                     int score = r.teamScore(t);
-                    for(MolkkyPlayer p: t.members()) {
+                    for(MolkkyPlayer p: t.players()) {
                         MolkkyPlayer player = _players.get(p.name());
                         if (player != null)
                             player.addRoundScore(score);

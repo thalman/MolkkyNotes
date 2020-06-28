@@ -1,9 +1,7 @@
 package net.halman.molkkynotes;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -106,7 +104,13 @@ public class MolkkyRound implements Serializable {
             return;
         }
 
+        boolean over_before = over();
         currentHit().hit(score);
+        boolean over_after = over();
+
+        if (!over_before && over_after) {
+            saveTeams();
+        }
     }
 
     void currentHit(MolkkyHit hit) {
@@ -114,7 +118,7 @@ public class MolkkyRound implements Serializable {
             return;
         }
 
-        currentHit().hit(hit);
+        currentHit(hit.hit());
     }
 
     MolkkyHit nextHit() {
@@ -359,30 +363,30 @@ public class MolkkyRound implements Serializable {
     public ArrayList<MolkkyPlayer> inTurnTeamMembers(MolkkyTeam team, int offset)
     {
         ArrayList<MolkkyPlayer> result = new ArrayList<>();
-        ArrayList<MolkkyPlayer> members = team.members();
+        ArrayList<MolkkyPlayer> players = team.players();
+        if (players.size() == 0) {
+            return result;
+        }
+
         int hit_round = (_current + offset) / _teams.size();
-        int idx = hit_round % members.size();
-        result.add(members.get(idx));
-        for (int i = idx + 1; i < members.size(); i++) {
-            result.add(members.get(i));
+        int idx = hit_round % players.size();
+        result.add(players.get(idx));
+        for (int i = idx + 1; i < players.size(); i++) {
+            result.add(players.get(i));
         }
 
         for (int i = 0; i < idx; i++) {
-            result.add(members.get(i));
+            result.add(players.get(i));
         }
 
         return result;
     }
 
-    public void saveTeams()
+    private void saveTeams()
     {
         ArrayList<MolkkyTeam> copy = new ArrayList<>();
         for (MolkkyTeam team: _teams) {
-            MolkkyTeam copy_team = new MolkkyTeam();
-            for (MolkkyPlayer player: team.members()) {
-                copy_team.addMember(player);
-            }
-
+            MolkkyTeam copy_team = new MolkkyTeam(team);
             copy.add(copy_team);
         }
 

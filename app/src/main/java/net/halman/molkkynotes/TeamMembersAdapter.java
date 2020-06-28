@@ -1,28 +1,52 @@
 package net.halman.molkkynotes;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.TeamMembersViewHolder> {
+// credit for improving recycler view https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-6a6f0c422efd
 
+public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.TeamMembersViewHolder> {
+    private Context _context;
     private MolkkyGame _game;
+    private TeamMembersListener _listener;
 
     public static class TeamMembersViewHolder extends RecyclerView.ViewHolder {
         public View root;
+        public View drag_handle;
 
         public TeamMembersViewHolder(View v) {
             super(v);
             root = v;
+            drag_handle = v.findViewById(R.id.teamPlayerDragHandle);
         }
     }
 
-    public TeamMembersAdapter(MolkkyGame game) {
+    public TeamMembersAdapter(Context context, MolkkyGame game, TeamMembersListener listener)
+    {
+        _context = context;
         _game = game;
+        _listener = listener;
+    }
+
+    public void setGame(MolkkyGame game)
+    {
+        _game = game;
+    }
+
+    boolean inTeamSetupMode()
+    {
+        if (_game != null) {
+            return ! _game.gameStarted();
+        }
+
+        return false;
     }
 
     // Create new views (invoked by the layout manager)
@@ -39,7 +63,7 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
                 break;
             default:
                 v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.ui_player, parent, false);
+                        .inflate(R.layout.ui_team_player, parent, false);
                 break;
         }
 
@@ -62,7 +86,7 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
                 if (position == 0) {
                     return null;
                 }
-                return t.members().get(position - 1);
+                return t.players().get(position - 1);
             }
 
             position -= (t.size() + 1);
@@ -109,23 +133,40 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
     }
 
     @Override
-    public void onBindViewHolder(TeamMembersViewHolder holder, int position) {
-        TextView T = holder.root.findViewById(R.id.team);
-        if (T != null) {
-            MolkkyTeam t = getTeam(position);
-            if (t != null) {
-                T.setText(t.name());
-                holder.root.setTag(t);
+    public void onBindViewHolder(final TeamMembersViewHolder holder, int position) {
+        if (holder.drag_handle != null) {
+            // this is player item
+            holder.drag_handle.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN && _listener != null) {
+                            _listener.onTeamsStartDrag(holder);
+                        }
+
+                        return false;
+                    }
+                }
+            );
+            TextView T = holder.root.findViewById(R.id.teamPlayerText);
+            if (T != null) {
+                MolkkyPlayer p = getPlayer(position);
+                if (p != null) {
+                    String name = p.name();
+                    T.setText(p.name());
+                    holder.root.setTag(p);
+                }
+
+                return;
             }
-
-            return;
-        }
-
-        T = holder.root.findViewById(R.id.teamSeparatorTextView);
-        if (T != null) {
-            int idx = getTeamIndex(position);
-            if (idx >= 0) {
-                T.setText("team " + (idx + 1));
+        } else {
+            // team separator
+            TextView T = holder.root.findViewById(R.id.teamSeparatorTextView);
+            if (T != null) {
+                int idx = getTeamIndex(position);
+                if (idx >= 0) {
+                    T.setText(_context.getResources().getString(R.string.teamsTitle, (idx + 1)));
+                }
             }
         }
     }
@@ -143,10 +184,66 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
         return items;
     }
 
-    public void onMove(int oldPos, int newPos) {
-//        String item = items.get(oldPos);
-//        items.remove(oldPos);
-//        items.add(newPos, item);
+    public void removeTrailingEmptyTeams()
+    {
+        if (!inTeamSetupMode()) {
+            return;
+        }
+
+        ArrayList<MolkkyTeam> teams = _game.teams();
+        while (teams.size() > 1) {
+            MolkkyTeam last = teams.get(teams.size() - 1);
+            if (last.players().size() == 0) {
+                teams.remove(last);
+            } else {
+                return;
+            }
+        }
+    }
+
+    public void cleanupEmptyTeams()
+    {
+        if (!inTeamSetupMode()) {
+            return;
+        }
+
+        // remove empty teams, put empty team at the end
+        boolean notify = false;
+        int idx = 0;
+        ArrayList<MolkkyTeam> teams = _game.teams();
+        while (idx < teams.size() - 1) {
+            MolkkyTeam team = teams.get(idx);
+            if (team.players().size() == 0) {
+                teams.remove(idx);
+                notify = true;
+            } else {
+                ++idx;
+            }
+        }
+
+        if (teams.size() == 0) {
+            teams.add(new MolkkyTeam());
+            notify = true;
+        }
+
+        MolkkyTeam last = teams.get(teams.size() - 1);
+        if (last.players().size() != 0) {
+            teams.add(new MolkkyTeam());
+            notify = true;
+        }
+
+        // reindex IDs
+        for (idx = 0; idx < teams.size(); ++idx) {
+            teams.get(idx).id(idx + 1);
+        }
+
+        if (notify) {
+            notifyDataSetChanged();
+        }
+    }
+
+    public void onMove(int oldPos, int newPos)
+    {
         MolkkyPlayer player = getPlayer(oldPos);
         if (player == null) {
             // not dragging player
@@ -178,7 +275,7 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
             int old_player_idx = src_team.getPlayersIndex(player);
             int new_player_idx = src_team.getPlayersIndex(getPlayer(newPos));
             src_team.removePlayer(old_player_idx);
-            src_team.addMember(new_player_idx, player);
+            src_team.addPlayer(new_player_idx, player);
             notifyItemMoved(oldPos, newPos);
         } else {
             // move to another team
@@ -189,13 +286,34 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
                     // moving up
                     new_player_idx = dst_team.size();
                 } else {
-                    // movin down
+                    // moving down
                     new_player_idx = 0;
                 }
             }
             src_team.removePlayer(old_player_idx);
-            dst_team.addMember(new_player_idx, player);
+            dst_team.addPlayer(new_player_idx, player);
             notifyItemMoved(oldPos, newPos);
         }
+    }
+
+    public void onRemoveItem(int pos)
+    {
+        MolkkyPlayer player = getPlayer(pos);
+        if (player == null) {
+            // not dragging player
+            return;
+        }
+
+        try {
+            int team_idx = getTeamIndex(pos);
+            MolkkyTeam team = _game.teams().get(team_idx);
+            team.removePlayer(player);
+            cleanupEmptyTeams();
+            notifyDataSetChanged();
+        } catch(Exception e) {};
+    }
+
+    public interface  TeamMembersListener {
+        void onTeamsStartDrag(RecyclerView.ViewHolder viewHolder);
     }
 }

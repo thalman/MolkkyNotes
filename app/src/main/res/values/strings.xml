@@ -22,6 +22,7 @@
     <string name="teamsAverage">~ %1$s</string>
     <string name="teamsGameInProgress">Game has started already!</string>
     <string name="teamsGameInProgressDeail">It is not possible to change teams in the middle of game. Use menu to start new game.</string>
+    <string name="teamsTitle">team %1$d</string>
 
     <!-- game screen -->
     <string name="gNext">Next:</string>

@@ -175,7 +175,7 @@ public class GameFragment extends Fragment {
             return;
         }
 
-        ArrayList<MolkkyPlayer> members = game.inTurnTeamMembers(team, +1);
+        ArrayList<MolkkyPlayer> players = game.inTurnTeamMembers(team, +1);
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         int start = 0;
 
@@ -184,15 +184,19 @@ public class GameFragment extends Fragment {
         start += text.length();
 
         int points = game.roundTeamScore(team);
-        text = " " + members.get(0).name() + " (" + points + "/" + (game.goal() - points) + ")";
+        if (players.size() > 0) {
+            text = " " + players.get(0).name() + " (" + points + "/" + (game.goal() - points) + ")";
+        } else {
+            text = " " + getString(R.string.teamsTitle, team.id()) + " (" + points + "/" + (game.goal() - points) + ")";
+        }
         ssb.append(text);
         ssb.setSpan(new RelativeSizeSpan(1.2f), start, start + text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         // start += text.length();
 
-        if (members.size() > 1) {
+        if (players.size() > 1) {
             StringBuilder textb = new StringBuilder();
-            for (int i = 1; i < members.size(); ++i) {
-                textb.append(", ").append(members.get(i).name());
+            for (int i = 1; i < players.size(); ++i) {
+                textb.append(", ").append(players.get(i).name());
             }
 
             ssb.append(textb);
@@ -210,7 +214,7 @@ public class GameFragment extends Fragment {
         MolkkyGame game = _listener.game();
         MolkkyTeam team = game.currentTeam();
         if (team == null || team.size() == 0) {
-            _current_player.setText("");
+            _current_player.setText(getString(R.string.teamsTitle, team.id()));
             return;
         }
 
@@ -218,7 +222,7 @@ public class GameFragment extends Fragment {
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         int start = 0;
 
-        String text = members.get(0).name();
+        String text =  members.get(0).name();
         ssb.append(text);
         start += text.length();
 
