@@ -56,25 +56,22 @@ public class MolkkyRound implements Serializable {
         return _teams;
     }
 
+    public MolkkyTeam team(int id)
+    {
+        for(MolkkyTeam team: _teams) {
+            if (team.id() == id) {
+                return team;
+            }
+        }
+
+        return null;
+    }
+
+
     void addTeam(MolkkyTeam team) {
         if (!_teams.contains(team)) {
             _teams.add(team);
         }
-    }
-
-    void startingTeam(int index) {
-        if (index >= 0 && index < _teams.size()) {
-            _startingTeam = index;
-        }
-    }
-
-    void startingTeam(MolkkyTeam t) {
-        _startingTeam = _teams.indexOf(t);
-        if (_startingTeam < 0) _startingTeam = 0;
-    }
-
-    int startingTeam() {
-        return _startingTeam;
     }
 
     MolkkyTeam currentTeam() {
@@ -168,8 +165,15 @@ public class MolkkyRound implements Serializable {
     }
 
     ArrayList<MolkkyHit> teamHits(MolkkyTeam team) {
-        int idx = _teams.indexOf(team);
-        if (idx >= 0) return teamHits(idx);
+        int idx = 0;
+        for (MolkkyTeam t: _teams) {
+            if (t.id() == team.id()) {
+                break;
+            }
+            ++idx;
+        }
+
+        if (idx < _teams.size()) return teamHits(idx);
         return new ArrayList<MolkkyHit>();
     }
 
@@ -180,10 +184,11 @@ public class MolkkyRound implements Serializable {
         // check whether all other teams are out
         int otherTeamsOut = 0;
         for (MolkkyTeam t : _teams) {
-            if (t != team) {
+            if (t.id() != team.id()) {
                 if (teamHealth(t) == OUT) otherTeamsOut++;
             }
         }
+
         if (otherTeamsOut == _teams.size() - 1) return _goal;
 
         // more players in the round
@@ -195,10 +200,12 @@ public class MolkkyRound implements Serializable {
                 if (score > _goal) score = _penalty_over_goal;
                 if (score == _goal) return score;
             }
+
             if (hit.hit() == MolkkyHit.LINECROSS && score >= (_goal - 13)) {
                 score = _penalty_over_goal;
             }
         }
+
         return score;
     }
 

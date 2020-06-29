@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        AlertDialog.Builder builder = TeamListDialog.getBuilder(this, _game.teams(), false, new TeamListDialog.OnTeamSelectedListener() {
+        AlertDialog.Builder builder = TeamListDialog.getBuilder(this, _game, false, new TeamListDialog.OnTeamSelectedListener() {
             @Override
             public void onTeamSelected(int which) {
                 _game.changeCurrentRoundTeams(which);
@@ -462,8 +462,10 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        builder.setTitle(R.string.dialogNextSetTeam);
-        builder.show();
+        if (builder != null) {
+            builder.setTitle(R.string.dialogNextSetTeam);
+            builder.show();
+        }
     }
 
     public String historyOpenFile()

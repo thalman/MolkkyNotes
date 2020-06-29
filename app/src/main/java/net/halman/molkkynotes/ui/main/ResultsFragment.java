@@ -168,7 +168,7 @@ public class ResultsFragment extends Fragment {
         }
 
         if (ask) {
-            AlertDialog.Builder b = TeamListDialog.getBuilder(getContext(), game.teams(), false, new TeamListDialog.OnTeamSelectedListener() {
+            AlertDialog.Builder b = TeamListDialog.getBuilder(getContext(), game, false, new TeamListDialog.OnTeamSelectedListener() {
                 @Override
                 public void onTeamSelected(int which) {
                     if (_listener != null) {
@@ -178,8 +178,10 @@ public class ResultsFragment extends Fragment {
                     }
                 }
             });
-            b.setTitle(R.string.dialogNextSetTeam);
-            b.show();
+            if (b != null) {
+                b.setTitle(R.string.dialogNextSetTeam);
+                b.show();
+            }
         }
     }
 

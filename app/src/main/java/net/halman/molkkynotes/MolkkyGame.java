@@ -64,7 +64,7 @@ public class MolkkyGame implements Serializable {
 
     void addTeam(MolkkyTeam team)
     {
-        if (team == null || _teams.size() >= 10 || gameStarted()) {
+        if (team == null || gameStarted()) {
             return;
         }
 
@@ -488,15 +488,30 @@ public class MolkkyGame implements Serializable {
         _teams = shuffle;
     }
 
-    public MolkkyTeam teamByTeamsName(String name)
+    public String teamLongName(MolkkyTeam team)
     {
-        for (MolkkyTeam t: _teams) {
-            if (t.name().equals(name)) {
-                return t;
+        HashMap <String, String> map = new HashMap<>();
+        StringBuilder result = new StringBuilder();
+        String prefix = "";
+
+        for (MolkkyRound r: _rounds) {
+            MolkkyTeam t = r.team(team.id());
+            if (t != null) {
+                for (MolkkyPlayer player : t.players()) {
+                    if (!map.containsKey(player.name())) {
+                        map.put(player.name(), "");
+                        result.append(prefix).append(player.name());
+                        prefix = ", ";
+                    }
+                }
             }
         }
 
-        return null;
+        if (result.length() == 0) {
+            result.append(team.id());
+        }
+
+        return result.toString();
     }
 
     public MolkkyTeam teamByPlayersName(String name)

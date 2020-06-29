@@ -87,6 +87,7 @@ public class MolkkyTeam implements Serializable {
                 result.append( ", ");
             }
         }
+
         return result.toString();
     }
 

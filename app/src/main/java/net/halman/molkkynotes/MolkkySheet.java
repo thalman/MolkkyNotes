@@ -229,7 +229,7 @@ public class MolkkySheet {
 
         float line = 2;
         for (MolkkyTeam team: teams) {
-            drawBoxedText(sheet,0f, line, width, line + 0.7f, team.name(), _text_size, Typeface.BOLD, false);
+            drawBoxedText(sheet,0f, line, width, line + 0.7f, game.teamLongName(team), _text_size, Typeface.BOLD, false);
             drawBoxedLine(sheet, 0f, line + 0.7f, width, line + 0.7f, false);
 
             drawBoxedText(sheet,0f, line + 0.7f, 2f, line + 1.5f, Integer.toString(game.gameTeamScore(team)), _text_size, Typeface.BOLD, true);
