@@ -308,6 +308,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
                 if (p != null) {
                     players.remove(old_name);
                     players.save(getContext());
+                    _players_adapter.notifyDataSetChanged();
                 }
                 dialog.dismiss();
             }
