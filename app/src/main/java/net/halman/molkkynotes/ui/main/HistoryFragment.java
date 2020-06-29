@@ -33,6 +33,7 @@ public class HistoryFragment extends Fragment {
     private ImageView _close_button;
     private ImageView _fit_button;
     private ImageView _mail_button;
+    private ImageView _trash_button;
     private String _current_csv = "";
 
     public HistoryFragment() {
@@ -83,11 +84,20 @@ public class HistoryFragment extends Fragment {
             }
         });
 
+        _trash_button = topView.findViewById(R.id.historyTrash);
+        _trash_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onTrashClick();
+            }
+        });
+
         _history_list_view.setVisibility(View.VISIBLE);
         _game_record.setVisibility(View.GONE);
         _close_button.setVisibility(View.GONE);
         _fit_button.setVisibility(View.GONE);
         _mail_button.setVisibility(View.GONE);
+        _trash_button.setVisibility(View.GONE);
 
         if (_listener != null) {
             History history = _listener.history();
@@ -162,6 +172,39 @@ public class HistoryFragment extends Fragment {
         updateScreen();
     }
 
+    public void onTrashClick()
+    {
+        if (_listener == null) {
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(R.string.historyDelete);
+        builder.setMessage(R.string.historyDeleteDetail);
+        builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    File file = new File(_current_csv);
+                    file.delete();
+                    if (_listener != null) {
+                        _listener.history().reload();
+                    }
+                    onCloseHistory();
+                } catch (Exception e) {}
+            }
+        });
+
+        builder.setNegativeButton(R.string.dCancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
     public synchronized void notifyGameSaved()
     {
         if (_listener == null) {
@@ -183,6 +226,7 @@ public class HistoryFragment extends Fragment {
             _close_button.setVisibility(View.GONE);
             _fit_button.setVisibility(View.GONE);
             _mail_button.setVisibility(View.GONE);
+            _trash_button.setVisibility(View.GONE);
             _game_record.setVisibility(View.GONE);
             _history_list_view.setVisibility(View.VISIBLE);
         } else {
@@ -195,6 +239,7 @@ public class HistoryFragment extends Fragment {
             _close_button.setVisibility(View.VISIBLE);
             _fit_button.setVisibility(View.VISIBLE);
             _mail_button.setVisibility(View.VISIBLE);
+            _trash_button.setVisibility(View.VISIBLE);
             _history_list_view.setVisibility(View.GONE);
         }
     }
