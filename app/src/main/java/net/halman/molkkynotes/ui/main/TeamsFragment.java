@@ -266,7 +266,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
                         if (players.add(new MolkkyPlayer(name))) {
                             players.sort();
                             players.save(getContext());
-                            _players_adapter.notifyDataSetChanged();
+                            _players_adapter.notifyDataSetFilterChanged();
                         }
                     }
                 }
@@ -330,7 +330,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
                 if (p != null) {
                     players.remove(old_name);
                     players.save(getContext());
-                    _players_adapter.notifyDataSetChanged();
+                    _players_adapter.notifyDataSetFilterChanged();
                 }
                 dialog.dismiss();
             }
