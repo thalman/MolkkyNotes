@@ -706,6 +706,14 @@ public class MolkkyGame implements Serializable {
                     }
                 }
 
+                if (line[0].toLowerCase().startsWith("date:")) {
+                    try {
+                        _date = new SimpleDateFormat("yyyy-MM-dd--HH-mm").parse(line[1]);
+                    } catch (Exception e) {
+                        _date = null;
+                    }
+                }
+
                 line = reader.readNext();
             }
 

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -375,15 +374,6 @@ public class HistoryFragment extends Fragment {
             sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(Intent.createChooser(sharingIntent, getString(R.string.historyShare)));
         } catch (Exception e) {}
-    }
-
-    private void exportPdf()
-    {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            PdfDocument document = new PdfDocument();
-        } else {
-            // TODO: show warning
-        }
     }
 
     public interface OnHistoryFragmentInteractionListener {
