@@ -310,10 +310,14 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
             team.removePlayer(player);
             cleanupEmptyTeams();
             notifyDataSetChanged();
+            if (_listener != null) {
+                _listener.onTeamsDataSetChanged();
+            }
         } catch(Exception e) {};
     }
 
     public interface  TeamMembersListener {
         void onTeamsStartDrag(RecyclerView.ViewHolder viewHolder);
+        void onTeamsDataSetChanged();
     }
 }

@@ -2,11 +2,13 @@ package net.halman.molkkynotes;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class PlayersAdapter extends
@@ -14,6 +16,8 @@ public class PlayersAdapter extends
 
     private Players _players;
     private Resources _resources;
+    private MolkkyGame _game;
+    private ArrayList<MolkkyPlayer> _visible_players = new ArrayList<>();
     private OnPlayerListener _click_listener;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -54,11 +58,40 @@ public class PlayersAdapter extends
 
     }
 
-    public PlayersAdapter(Players players, Resources resources, OnPlayerListener l)
+    public PlayersAdapter(Players players, Resources resources, MolkkyGame game, OnPlayerListener l)
     {
         _players = players;
         _click_listener = l;
         _resources = resources;
+        _game = game;
+
+        updatePlayerList();
+    }
+
+    public  void game(MolkkyGame aGame) {
+        _game = aGame;
+        notifyDataSetFilterChanged();
+    }
+
+    public void updatePlayerList()
+    {
+        HashMap<String, MolkkyPlayer> playerHashMap = new HashMap<>();
+
+        if (_game != null) {
+            for (MolkkyTeam team : _game.teams()) {
+                for (MolkkyPlayer player : team.players()) {
+                    playerHashMap.put(player.name(), player);
+                }
+            }
+        }
+
+        _visible_players.clear();
+        for (int i = 0; i < _players.size(); i++) {
+            MolkkyPlayer player = _players.get(i);
+            if (! playerHashMap.containsKey(player.name())) {
+                _visible_players.add(player);
+            }
+        }
     }
 
     // Create new views (invoked by the layout manager)
@@ -73,7 +106,7 @@ public class PlayersAdapter extends
     // Replace the  contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        MolkkyPlayer p = _players.get(position);
+        MolkkyPlayer p = _visible_players.get(position);
         TextView team = holder.player_view.findViewById(R.id.team);
         TextView score = holder.player_view.findViewById(R.id.score);
         if (p!=null && team != null && score != null) {
@@ -85,7 +118,13 @@ public class PlayersAdapter extends
 
     @Override
     public int getItemCount() {
-        return _players.size();
+        return _visible_players.size();
+    }
+
+    public void notifyDataSetFilterChanged()
+    {
+        updatePlayerList();
+        notifyDataSetChanged();
     }
 
     public interface OnPlayerListener {

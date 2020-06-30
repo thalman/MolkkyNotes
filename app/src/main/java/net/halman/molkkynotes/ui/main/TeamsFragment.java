@@ -99,7 +99,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
 
         if (_all_players != null && _listener != null) {
             Players players = _listener.players();
-            _players_adapter = new PlayersAdapter(players, getResources(),this);
+            _players_adapter = new PlayersAdapter(players, getResources(), _listener.game(), this);
 
             _all_players.setAdapter(_players_adapter);
             _layout_manager = new LinearLayoutManager(getContext());
@@ -125,6 +125,12 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         if (_teams_touch_helper != null) {
             _teams_touch_helper.startDrag(viewHolder);
         }
+    }
+
+    @Override
+    public void onTeamsDataSetChanged()
+    {
+        _players_adapter.notifyDataSetFilterChanged();
     }
 
     @Override
@@ -217,6 +223,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         _teams_adapter.setGame(game);
         _teams_adapter.cleanupEmptyTeams();
         _teams_adapter.notifyDataSetChanged();
+        _players_adapter.game(game);
         _mix.active(game.teams().size() > 1 && !_listener.game().gameStarted());
     }
 
@@ -455,7 +462,6 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         builder.show();
         return true;
     }
-
 
     /**
      * This interface must be implemented by activities that contain this
