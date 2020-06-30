@@ -130,7 +130,10 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
     @Override
     public void onTeamsDataSetChanged()
     {
-        _players_adapter.notifyDataSetFilterChanged();
+        if (_listener != null) {
+            _players_adapter.notifyDataSetFilterChanged();
+            _mix.active(mixButtonActive(_listener.game()));
+        }
     }
 
     @Override
@@ -212,6 +215,18 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         userEditDialog(player);
     }
 
+    private boolean mixButtonActive(MolkkyGame game)
+    {
+        int num_of_teams = game.teams().size();
+        if (num_of_teams > 1) {
+            MolkkyTeam last = game.teams().get(num_of_teams - 1);
+            if (last.players().size() == 0) {
+                num_of_teams--;
+            }
+        }
+
+        return (num_of_teams > 1 && ! game.gameStarted());
+    }
 
     public void updateScreen()
     {
@@ -224,7 +239,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         _teams_adapter.cleanupEmptyTeams();
         _teams_adapter.notifyDataSetChanged();
         _players_adapter.game(game);
-        _mix.active(game.teams().size() > 1 && !_listener.game().gameStarted());
+        _mix.active(mixButtonActive(game));
     }
 
     public void userAddDialog () {

@@ -239,6 +239,9 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
 
         if (notify) {
             notifyDataSetChanged();
+            if (_listener != null) {
+                _listener.onTeamsDataSetChanged();
+            }
         }
     }
 
