@@ -304,6 +304,8 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
         MolkkyPlayer player = getPlayer(pos);
         if (player == null) {
             // not dragging player
+            // totify to get team separator back
+            notifyDataSetChanged();
             return;
         }
 
