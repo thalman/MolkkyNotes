@@ -36,6 +36,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
     private OnFragmentInteractionListener _listener;
 
     private RecyclerView _all_players = null;
+    private ItemTouchHelper _players_touch_helper = null;
     private PlayersAdapter _players_adapter = null;
     private LinearLayoutManager _layout_manager = null;
     private RecyclerView _teams_view = null;
@@ -104,11 +105,13 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
             _all_players.setAdapter(_players_adapter);
             _layout_manager = new LinearLayoutManager(getContext());
             _all_players.setLayoutManager(_layout_manager);
+            _players_touch_helper = new ItemTouchHelper(createPlayersItemTouchHelper(_players_adapter));
+            _players_touch_helper.attachToRecyclerView(_all_players);
 
             _teams_adapter = new TeamMembersAdapter(getContext(), _listener.game(), this);
             _teams_view.setAdapter(_teams_adapter);
             _teams_view.setLayoutManager(new LinearLayoutManager(getContext()));
-            _teams_touch_helper = new ItemTouchHelper(createItemTouchHelper(_teams_adapter));
+            _teams_touch_helper = new ItemTouchHelper(createTeamsItemTouchHelper(_teams_adapter));
             _teams_touch_helper.attachToRecyclerView(_teams_view);
         } else {
             _all_players = null;
@@ -215,6 +218,51 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         userEditDialog(player);
     }
 
+    public void onPlayerRemove(int idx)
+    {
+        final MolkkyPlayer player = _players_adapter.getVisiblePlayer(idx);
+        if (player == null) {
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(R.string.teamsDeletePlayer);
+        builder.setMessage(R.string.teamsDeletePlayerDetail);
+        builder.setPositiveButton(R.string.dDelete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (_listener == null) {
+                    return;
+                }
+
+                Players players = _listener.players();
+                MolkkyPlayer p = _listener.players().get(player.name());
+                if (p != null) {
+                    players.remove(p.name());
+                    players.save(getContext());
+                    _players_adapter.notifyDataSetFilterChanged();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(R.string.dCancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                _players_adapter.notifyDataSetFilterChanged();
+            }
+        });
+        builder.show();
+
+    }
+
     private boolean mixButtonActive(MolkkyGame game)
     {
         int num_of_teams = game.teams().size();
@@ -311,32 +359,14 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
                         p.setName(name);
                         players.sort();
                         players.save(getContext());
-                        _players_adapter.notifyDataSetChanged();
+                        _players_adapter.notifyDataSetFilterChanged();
                     }
                 }
                 dialog.dismiss();
             }
         });
 
-        builder.setNegativeButton(R.string.dDelete, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (_listener == null) {
-                    return;
-                }
-
-                Players players = _listener.players();
-                MolkkyPlayer p = _listener.players().get(old_name);
-                if (p != null) {
-                    players.remove(old_name);
-                    players.save(getContext());
-                    _players_adapter.notifyDataSetFilterChanged();
-                }
-                dialog.dismiss();
-            }
-        });
-
-        builder.setNeutralButton(R.string.dCancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.dCancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -373,7 +403,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         }
     }
 
-    private ItemTouchHelper.Callback createItemTouchHelper(final TeamMembersAdapter adapter) {
+    private ItemTouchHelper.Callback createTeamsItemTouchHelper(final TeamMembersAdapter adapter) {
         ItemTouchHelper.Callback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
@@ -428,6 +458,32 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
 
                 adapter.cleanupEmptyTeams();
             }
+        };
+        return simpleCallback;
+    }
+
+    private ItemTouchHelper.Callback createPlayersItemTouchHelper(final PlayersAdapter adapter) {
+        ItemTouchHelper.Callback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.onRemove(viewHolder.getAdapterPosition());
+            }
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView,
+                                        RecyclerView.ViewHolder viewHolder) {
+
+                final int dragFlags = 0;
+                final int swipeFlags = ItemTouchHelper.RIGHT;
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
         };
         return simpleCallback;
     }

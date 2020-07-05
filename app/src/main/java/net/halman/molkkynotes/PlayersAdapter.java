@@ -121,14 +121,31 @@ public class PlayersAdapter extends
         return _visible_players.size();
     }
 
+    public MolkkyPlayer getVisiblePlayer(int idx)
+    {
+        if (idx >= 0 && idx < _visible_players.size()) {
+            return _visible_players.get(idx);
+        }
+
+        return null;
+    }
+
     public void notifyDataSetFilterChanged()
     {
         updatePlayerList();
         notifyDataSetChanged();
     }
 
+    public void onRemove(int idx)
+    {
+        if(_click_listener != null) {
+            _click_listener.onPlayerRemove(idx);
+        }
+    }
+
     public interface OnPlayerListener {
         void onPlayerClick(MolkkyPlayer player);
         void onPlayerLongClick(MolkkyPlayer player);
+        void onPlayerRemove(int idx);
     }
 }
