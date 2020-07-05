@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +25,10 @@ import net.halman.molkkynotes.Setup;
 
 import java.io.File;
 
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistoryListener {
     private HistoryFragment.OnHistoryFragmentInteractionListener _listener;
     private RecyclerView _history_list_view;
+    private ItemTouchHelper _history_touch_helper;
     private UIGameRecord _game_record;
     private HistoryAdapter _history_adapter;
     private ImageView _close_button;
@@ -100,19 +102,11 @@ public class HistoryFragment extends Fragment {
 
         if (_listener != null) {
             History history = _listener.history();
-            _history_adapter = new HistoryAdapter(history, new HistoryAdapter.OnHistoryListener() {
-                @Override
-                public void onHistoryClick(View view) {
-                    onHistory(view);
-                }
-
-                @Override
-                public void onHistoryLongClick(View view) {
-                    onHistoryLong(view);
-                }
-            });
-
+            _history_adapter = new HistoryAdapter(history, this);
             _history_list_view.setAdapter(_history_adapter);
+            _history_touch_helper = new ItemTouchHelper(createItemTouchHelper(_history_adapter));
+            _history_touch_helper.attachToRecyclerView(_history_list_view);
+
             RecyclerView.LayoutManager L = new LinearLayoutManager(getContext());
             _history_list_view.setLayoutManager(L);
         }
@@ -158,6 +152,32 @@ public class HistoryFragment extends Fragment {
                 _listener.historySaveStatus(_current_csv);
             }
         }
+    }
+
+    private ItemTouchHelper.Callback createItemTouchHelper(final HistoryAdapter adapter) {
+        ItemTouchHelper.Callback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.onRemove(viewHolder.getAdapterPosition());
+            }
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView,
+                                        RecyclerView.ViewHolder viewHolder) {
+
+                final int dragFlags = 0;
+                final int swipeFlags = ItemTouchHelper.LEFT;
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+        };
+        return simpleCallback;
     }
 
     public void onCloseHistory()
@@ -243,7 +263,7 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    private void onHistory(View view)
+    public void onHistoryClick(View view)
     {
         if (_listener == null) {
             return;
@@ -257,9 +277,28 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    private void onHistoryLong(View view) {
+    public void onHistoryRemove(int idx)
+    {
+        if (_listener == null) {
+            return;
+        }
+
+        try {
+            confirmDelete(_listener.history().getPath(idx));
+        } catch (Exception e) {};
+    }
+
+    public void onHistoryLongClick(View view)
+    {
         final String item = (String) view.getTag();
 
+        try {
+            confirmDelete(item);
+        } catch (Exception e) {}
+    }
+
+    public void confirmDelete(final String file_name)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
         builder.setTitle(R.string.historyDelete);
         builder.setMessage(R.string.historyDeleteDetail);
@@ -267,7 +306,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
-                    File file = new File(item);
+                    File file = new File(file_name);
                     file.delete();
                     if (_listener != null) {
                         _listener.history().reload();
@@ -280,6 +319,12 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
+            }
+        });
+
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+                _history_adapter.notifyDataSetChanged();
             }
         });
 

@@ -78,8 +78,16 @@ public class HistoryAdapter extends
         return _history.size();
     }
 
+    public void onRemove(int idx)
+    {
+        if (_click_listener != null) {
+            _click_listener.onHistoryRemove(idx);
+        }
+    }
+
     public interface OnHistoryListener {
         void onHistoryClick(View view);
         void onHistoryLongClick(View view);
+        void onHistoryRemove(int idx);
     }
 }
