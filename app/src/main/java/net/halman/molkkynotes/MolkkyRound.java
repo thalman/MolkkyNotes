@@ -1,9 +1,7 @@
 package net.halman.molkkynotes;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -58,25 +56,22 @@ public class MolkkyRound implements Serializable {
         return _teams;
     }
 
+    public MolkkyTeam team(int id)
+    {
+        for(MolkkyTeam team: _teams) {
+            if (team.id() == id) {
+                return team;
+            }
+        }
+
+        return null;
+    }
+
+
     void addTeam(MolkkyTeam team) {
         if (!_teams.contains(team)) {
             _teams.add(team);
         }
-    }
-
-    void startingTeam(int index) {
-        if (index >= 0 && index < _teams.size()) {
-            _startingTeam = index;
-        }
-    }
-
-    void startingTeam(MolkkyTeam t) {
-        _startingTeam = _teams.indexOf(t);
-        if (_startingTeam < 0) _startingTeam = 0;
-    }
-
-    int startingTeam() {
-        return _startingTeam;
     }
 
     MolkkyTeam currentTeam() {
@@ -106,7 +101,13 @@ public class MolkkyRound implements Serializable {
             return;
         }
 
+        boolean over_before = over();
         currentHit().hit(score);
+        boolean over_after = over();
+
+        if (!over_before && over_after) {
+            saveTeams();
+        }
     }
 
     void currentHit(MolkkyHit hit) {
@@ -114,7 +115,7 @@ public class MolkkyRound implements Serializable {
             return;
         }
 
-        currentHit().hit(hit);
+        currentHit(hit.hit());
     }
 
     MolkkyHit nextHit() {
@@ -164,8 +165,15 @@ public class MolkkyRound implements Serializable {
     }
 
     ArrayList<MolkkyHit> teamHits(MolkkyTeam team) {
-        int idx = _teams.indexOf(team);
-        if (idx >= 0) return teamHits(idx);
+        int idx = 0;
+        for (MolkkyTeam t: _teams) {
+            if (t.id() == team.id()) {
+                break;
+            }
+            ++idx;
+        }
+
+        if (idx < _teams.size()) return teamHits(idx);
         return new ArrayList<MolkkyHit>();
     }
 
@@ -176,10 +184,11 @@ public class MolkkyRound implements Serializable {
         // check whether all other teams are out
         int otherTeamsOut = 0;
         for (MolkkyTeam t : _teams) {
-            if (t != team) {
+            if (t.id() != team.id()) {
                 if (teamHealth(t) == OUT) otherTeamsOut++;
             }
         }
+
         if (otherTeamsOut == _teams.size() - 1) return _goal;
 
         // more players in the round
@@ -191,10 +200,12 @@ public class MolkkyRound implements Serializable {
                 if (score > _goal) score = _penalty_over_goal;
                 if (score == _goal) return score;
             }
+
             if (hit.hit() == MolkkyHit.LINECROSS && score >= (_goal - 13)) {
                 score = _penalty_over_goal;
             }
         }
+
         return score;
     }
 
@@ -359,17 +370,33 @@ public class MolkkyRound implements Serializable {
     public ArrayList<MolkkyPlayer> inTurnTeamMembers(MolkkyTeam team, int offset)
     {
         ArrayList<MolkkyPlayer> result = new ArrayList<>();
-        ArrayList<MolkkyPlayer> members = team.members();
-        int hit_round = (_current + offset) / _teams.size();
-        int idx = hit_round % members.size();
-        result.add(members.get(idx));
-        for (int i = idx + 1; i < members.size(); i++) {
-            result.add(members.get(i));
+        ArrayList<MolkkyPlayer> players = team.players();
+        if (players.size() == 0) {
+            return result;
         }
+
+        int hit_round = (_current + offset) / _teams.size();
+        int idx = hit_round % players.size();
+        result.add(players.get(idx));
+        for (int i = idx + 1; i < players.size(); i++) {
+            result.add(players.get(i));
+        }
+
         for (int i = 0; i < idx; i++) {
-            result.add(members.get(i));
+            result.add(players.get(i));
         }
 
         return result;
+    }
+
+    private void saveTeams()
+    {
+        ArrayList<MolkkyTeam> copy = new ArrayList<>();
+        for (MolkkyTeam team: _teams) {
+            MolkkyTeam copy_team = new MolkkyTeam(team);
+            copy.add(copy_team);
+        }
+
+        _teams = copy;
     }
 }

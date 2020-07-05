@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
 
@@ -191,6 +192,21 @@ public class MolkkySheet {
         return round(game, game.round(), sortTeams, false, sheet, context);
     }
 
+    public Rect title(MolkkyGame game, SheetDrawable sheet, Context context)
+    {
+        Drawable d = context.getResources().getDrawable(R.drawable.ic_mollky_icon);
+        sheet.drawDrawable(_offset_x, _offset_y, _offset_x + 100, _offset_y + 100, d);
+
+        if (game.date() != null) {
+            game.dateAsString();
+            String date = android.text.format.DateFormat.getDateFormat(context).format(game.date()) + " " +
+                    android.text.format.DateFormat.getTimeFormat(context).format(game.date());
+            drawBoxedText(sheet, 1.5f, 0, 8, 1, "Mölkky " + date, _text_size, Typeface.NORMAL, false);
+        }
+
+        return new Rect(0, 0, 9 * _box_width, 1 * _box_height);
+    }
+
     public Rect currentGame(MolkkyGame game, SheetDrawable sheet, Context context)
     {
         if (game == null || sheet == null || context == null) {
@@ -200,7 +216,6 @@ public class MolkkySheet {
         ArrayList<MolkkyTeam> teams = game.gameTeamOrder();
         ArrayList<MolkkyRound> rounds = game.rounds();
         int width = 4 + 3*rounds.size();
-        int lines = teams.size();
         Resources res = context.getResources();
 
         drawBoxedText(sheet, 0, 0, width, 1, res.getString(R.string.sheetGame), _text_size, Typeface.NORMAL, false);
@@ -229,7 +244,7 @@ public class MolkkySheet {
 
         float line = 2;
         for (MolkkyTeam team: teams) {
-            drawBoxedText(sheet,0f, line, width, line + 0.7f, team.name(), _text_size, Typeface.BOLD, false);
+            drawBoxedText(sheet,0f, line, width, line + 0.7f, game.teamLongName(team), _text_size, Typeface.BOLD, false);
             drawBoxedLine(sheet, 0f, line + 0.7f, width, line + 0.7f, false);
 
             drawBoxedText(sheet,0f, line + 0.7f, 2f, line + 1.5f, Integer.toString(game.gameTeamScore(team)), _text_size, Typeface.BOLD, true);
@@ -270,5 +285,6 @@ public class MolkkySheet {
         void drawLine(int x1, int y1, int x2, int y2, boolean thick);
         void drawText(int x1, int y1, int x2, int y2, String text, int textSize, int typeface, boolean centered);
         void drawCircle(int x, int y, int r, boolean thick);
+        void drawDrawable(int x1, int y1, int x2, int y2, Drawable drawable);
     }
 }

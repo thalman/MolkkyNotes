@@ -4,21 +4,19 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import net.halman.molkkynotes.MolkkyGame;
-import net.halman.molkkynotes.MolkkyRound;
 import net.halman.molkkynotes.MolkkySheet;
 import net.halman.molkkynotes.R;
 
@@ -140,6 +138,11 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
         _what_to_draw = what;
     }
 
+    public void drawDrawable(int x1, int y1, int x2, int y2, Drawable drawable)
+    {
+        // not needed
+    }
+
     public void drawText(int x1, int y1, int x2, int y2, String text, int fontSize, int typeface, boolean centered)
     {
         TextPaint tp = new TextPaint();
@@ -213,6 +216,7 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
         _canvas.save();
         _canvas.scale(_scale_factor, _scale_factor, _scale_point_x, _scale_point_y);
         _canvas.translate(_pan_x, _pan_y);
+
         MolkkySheet sheet = new MolkkySheet();
         Rect R = null;
         switch (_what_to_draw) {

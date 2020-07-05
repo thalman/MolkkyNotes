@@ -64,9 +64,23 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:alpha="0.8"
+        android:contentDescription="@string/emptyString"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/historyFit"
         app:srcCompat="@drawable/ic_molkky_mail" />
+
+    <ImageView
+        android:id="@+id/historyTrash"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="0.8"
+        android:contentDescription="@string/emptyString"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_molkky_trash" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -3,7 +3,7 @@ package net.halman.molkkynotes;
 
 import java.io.Serializable;
 
-public class MolkkyPlayer implements Serializable {
+public class MolkkyPlayer extends Object implements Serializable {
     static final public int HISTORY_LIMIT = 30;
 
     private int _id = 0;

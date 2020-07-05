@@ -3,17 +3,19 @@ package net.halman.molkkynotes.ui.main;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
+import net.halman.molkkynotes.TeamMembersAdapter;
 import net.halman.molkkynotes.MolkkyGame;
 import net.halman.molkkynotes.MolkkyPlayer;
 import net.halman.molkkynotes.MolkkyTeam;
@@ -30,14 +32,15 @@ import net.halman.molkkynotes.Setup;
  * Use the {@link TeamsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TeamsFragment extends Fragment {
+public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMembersListener, PlayersAdapter.OnPlayerListener {
     private OnFragmentInteractionListener _listener;
 
     private RecyclerView _all_players = null;
-    private LinearLayout _selected_teams = null;
     private PlayersAdapter _players_adapter = null;
     private LinearLayoutManager _layout_manager = null;
-    private int[] _team_view_ids = {R.id.tTeam1, R.id.tTeam2, R.id.tTeam3, R.id.tTeam4, R.id.tTeam5, R.id.tTeam6, R.id.tTeam7, R.id.tTeam8, R.id.tTeam9, R.id.tTeam10 };
+    private RecyclerView _teams_view = null;
+    private TeamMembersAdapter _teams_adapter = null;
+    private ItemTouchHelper _teams_touch_helper = null;
     private UIButton _mix = null;
 
     public TeamsFragment() {
@@ -60,7 +63,7 @@ public class TeamsFragment extends Fragment {
         View result = inflater.inflate(R.layout.fragment_teams, container, false);
 
         _all_players = result.findViewById(R.id.allPlayers);
-        _selected_teams = result.findViewById(R.id.frgSelectedTeams);
+        _teams_view = result.findViewById(R.id.frgTeamsTeams);
 
         _mix = result.findViewById(R.id.tMix);
         _mix.setOnClickListener(
@@ -95,66 +98,42 @@ public class TeamsFragment extends Fragment {
         }
 
         if (_all_players != null && _listener != null) {
-            MolkkyGame game = _listener.game();
             Players players = _listener.players();
-            _players_adapter = new PlayersAdapter(players, getResources(), new PlayersAdapter.OnPlayerListener() {
-                @Override
-                public void onPlayerClick(String name) {
-                    onRecyclerViewClick(name);
-                }
-
-                @Override
-                public void onPlayerLongClick(String name) {
-                    onRecyclerViewLongClick(name);
-                }
-            });
+            _players_adapter = new PlayersAdapter(players, getResources(), _listener.game(), this);
 
             _all_players.setAdapter(_players_adapter);
             _layout_manager = new LinearLayoutManager(getContext());
             _all_players.setLayoutManager(_layout_manager);
+
+            _teams_adapter = new TeamMembersAdapter(getContext(), _listener.game(), this);
+            _teams_view.setAdapter(_teams_adapter);
+            _teams_view.setLayoutManager(new LinearLayoutManager(getContext()));
+            _teams_touch_helper = new ItemTouchHelper(createItemTouchHelper(_teams_adapter));
+            _teams_touch_helper.attachToRecyclerView(_teams_view);
         } else {
             _all_players = null;
         }
 
-        for(int a = 0; a < _team_view_ids.length; a++) {
-            UIPlayer btn = _selected_teams.findViewById(_team_view_ids[a]);
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onRemovePlayer((UIPlayer)view);
-                }
-            });
-        }
 
         updateScreen();
         return result;
     }
 
-    private void onRemovePlayer(UIPlayer btn)
+    @Override
+    public void onTeamsStartDrag(RecyclerView.ViewHolder viewHolder)
     {
-        if (gameInProgress()) {
-            return;
+        if (_teams_touch_helper != null) {
+            _teams_touch_helper.startDrag(viewHolder);
         }
+    }
 
-        String text = btn.name();
-        MolkkyGame game = _listener.game();
-        if (game.gameStarted()) {
-            return;
+    @Override
+    public void onTeamsDataSetChanged()
+    {
+        if (_listener != null) {
+            _players_adapter.notifyDataSetFilterChanged();
+            _mix.active(mixButtonActive(_listener.game()));
         }
-
-        MolkkyTeam team = game.teamByTeamsName(text);
-        if (team == null) {
-            return;
-        }
-
-        if (team.size() == 1) {
-            game.removePlayerByName(text);
-        } else {
-            removePlayerFromTeamDialog(team);
-            return;
-        }
-
-        updateScreen();
     }
 
     @Override
@@ -178,7 +157,14 @@ public class TeamsFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
+            if (_teams_adapter != null) {
+                _teams_adapter.cleanupEmptyTeams();
+            }
             updateScreen();
+        } else {
+            if (_teams_adapter != null) {
+                _teams_adapter.removeTrailingEmptyTeams();
+            }
         }
     }
 
@@ -194,46 +180,53 @@ public class TeamsFragment extends Fragment {
     }
 
 
-    public void onRecyclerViewClick(String name)
+    public void onPlayerClick(MolkkyPlayer player)
     {
-        if (_listener == null) {
+        if (_listener == null || player == null) {
             return;
         }
 
-        if (gameInProgress()) {
+        if (_listener.game().gameStarted()) {
+            // game already started only teams modification
+            addPlayerToTeamDialog(player, false);
             return;
         }
 
         MolkkyGame game = _listener.game();
         Setup setup = _listener.setup();
-        Players players = _listener.players();
-        Log.d("A", "User add " + name);
 
-        MolkkyPlayer p = players.get(name);
-        if (playerAlreadyInTheGame(p)) {
+        if (playerAlreadyInTheGame(player)) {
             return;
         }
 
         if (setup.playInTeams() && game.teams().size() > 0) {
-            addPlayerToTeamDialog(p);
+            addPlayerToTeamDialog(player, true);
         } else {
-            if (game.teams().size() < 10) {
-                game.addPlayer(p);
-                updateScreen();
-            } else {
-                limitedTeamNumber(false);
-            }
+            game.addPlayer(player);
+            updateScreen();
         }
     }
 
-    public void onRecyclerViewLongClick(String name) {
-        if (_listener == null) {
+    public void onPlayerLongClick(MolkkyPlayer player) {
+        if (_listener == null || player == null) {
             return;
         }
 
-        userEditDialog(name);
+        userEditDialog(player);
     }
 
+    private boolean mixButtonActive(MolkkyGame game)
+    {
+        int num_of_teams = game.teams().size();
+        if (num_of_teams > 1) {
+            MolkkyTeam last = game.teams().get(num_of_teams - 1);
+            if (last.players().size() == 0) {
+                num_of_teams--;
+            }
+        }
+
+        return (num_of_teams > 1 && ! game.gameStarted());
+    }
 
     public void updateScreen()
     {
@@ -242,21 +235,11 @@ public class TeamsFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
-        for(int a = 0; a < _team_view_ids.length; a++) {
-            UIPlayer btn = _selected_teams.findViewById(_team_view_ids[a]);
-            if (btn != null) {
-                try {
-                    MolkkyTeam t = game.teams().get(a);
-                    btn.name(t.name());
-                    btn.setVisibility(View.VISIBLE);
-                } catch (Exception e) {
-                    btn.name("");
-                    btn.setVisibility(View.GONE);
-                }
-            }
-        }
-
-        _mix.active(game.teams().size() > 1 && !_listener.game().gameStarted());
+        _teams_adapter.setGame(game);
+        _teams_adapter.cleanupEmptyTeams();
+        _teams_adapter.notifyDataSetChanged();
+        _players_adapter.game(game);
+        _mix.active(mixButtonActive(game));
     }
 
     public void userAddDialog () {
@@ -283,7 +266,7 @@ public class TeamsFragment extends Fragment {
                         if (players.add(new MolkkyPlayer(name))) {
                             players.sort();
                             players.save(getContext());
-                            _players_adapter.notifyDataSetChanged();
+                            _players_adapter.notifyDataSetFilterChanged();
                         }
                     }
                 }
@@ -300,7 +283,7 @@ public class TeamsFragment extends Fragment {
         builder.show();
     }
 
-    public void userEditDialog (String name) {
+    public void userEditDialog (MolkkyPlayer player) {
         if (_listener == null) {
             return;
         }
@@ -310,8 +293,8 @@ public class TeamsFragment extends Fragment {
         LayoutInflater inflater = getLayoutInflater();
         final View dialog_layout = inflater.inflate(R.layout.players_dialog, null);
         final EditText t = dialog_layout.findViewById(R.id.dPlayersName);
-        t.setText(name);
-        final String old_name = name;
+        t.setText(player.name());
+        final String old_name = player.name();
         builder.setView(dialog_layout);
         builder.setPositiveButton(R.string.dSave, new DialogInterface.OnClickListener() {
             @Override
@@ -347,7 +330,7 @@ public class TeamsFragment extends Fragment {
                 if (p != null) {
                     players.remove(old_name);
                     players.save(getContext());
-                    _players_adapter.notifyDataSetChanged();
+                    _players_adapter.notifyDataSetFilterChanged();
                 }
                 dialog.dismiss();
             }
@@ -363,7 +346,7 @@ public class TeamsFragment extends Fragment {
         builder.show();
     }
 
-    private void addPlayerToTeamDialog(MolkkyPlayer p)
+    private void addPlayerToTeamDialog(MolkkyPlayer p, boolean also_new_team)
     {
         if (_listener == null) {
             return;
@@ -371,49 +354,84 @@ public class TeamsFragment extends Fragment {
 
         final MolkkyGame game = _listener.game();
         final MolkkyPlayer player = new MolkkyPlayer(p);
-        AlertDialog.Builder builder = TeamListDialog.getBuilder(getContext(), game.teams(), true, new TeamListDialog.OnTeamSelectedListener() {
+        AlertDialog.Builder builder = TeamListDialog.getBuilder(getContext(), game, also_new_team, new TeamListDialog.OnTeamSelectedListener() {
             @Override
             public void onTeamSelected(int which) {
                 if (which == game.teams().size()) {
                     game.addPlayer(player);
                 } else {
                     MolkkyTeam t = game.teams().get(which);
-                    t.addMember(player);
+                    t.addPlayer(player);
                 }
                 updateScreen();
             }
         });
 
-        builder.setTitle(getString(R.string.dialogAddPlayerToTeam, p.name()));
-        builder.show();
+        if (builder != null) {
+            builder.setTitle(getString(R.string.dialogAddPlayerToTeam, p.name()));
+            builder.show();
+        }
     }
 
-    private void removePlayerFromTeamDialog(final MolkkyTeam team)
-    {
+    private ItemTouchHelper.Callback createItemTouchHelper(final TeamMembersAdapter adapter) {
+        ItemTouchHelper.Callback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
-        if (team.size() <= 1) {
-            _listener.game().removePlayerByName(team.name());
-            updateScreen();
-            return;
-        }
-
-        CharSequence [] items = new CharSequence [team.size()];
-        for (int i = 0; i < team.size(); ++i) {
-            items[i] = team.members().get(i).name();
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
-        builder.setTitle(R.string.dialogRemovePlayerFromTeam);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                team.members().remove(which);
-                updateScreen();
-                dialog.dismiss();
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                adapter.onMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
             }
-        });
 
-        builder.show();
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                adapter.onRemoveItem(viewHolder.getAdapterPosition());
+            }
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView,
+                                        RecyclerView.ViewHolder viewHolder) {
+
+                final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+                final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+            @Override
+            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder,
+                                          int actionState) {   // We only want the active item
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                    if (viewHolder instanceof TeamMembersAdapter.TeamMembersViewHolder) {
+                        TeamMembersAdapter.TeamMembersViewHolder vh =
+                                (TeamMembersAdapter.TeamMembersViewHolder) viewHolder;
+                        if (vh.drag_handle != null) {
+                            // this is player
+                            vh.root.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                        }
+                    }
+                }
+
+                super.onSelectedChanged(viewHolder, actionState);
+            }
+
+            @Override
+            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+
+                if (viewHolder instanceof TeamMembersAdapter.TeamMembersViewHolder) {
+                    TeamMembersAdapter.TeamMembersViewHolder vh =
+                            (TeamMembersAdapter.TeamMembersViewHolder) viewHolder;
+                    if (vh.drag_handle != null) {
+                        // this is player
+                        vh.root.setBackgroundColor(Color.TRANSPARENT);
+                    }
+                }
+
+                adapter.cleanupEmptyTeams();
+            }
+        };
+        return simpleCallback;
     }
+
 
     public boolean gameInProgress () {
         if (_listener == null) {
@@ -459,30 +477,6 @@ public class TeamsFragment extends Fragment {
         builder.show();
         return true;
     }
-
-    private void limitedTeamNumber (boolean playInTeams) {
-        if (_listener == null) {
-            return;
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
-        if (playInTeams) {
-            builder.setTitle(R.string.dialogNumberOfTeams);
-            builder.setMessage(R.string.dialogNumberOfTeamsDetail);
-        } else {
-            builder.setTitle(R.string.dialogNumberOfPlayers);
-            builder.setMessage(R.string.dialogNumberOfPlayersDetail);
-        }
-        builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builder.show();
-    }
-
 
     /**
      * This interface must be implemented by activities that contain this

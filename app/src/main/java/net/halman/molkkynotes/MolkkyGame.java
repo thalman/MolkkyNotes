@@ -64,11 +64,11 @@ public class MolkkyGame implements Serializable {
 
     void addTeam(MolkkyTeam team)
     {
-        if (team == null || _teams.size() >= 10 || gameStarted()) {
+        if (team == null || gameStarted()) {
             return;
         }
 
-        for (MolkkyPlayer p: team.members()) {
+        for (MolkkyPlayer p: team.players()) {
             if (hasPlayer(p)) {
                 return;
             }
@@ -83,7 +83,7 @@ public class MolkkyGame implements Serializable {
         }
 
         MolkkyTeam t = new MolkkyTeam();
-        t.addMember(p);
+        t.addPlayer(p);
         addTeam(t);
     }
 
@@ -488,15 +488,41 @@ public class MolkkyGame implements Serializable {
         _teams = shuffle;
     }
 
-    public MolkkyTeam teamByTeamsName(String name)
+    public ArrayList<MolkkyPlayer> teamPlayersLongList(MolkkyTeam team)
     {
-        for (MolkkyTeam t: _teams) {
-            if (t.name().equals(name)) {
-                return t;
+        HashMap <String, String> map = new HashMap<>();
+        ArrayList<MolkkyPlayer> result = new ArrayList<>();
+
+        for (MolkkyRound r: _rounds) {
+            MolkkyTeam t = r.team(team.id());
+            if (t != null) {
+                for (MolkkyPlayer player : t.players()) {
+                    if (!map.containsKey(player.name())) {
+                        map.put(player.name(), "");
+                        result.add(player);
+                    }
+                }
             }
         }
 
-        return null;
+        return result;
+    }
+
+    public String teamLongName(MolkkyTeam team)
+    {
+        StringBuilder result = new StringBuilder();
+        String prefix = "";
+
+        for (MolkkyPlayer player: teamPlayersLongList(team)) {
+            result.append(prefix).append(player.name());
+            prefix = ", ";
+        }
+
+        if (result.length() == 0) {
+            result.append(team.id());
+        }
+
+        return result.toString();
     }
 
     public MolkkyTeam teamByPlayersName(String name)
@@ -567,7 +593,7 @@ public class MolkkyGame implements Serializable {
                 ArrayList<MolkkyTeam> teams = gameTeamOrder();
                 String title = "";
                 if (teams.size() >= 2) {
-                    title = teams.get(0).name() + "; " + teams.get(1).name();
+                    title = teamLongName(teams.get(0)) + "; " + teamLongName(teams.get(1));
                 }
 
                 writer.writeNext(new String[]{"title:", title});
@@ -581,9 +607,9 @@ public class MolkkyGame implements Serializable {
             // teams
             {
                 for (MolkkyTeam t: _teams) {
-                    ArrayList<MolkkyPlayer> members = t.members();
+                    ArrayList<MolkkyPlayer> members = teamPlayersLongList(t);
                     String [] line = new String[members.size() + 1];
-                    line[0] = "team" + (teamIndex(t) + 1) + ":";
+                    line[0] = "team" + t.id() + ":";
                     int c = 1;
                     for(MolkkyPlayer p: members) {
                         line[c] = p.name();
@@ -603,7 +629,7 @@ public class MolkkyGame implements Serializable {
             for (MolkkyRound round : _rounds) {
                 for (MolkkyTeam team: round.teams()) {
                     columns.clear();
-                    columns.add("team" + (teamIndex(team) + 1));
+                    columns.add("team" + team.id());
                     columns.add(team.name());
                     columns.add(Integer.toString(round.teamScore(team)));
                     columns.add(Integer.toString(round.numberOfZeros(team)));
@@ -627,6 +653,20 @@ public class MolkkyGame implements Serializable {
         } catch (Exception e) {
             Log.d("ex", e.toString());
         };
+    }
+
+    int parseTeamId(String team_string)
+    {
+        try {
+            int colon = team_string.indexOf(':');
+            if (colon < 0) {
+                return Integer.parseInt(team_string.substring(4));
+            }
+
+            return Integer.parseInt(team_string.substring(4, colon));
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public void CSVImport(String full_file_name)
@@ -654,14 +694,23 @@ public class MolkkyGame implements Serializable {
 
                 if (line[0].toLowerCase().startsWith("team")) {
                     MolkkyTeam t = new MolkkyTeam();
+                    t.id(parseTeamId(line[0]));
                     for (int i = 1; i < line.length; i++) {
                         if (!line[i].isEmpty()) {
-                            t.addMember(new MolkkyPlayer(line[i]));
+                            t.addPlayer(new MolkkyPlayer(line[i]));
                         }
                     }
                     if (t.size() > 0) {
                         team_map.put(line[0], t);
                         _teams.add(t);
+                    }
+                }
+
+                if (line[0].toLowerCase().startsWith("date:")) {
+                    try {
+                        _date = new SimpleDateFormat("yyyy-MM-dd--HH-mm").parse(line[1]);
+                    } catch (Exception e) {
+                        _date = null;
                     }
                 }
 
@@ -814,5 +863,4 @@ public class MolkkyGame implements Serializable {
 
         return round.inTurnTeamMembers(team, offset);
     }
-
 }

@@ -6,130 +6,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:paddingTop="10dp"
     tools:context=".ui.main.TeamsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="@string/teamsPlayers" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/teamsWhoWillPlay" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="0dp"
+        android:background="@color/colorWhite" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/allPlayers"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
         </android.support.v7.widget.RecyclerView>
 
-        <net.halman.molkkynotes.ui.main.UIButton
-            android:id="@+id/teamsAddUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:image="@drawable/molkky_add_user"
-            app:imagesize="@dimen/image_button_size" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@color/colorWhite" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/frgTeamsTeams"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
+        <net.halman.molkkynotes.ui.main.UIButton
+            android:id="@+id/teamsAddUser"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/teamsWhoWillPlay" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <LinearLayout
-                android:id="@+id/frgSelectedTeams"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam4"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam5"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam6"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam7"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam8"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam9"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <net.halman.molkkynotes.ui.main.UIPlayer
-                    android:id="@+id/tTeam10"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-            </LinearLayout>
-        </ScrollView>
+            android:layout_weight="1"
+            app:image="@drawable/molkky_add_user"
+            app:imagesize="@dimen/image_button_size" />
 
         <net.halman.molkkynotes.ui.main.UIButton
             android:id="@+id/tMix"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             app:image="@drawable/molkky_mix"
             app:imagesize="@dimen/image_button_size" />
 

@@ -5,25 +5,47 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 
+import net.halman.molkkynotes.MolkkyGame;
 import net.halman.molkkynotes.MolkkyTeam;
 import net.halman.molkkynotes.R;
 
 import java.util.ArrayList;
 
 public class TeamListDialog {
-    public static final AlertDialog.Builder getBuilder(Context context, ArrayList<MolkkyTeam> teams, boolean include_new_team, final OnTeamSelectedListener listener) {
-        Resources resources = context.getResources();
-        int size = teams.size() + (include_new_team ? 1 : 0);
-        CharSequence[] items = new CharSequence[size];
+    public static final AlertDialog.Builder getBuilder(Context context, MolkkyGame game, boolean include_new_team, final OnTeamSelectedListener listener)
+    {
+        if (context == null || game == null || listener == null) {
+            return null;
+        }
 
-        for (int i = 0; i < teams.size(); ++i) {
+        Resources resources = context.getResources();
+        ArrayList<MolkkyTeam> teams = game.teams();
+        int size = teams.size();
+        if (size > 0 && !game.gameStarted()) {
+            // check last team
+            if (teams.get(size - 1).players().size() == 0) {
+                --size;
+            }
+        }
+
+        int new_team_space = (include_new_team ? 1 : 0);
+        if (size + new_team_space < 2) {
+            listener.onTeamSelected(0);
+            return null;
+        }
+
+        CharSequence[] items = new CharSequence[size + new_team_space];
+
+        for (int i = 0; i < size; ++i) {
             items[i] = teams.get(i).name();
+            if (items[i].length() == 0) {
+                items[i] = resources.getString(R.string.teamsTitle, teams.get(i).id());
+            }
         }
 
         if (include_new_team) {
-            items[size - 1] = resources.getString(R.string.dialogNewTeam);
+            items[size] = resources.getString(R.string.dialogNewTeam);
         }
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MolkkyAlertDialogStyle);
         builder.setItems(items, new DialogInterface.OnClickListener() {

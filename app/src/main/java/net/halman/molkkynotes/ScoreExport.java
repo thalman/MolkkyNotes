@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -79,6 +80,12 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
         _canvas.drawLine(x1, y1, x2, y2, tp);
     }
 
+    public void drawDrawable(int x1, int y1, int x2, int y2, Drawable drawable)
+    {
+        drawable.setBounds(x1, y1, x2, y2);
+        drawable.draw(_canvas);
+    }
+
     public void jpeg (MolkkyGame game, String file_name)
     {
         Rect size = new Rect(0, 0, 100, 100);
@@ -89,13 +96,20 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
             _canvas = new Canvas(_bitmap);
             _canvas.drawColor(Color.WHITE);
 
+
             MolkkySheet sheet = new MolkkySheet();
             sheet.setOffset(10, 10);
-            Rect R = sheet.currentGame(game, this, _context);
+            Rect R = sheet.title(game, this, _context);
+            sheet.setOffset(10, R.bottom);
+            Rect R2 = sheet.currentGame(game, this, _context);
+            R.bottom += R2.bottom;
+            R.right = Math.max(R.right, R2.right);
+
+            sheet.setOffset(10, 10);
             int y = R.bottom;
             for (int idx = 0; idx < game.rounds().size(); idx++) {
                 sheet.setOffset(10, y);
-                Rect R2 = sheet.round(game, idx, false, true, this, _context);
+                R2 = sheet.round(game, idx, false, true, this, _context);
                 y += R2.bottom;
                 R.right = Math.max(R.right, R2.right);
             }

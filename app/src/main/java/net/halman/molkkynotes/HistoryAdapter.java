@@ -52,7 +52,7 @@ public class HistoryAdapter extends
     @Override
     public HistoryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                           int viewType) {
-        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.ui_player, parent, false);
+        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.ui_history_item, parent, false);
         MyViewHolder vh = new MyViewHolder(v, _click_listener);
         return vh;
     }
@@ -63,8 +63,8 @@ public class HistoryAdapter extends
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         String item = _history.getName(position);
-        TextView team = holder.history_view.findViewById(R.id.team);
-        team.setText(item);
+        TextView text = holder.history_view.findViewById(R.id.historyNameOfTheGame);
+        text.setText(item);
         holder.history_view.setTag(_history.getPath(position));
     }
 
