@@ -98,24 +98,23 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
 
 
             MolkkySheet sheet = new MolkkySheet();
-            sheet.setOffset(10, 10);
+            sheet.setOffset(100, 100);
             Rect R = sheet.title(game, this, _context);
-            sheet.setOffset(10, R.bottom);
+            sheet.setOffset(100, 100 + R.bottom);
             Rect R2 = sheet.currentGame(game, this, _context);
             R.bottom += R2.bottom;
             R.right = Math.max(R.right, R2.right);
 
-            sheet.setOffset(10, 10);
-            int y = R.bottom;
+            int y = R.bottom + 100;
             for (int idx = 0; idx < game.rounds().size(); idx++) {
-                sheet.setOffset(10, y);
+                sheet.setOffset(100, y);
                 R2 = sheet.round(game, idx, false, true, this, _context);
                 y += R2.bottom;
                 R.right = Math.max(R.right, R2.right);
             }
 
-            size.right = R.right + 20;
-            size.bottom = y + 10;
+            size.right = R.right + 200;
+            size.bottom = y + 100;
         }
 
         File file = new File(file_name);
