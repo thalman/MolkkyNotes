@@ -9,7 +9,7 @@
 
     <!-- menu -->
     <string name="menuStartNewGame">New Game</string>
-    <string name="menuPlayInTeams">Play in teams</string>
+    <string name="menuPlayInTeams">Add players into teams</string>
     <string name="menuAutoForward">Move forward automatically</string>
     <string name="menuChangeStartingTeam">Change staring team</string>
     <string name="menuRules">Mölkky Rules</string>

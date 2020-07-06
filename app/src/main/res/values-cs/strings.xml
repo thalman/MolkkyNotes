@@ -10,7 +10,7 @@
 
     <!-- menu -->
     <string name="menuStartNewGame">Nové utkání</string>
-    <string name="menuPlayInTeams">Hra v týmech</string>
+    <string name="menuPlayInTeams">Přidávat hráče do týmů</string>
     <string name="menuAutoForward">Automatický posun vpřed</string>
     <string name="menuChangeStartingTeam">Změnit začínající tým</string>
     <string name="menuRules">Pravidla hry</string>
