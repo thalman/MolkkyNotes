@@ -83,7 +83,7 @@ public class MolkkySheet {
 
         ArrayList<MolkkyTeam> teams = round.teams();
         if (sortTeams) {
-            round.teamOrder();
+            teams = round.teamOrder();
         }
 
         Resources res = context.getResources();
