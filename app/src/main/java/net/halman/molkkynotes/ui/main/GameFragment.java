@@ -308,11 +308,12 @@ public class GameFragment extends Fragment {
         }
     }
 
-    public void hitChangeDialog (final int new_value) {
+    public void hitChangeDialog (final int new_value)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
         builder.setTitle(R.string.gameChangeTheHit);
         builder.setMessage(R.string.gameChangeTheHitDetail);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.dOK), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (_listener == null) {
@@ -324,7 +325,8 @@ public class GameFragment extends Fragment {
                 updateScreen();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+        builder.setNegativeButton(getString(R.string.dCancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
