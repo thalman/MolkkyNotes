@@ -111,6 +111,7 @@ odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou
     </string-array>
 
     <!-- sheets -->
+    <string name="sheetTitle">Mölkky, %1$s %2$s</string>
     <string name="sheetTeams">Hráč/Tým</string>
     <string name="sheetPoints">Body</string>
     <string name="sheetScore">Skóre</string>

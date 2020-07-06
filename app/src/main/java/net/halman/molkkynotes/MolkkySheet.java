@@ -199,12 +199,14 @@ public class MolkkySheet {
 
         if (game.date() != null) {
             game.dateAsString();
-            String date = android.text.format.DateFormat.getDateFormat(context).format(game.date()) + " " +
-                    android.text.format.DateFormat.getTimeFormat(context).format(game.date());
-            drawBoxedText(sheet, 1.5f, 0, 8, 1, "Mölkky " + date, _text_size, Typeface.NORMAL, false);
+            String date = android.text.format.DateFormat.getLongDateFormat(context).format(game.date());
+            String time = android.text.format.DateFormat.getTimeFormat(context).format(game.date());
+            drawBoxedText(sheet, 1.5f, 0, 12, 1,
+                    context.getResources().getString(R.string.sheetTitle, date, time),
+                    _text_size, Typeface.NORMAL, false);
         }
 
-        return new Rect(0, 0, 9 * _box_width, 1 * _box_height);
+        return new Rect(0, 0, 12 * _box_width, 1 * _box_height);
     }
 
     public Rect currentGame(MolkkyGame game, SheetDrawable sheet, Context context)
