@@ -344,7 +344,13 @@ public class GameFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
+
+
         if (game.hit().hit() == MolkkyHit.NOTPLAYED) {
+            if (!game.gameStarted()) {
+                // first hit - cleanup teams
+                game.removeTrailingEmptyTeams();
+            }
             game.hit(value);
             updateScreen();
             _listener.scheduleForwardMove();

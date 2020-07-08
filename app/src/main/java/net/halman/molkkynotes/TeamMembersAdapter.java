@@ -40,15 +40,6 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
         _game = game;
     }
 
-    boolean inTeamSetupMode()
-    {
-        if (_game != null) {
-            return ! _game.gameStarted();
-        }
-
-        return false;
-    }
-
     // Create new views (invoked by the layout manager)
     @Override
     public TeamMembersAdapter.TeamMembersViewHolder onCreateViewHolder(ViewGroup parent,
@@ -186,61 +177,24 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
 
     public void removeTrailingEmptyTeams()
     {
-        if (!inTeamSetupMode()) {
-            return;
-        }
-
-        ArrayList<MolkkyTeam> teams = _game.teams();
-        while (teams.size() > 1) {
-            MolkkyTeam last = teams.get(teams.size() - 1);
-            if (last.players().size() == 0) {
-                teams.remove(last);
-            } else {
-                return;
+        if (_game != null) {
+            if (_game.removeTrailingEmptyTeams()) {
+                notifyDataSetChanged();
+                if (_listener != null) {
+                    _listener.onTeamsDataSetChanged();
+                }
             }
         }
     }
 
     public void cleanupEmptyTeams()
     {
-        if (!inTeamSetupMode()) {
-            return;
-        }
-
-        // remove empty teams, put empty team at the end
-        boolean notify = false;
-        int idx = 0;
-        ArrayList<MolkkyTeam> teams = _game.teams();
-        while (idx < teams.size() - 1) {
-            MolkkyTeam team = teams.get(idx);
-            if (team.players().size() == 0) {
-                teams.remove(idx);
-                notify = true;
-            } else {
-                ++idx;
-            }
-        }
-
-        if (teams.size() == 0) {
-            teams.add(new MolkkyTeam());
-            notify = true;
-        }
-
-        MolkkyTeam last = teams.get(teams.size() - 1);
-        if (last.players().size() != 0) {
-            teams.add(new MolkkyTeam());
-            notify = true;
-        }
-
-        // reindex IDs
-        for (idx = 0; idx < teams.size(); ++idx) {
-            teams.get(idx).id(idx + 1);
-        }
-
-        if (notify) {
-            notifyDataSetChanged();
-            if (_listener != null) {
-                _listener.onTeamsDataSetChanged();
+        if (_game != null) {
+            if (_game.cleanupEmptyTeams()) {
+                notifyDataSetChanged();
+                if (_listener != null) {
+                    _listener.onTeamsDataSetChanged();
+                }
             }
         }
     }

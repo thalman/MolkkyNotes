@@ -143,6 +143,7 @@ public class MolkkyGame implements Serializable {
     {
         MolkkyRound r = new MolkkyRound(_goal, _penalty_goal_over);
 
+        removeTrailingEmptyTeams();
         setRoundTeams(r, startingTeam());
         _rounds.add(r);
         _current_round = _rounds.size() - 1;
@@ -862,5 +863,63 @@ public class MolkkyGame implements Serializable {
         }
 
         return round.inTurnTeamMembers(team, offset);
+    }
+
+    public boolean removeTrailingEmptyTeams()
+    {
+        if (gameStarted()) {
+            return false;
+        };
+
+        boolean changed = false;
+        while (_teams.size() > 1) {
+            MolkkyTeam last = _teams.get(_teams.size() - 1);
+            if (last.players().size() == 0) {
+                _teams.remove(last);
+                changed = true;
+            } else {
+                return changed;
+            }
+        }
+
+        return changed;
+    }
+
+    public boolean cleanupEmptyTeams()
+    {
+        if (gameStarted()) {
+            return false;
+        };
+
+        // remove empty teams, put empty team at the end
+        boolean changed = false;
+        int idx = 0;
+        while (idx < _teams.size() - 1) {
+            MolkkyTeam team = _teams.get(idx);
+            if (team.players().size() == 0) {
+                _teams.remove(idx);
+                changed = true;
+            } else {
+                ++idx;
+            }
+        }
+
+        if (_teams.size() == 0) {
+            _teams.add(new MolkkyTeam());
+            changed = true;
+        }
+
+        MolkkyTeam last = _teams.get(_teams.size() - 1);
+        if (last.players().size() != 0) {
+            _teams.add(new MolkkyTeam());
+            changed = true;
+        }
+
+        // reindex IDs
+        for (idx = 0; idx < _teams.size(); ++idx) {
+            _teams.get(idx).id(idx + 1);
+        }
+
+        return changed;
     }
 }
