@@ -309,6 +309,9 @@ public class MainActivity extends AppCompatActivity
         _game = new MolkkyGame();
         _game.setup(_setup);
         _history.reload();
+        if (getString(R.string.sponsoredVersion).equalsIgnoreCase("no")) {
+            new Promotion(this).promote();
+        }
     }
 
 

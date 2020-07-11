@@ -120,5 +120,14 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="sheetGame">Game</string>
     <string name="sheetTotal">Total</string>
 
+    <string name="promoteRate">Rate MölkkyNotes</string>
+    <string name="promoteRateDetail">If you enjoy using MölkkyNotes, please take a moment to rate it. Thanks for your support!</string>
+    <string name="promoteRateNow">Rate</string>
+    <string name="promoteRateLater">Later</string>
+    <string name="promoteRateNo">No, thanks</string>
+    <string name="promoteSupport">Support MölkkyNotes</string>
+    <string name="promoteSupportDetail">If you enjoy using MölkkyNotes, please consider support the development by buying MölkkyNotes +.</string>
+    <string name="promoteSupportNow">Buy MölkkyNotes +</string>
+
     <string name="emptyString"></string>
 </resources>
