@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Mölkky Notes</string>
-
     <string name="title_activity_main">MolkkyNotes</string>
     <string name="tab_text_1">Hráči</string>
     <string name="tab_text_2">Hra</string>

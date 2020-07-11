@@ -3,14 +3,14 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "net.halman.molkkynotes"
+        applicationId "net.halman.molkkynotesplus"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 31
         versionName "3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        resValue("string", "sponsoredVersion", "no")
+        resValue("string", "sponsoredVersion", "yes")
     }
     buildTypes {
         release {
