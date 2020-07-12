@@ -1,7 +1,6 @@
 <resources>
-    <string name="app_name">Mölkky Notes</string>
+    <string name="app_name" translatable="false">MölkkyNotes</string>
 
-    <string name="title_activity_main">MolkkyNotes</string>
     <string name="tab_text_1">Players</string>
     <string name="tab_text_2">Game</string>
     <string name="tab_text_3">Score</string>
