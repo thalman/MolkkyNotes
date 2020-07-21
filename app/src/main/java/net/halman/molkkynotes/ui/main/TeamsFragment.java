@@ -157,13 +157,13 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
+    public synchronized void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             if (_teams_adapter != null) {
                 _teams_adapter.cleanupEmptyTeams();
+                updateScreen();
             }
-            updateScreen();
         } else {
             if (_teams_adapter != null) {
                 _teams_adapter.removeTrailingEmptyTeams();
