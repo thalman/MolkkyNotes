@@ -218,7 +218,7 @@ public class GameFragment extends Fragment {
             return;
         }
 
-        ArrayList<MolkkyPlayer> members = game.inTurnTeamMembers(team, +1);
+        ArrayList<MolkkyPlayer> members = game.inTurnTeamMembers(team, 0);
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         int start = 0;
 
