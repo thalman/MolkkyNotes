@@ -153,6 +153,11 @@ public class MolkkyRound implements Serializable {
         return hit;
     }
 
+    public void appendHit(int hit)
+    {
+        _hits.add(new MolkkyHit(hit));
+    }
+
     private ArrayList<MolkkyHit> teamHits(int teamidx) {
         ArrayList<MolkkyHit> hits = new ArrayList<MolkkyHit>();
         int first = teamidx - _startingTeam;

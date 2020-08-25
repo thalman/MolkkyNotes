@@ -750,9 +750,7 @@ public class MolkkyGame implements Serializable {
                         }
 
                         // fill hits
-                        round.nextHit();
-
-                        // find empty column
+                        // find empty column (hits are stored after it)
                         String [] tmp = lines.get(0);
                         int idx = 2;
                         for (int i = 2; i < tmp.length; i++) {
@@ -762,6 +760,7 @@ public class MolkkyGame implements Serializable {
                             }
                         }
 
+                        // read hits from lines and append them
                         boolean cont = true;
                         while (cont) {
                             cont = false;
@@ -769,15 +768,13 @@ public class MolkkyGame implements Serializable {
                                 if (l.length > idx) {
                                     cont = true;
                                     if (l[idx].equalsIgnoreCase("X")) {
-                                        round.currentHit(MolkkyHit.LINECROSS);
+                                        round.appendHit(MolkkyHit.LINECROSS);
                                     } else {
-                                        round.currentHit(Integer.parseInt(l[idx]));
+                                        round.appendHit(Integer.parseInt(l[idx]));
                                     }
-                                    round.nextHit();
                                 } else {
                                     if (!round.over()) {
-                                        round.currentHit(MolkkyHit.NOTPLAYED);
-                                        round.nextHit();
+                                        round.appendHit(MolkkyHit.NOTPLAYED);
                                     }
                                 }
                             }
