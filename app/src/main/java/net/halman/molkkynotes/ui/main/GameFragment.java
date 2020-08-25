@@ -169,13 +169,20 @@ public class GameFragment extends Fragment {
         }
 
         MolkkyGame game = _listener.game();
-        MolkkyTeam team = game.nextTeam();
+        int offset = 1;
+
+        MolkkyTeam team = game.nextTeam(offset);
         if (team == null) {
             _next_player.setText("");
             return;
         }
 
-        ArrayList<MolkkyPlayer> players = game.inTurnTeamMembers(team, +1);
+        while (game.teamHealthUpToCursor(team) == MolkkyRound.OUT && offset <= game.teams().size()) {
+            offset++;
+            team = game.nextTeam(offset);
+        }
+
+        ArrayList<MolkkyPlayer> players = game.inTurnTeamMembers(team, offset);
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         int start = 0;
 

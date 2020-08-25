@@ -208,7 +208,7 @@ public class MolkkyGame implements Serializable {
         return currentRound().currentTeam();
     }
 
-    public MolkkyTeam nextTeam()
+    public MolkkyTeam nextTeam(int step)
     {
         if (_teams.size() == 0) {
             return null;
@@ -218,7 +218,7 @@ public class MolkkyGame implements Serializable {
             return null;
         }
 
-        return currentRound().nextTeam();
+        return currentRound().nextTeam(step);
     }
 
     public void hit(MolkkyHit hit)
@@ -558,6 +558,11 @@ public class MolkkyGame implements Serializable {
     public int teamHealth(MolkkyTeam team)
     {
         return currentRound().teamHealth(team);
+    }
+
+    public int teamHealthUpToCursor(MolkkyTeam team)
+    {
+        return currentRound().teamHealth(team, true);
     }
 
     private int teamIndex(MolkkyTeam team)
