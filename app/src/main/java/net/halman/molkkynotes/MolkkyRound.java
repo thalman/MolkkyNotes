@@ -79,9 +79,13 @@ public class MolkkyRound implements Serializable {
         return _teams.get((_current + _startingTeam) % _teams.size());
     }
 
-    MolkkyTeam nextTeam() {
+    MolkkyTeam nextTeam(int step) {
         if (_teams.size() == 0) return null;
-        return _teams.get((_current + _startingTeam + 1) % _teams.size());
+        return _teams.get((_current + _startingTeam + step) % _teams.size());
+    }
+
+    MolkkyTeam nextTeam() {
+        return nextTeam(1);
     }
 
     MolkkyHit currentHit() {
@@ -153,18 +157,27 @@ public class MolkkyRound implements Serializable {
         return hit;
     }
 
-    private ArrayList<MolkkyHit> teamHits(int teamidx) {
+    public void appendHit(int hit)
+    {
+        _hits.add(new MolkkyHit(hit));
+    }
+
+    private ArrayList<MolkkyHit> teamHits(int teamidx, boolean up_to_cursor) {
         ArrayList<MolkkyHit> hits = new ArrayList<MolkkyHit>();
         int first = teamidx - _startingTeam;
         if (first < 0) first += _teams.size();
         while (first < _hits.size()) {
             hits.add(_hits.get(first));
             first += _teams.size();
+            if (up_to_cursor && first > _current){
+                break;
+            }
         }
         return hits;
     }
 
-    ArrayList<MolkkyHit> teamHits(MolkkyTeam team) {
+    private int teamIndex(MolkkyTeam team)
+    {
         int idx = 0;
         for (MolkkyTeam t: _teams) {
             if (t.id() == team.id()) {
@@ -173,8 +186,19 @@ public class MolkkyRound implements Serializable {
             ++idx;
         }
 
-        if (idx < _teams.size()) return teamHits(idx);
+        if (idx >= _teams.size()) return -1;
+        return idx;
+    }
+
+    ArrayList<MolkkyHit> teamHits(MolkkyTeam team, boolean up_to_cursor) {
+        int idx = teamIndex(team);
+
+        if (idx >= 0) return teamHits(idx, up_to_cursor);
         return new ArrayList<MolkkyHit>();
+    }
+
+    ArrayList<MolkkyHit> teamHits(MolkkyTeam team) {
+        return teamHits(team, false);
     }
 
     public int teamScore(MolkkyTeam team) {
@@ -248,8 +272,8 @@ public class MolkkyRound implements Serializable {
         return penalties;
     }
 
-    public int teamHealth(MolkkyTeam team) {
-        ArrayList<MolkkyHit> hits = teamHits(team);
+    public int teamHealth(MolkkyTeam team, boolean up_to_cursor) {
+        ArrayList<MolkkyHit> hits = teamHits(team, up_to_cursor);
         int zeros = 0;
         int health = GOOD;
         for (int i = 0; i < hits.size(); i++) {
@@ -269,6 +293,11 @@ public class MolkkyRound implements Serializable {
         if (zeros == 1) return ZERO;
         if (zeros == 2) return TWOZEROS;
         return GOOD;
+    }
+
+    public int teamHealth(MolkkyTeam team)
+    {
+        return teamHealth(team, false);
     }
 
     public boolean over() {

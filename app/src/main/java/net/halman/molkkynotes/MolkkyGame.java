@@ -208,7 +208,7 @@ public class MolkkyGame implements Serializable {
         return currentRound().currentTeam();
     }
 
-    public MolkkyTeam nextTeam()
+    public MolkkyTeam nextTeam(int step)
     {
         if (_teams.size() == 0) {
             return null;
@@ -218,7 +218,7 @@ public class MolkkyGame implements Serializable {
             return null;
         }
 
-        return currentRound().nextTeam();
+        return currentRound().nextTeam(step);
     }
 
     public void hit(MolkkyHit hit)
@@ -560,6 +560,11 @@ public class MolkkyGame implements Serializable {
         return currentRound().teamHealth(team);
     }
 
+    public int teamHealthUpToCursor(MolkkyTeam team)
+    {
+        return currentRound().teamHealth(team, true);
+    }
+
     private int teamIndex(MolkkyTeam team)
     {
         for (int i = 0; i < _teams.size(); ++i) {
@@ -750,9 +755,7 @@ public class MolkkyGame implements Serializable {
                         }
 
                         // fill hits
-                        round.nextHit();
-
-                        // find empty column
+                        // find empty column (hits are stored after it)
                         String [] tmp = lines.get(0);
                         int idx = 2;
                         for (int i = 2; i < tmp.length; i++) {
@@ -762,6 +765,7 @@ public class MolkkyGame implements Serializable {
                             }
                         }
 
+                        // read hits from lines and append them
                         boolean cont = true;
                         while (cont) {
                             cont = false;
@@ -769,15 +773,13 @@ public class MolkkyGame implements Serializable {
                                 if (l.length > idx) {
                                     cont = true;
                                     if (l[idx].equalsIgnoreCase("X")) {
-                                        round.currentHit(MolkkyHit.LINECROSS);
+                                        round.appendHit(MolkkyHit.LINECROSS);
                                     } else {
-                                        round.currentHit(Integer.parseInt(l[idx]));
+                                        round.appendHit(Integer.parseInt(l[idx]));
                                     }
-                                    round.nextHit();
                                 } else {
                                     if (!round.over()) {
-                                        round.currentHit(MolkkyHit.NOTPLAYED);
-                                        round.nextHit();
+                                        round.appendHit(MolkkyHit.NOTPLAYED);
                                     }
                                 }
                             }
