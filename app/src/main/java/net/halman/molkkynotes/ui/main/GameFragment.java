@@ -255,6 +255,12 @@ public class GameFragment extends Fragment {
 
         MolkkyGame game = _listener.game();
 
+        if (game.numberOfValidTeams() < 2) {
+            while (game.roundCursor() != -1) {
+                game.prevHit();
+            }
+        }
+
         if (game.roundCursor() == -1) {
             _setup.setVisibility(View.VISIBLE);
             _current_player.setVisibility(View.GONE);
@@ -354,10 +360,7 @@ public class GameFragment extends Fragment {
 
 
         if (game.hit().hit() == MolkkyHit.NOTPLAYED) {
-            if (!game.gameStarted()) {
-                // first hit - cleanup teams
-                game.removeTrailingEmptyTeams();
-            }
+            game.removeTrailingEmptyTeams();
             game.hit(value);
             updateScreen();
             _listener.scheduleForwardMove();
