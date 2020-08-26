@@ -867,6 +867,23 @@ public class MolkkyGame implements Serializable {
         return round.inTurnTeamMembers(team, offset);
     }
 
+    public int numberOfValidTeams()
+    {
+        if (gameStarted()) {
+            return _teams.size();
+        };
+
+        int idx = _teams.size() - 1;
+        while (idx >= 0) {
+            MolkkyTeam t = _teams.get(idx);
+            if (t.size() > 0) {
+                return idx + 1;
+            }
+            idx--;
+        }
+        return 0;
+    }
+
     public boolean removeTrailingEmptyTeams()
     {
         if (gameStarted()) {
