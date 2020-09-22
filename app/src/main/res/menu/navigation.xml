@@ -20,6 +20,10 @@
         android:checkable="true"
         android:title="@string/menuKeepScreenOn" />
     <item
+        android:id="@+id/menuMaxBrightness"
+        android:checkable="true"
+        android:title="@string/menuMaxBrightness" />
+    <item
         android:id="@+id/menuRules"
         android:title="@string/menuRules" />
     <item

@@ -12,6 +12,7 @@ public class Setup {
     public final static int NEXT_SET_STARTING_ASK_ME = 1;
 
     private boolean _playInTeams = false;
+    private boolean _set_brightness = false;
     private int _goal = 50;
     private int _penaltyWhenOverGoal = 25;
     private int _penaltyFor3Zeros = ELIMINATION;
@@ -83,6 +84,16 @@ public class Setup {
         _keep_screen_on = keep_screen_on;
     }
 
+    public boolean setBrightness()
+    {
+        return _set_brightness;
+    }
+
+    public void setBrightness(boolean set_brightness)
+    {
+        _set_brightness = set_brightness;
+    }
+
     public void save(Activity activity)
     {
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
@@ -92,6 +103,7 @@ public class Setup {
         editor.putInt("penalty-when-over", _penaltyWhenOverGoal);
         editor.putInt("penalty-for-3-zeros", _penaltyFor3Zeros);
         editor.putBoolean("keep-screen-on", _keep_screen_on);
+        editor.putBoolean("set-brightness", _set_brightness);
         editor.putBoolean("auto-forward", _auto_forward);
         editor.putInt("next-set-starting-team", _next_set_starting_team);
         editor.apply();
@@ -105,6 +117,7 @@ public class Setup {
         _penaltyWhenOverGoal = sharedPref.getInt("penalty-when-over", 25);
         penaltyFor3Zeros(sharedPref.getInt("penalty-for-3-zeros", ELIMINATION));
         _keep_screen_on =  sharedPref.getBoolean("keep-screen-on", false);
+        _set_brightness = sharedPref.getBoolean("set-brightness", false);
         _auto_forward =  sharedPref.getBoolean("auto-forward", false);
         _next_set_starting_team = sharedPref.getInt("next-set-starting-team", NEXT_SET_STARTING_NEXT);
     }
