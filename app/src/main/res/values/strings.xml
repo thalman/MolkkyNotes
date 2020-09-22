@@ -13,6 +13,7 @@
     <string name="menuChangeStartingTeam">Change staring team</string>
     <string name="menuRules">Mölkky Rules</string>
     <string name="menuKeepScreenOn">Keep screen on</string>
+    <string name="menuMaxBrightness">Max screen brightness</string>
     <string name="menuPreferences">Setup</string>
 
     <!-- team screen -->

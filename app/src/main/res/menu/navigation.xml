@@ -5,6 +5,9 @@
         android:id="@+id/menuNewGame"
         android:title="@string/menuStartNewGame" />
     <item
+        android:id="@+id/menuChangeStartingTeam"
+        android:title="@string/menuChangeStartingTeam" />
+    <item
         android:id="@+id/menuPlayInTeams"
         android:checkable="true"
         android:title="@string/menuPlayInTeams" />
@@ -13,12 +16,13 @@
         android:checkable="true"
         android:title="@string/menuAutoForward" />
     <item
-        android:id="@+id/menuChangeStartingTeam"
-        android:title="@string/menuChangeStartingTeam" />
-    <item
         android:id="@+id/menuKeepScreenOn"
         android:checkable="true"
         android:title="@string/menuKeepScreenOn" />
+    <item
+        android:id="@+id/menuMaxBrightness"
+        android:checkable="true"
+        android:title="@string/menuMaxBrightness" />
     <item
         android:id="@+id/menuRules"
         android:title="@string/menuRules" />

@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity
         i.setChecked(_setup.keepScreenOn());
         i = menu.findItem(R.id.menuAutoForward);
         i.setChecked(_setup.autoForward());
+        i = menu.findItem(R.id.menuMaxBrightness);
+        i.setChecked(_setup.setBrightness());
         return true;
     }
 
@@ -149,11 +151,17 @@ public class MainActivity extends AppCompatActivity
                 _setup.keepScreenOn(item.isChecked());
                 onKeepScreenOn();
                 break;
+            case R.id.menuMaxBrightness:
+                item.setChecked(!item.isChecked());
+                _setup.setBrightness(item.isChecked());
+                onChangeBrightness();
+                break;
             case R.id.menuPreferences:
                 onSetupMenuClick();
                 break;
         }
 
+        _setup.save(this);
         return true;
     }
 
@@ -168,6 +176,7 @@ public class MainActivity extends AppCompatActivity
     public void onStart() {
         _setup.load(this);
         onKeepScreenOn();
+        onChangeBrightness();
         loadGame();
         super.onStart();
     }
@@ -469,6 +478,19 @@ public class MainActivity extends AppCompatActivity
             builder.setTitle(R.string.dialogNextSetTeam);
             builder.show();
         }
+    }
+
+    private void onChangeBrightness()
+    {
+        WindowManager.LayoutParams layout = getWindow().getAttributes();
+        if (_setup.setBrightness()) {
+            // 1.0f => set brightness to maximum
+            layout.screenBrightness = 1.0f;
+        } else {
+            // negative number => set to user's default
+            layout.screenBrightness = -1.0f;
+        }
+        getWindow().setAttributes(layout);
     }
 
     public String historyOpenFile()

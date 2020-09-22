@@ -12,6 +12,7 @@
     <string name="menuChangeStartingTeam">Změnit začínající tým</string>
     <string name="menuRules">Pravidla hry</string>
     <string name="menuKeepScreenOn">Nezhasínat obrazovku</string>
+    <string name="menuMaxBrightness">Maximální jas obrazovky</string>
     <string name="menuPreferences">Nastavení</string>
 
     <!-- team screen -->
