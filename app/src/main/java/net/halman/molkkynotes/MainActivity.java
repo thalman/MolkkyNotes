@@ -161,7 +161,10 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        _setup.save(this);
+        if (item.isCheckable()) {
+            _setup.save(this);
+        }
+
         return true;
     }
 
