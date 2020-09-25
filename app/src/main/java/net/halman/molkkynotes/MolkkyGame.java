@@ -39,6 +39,14 @@ public class MolkkyGame implements Serializable {
                 return +1;
             }
 
+            int wins1 = gameTeamWins(t1);
+            int wins2 = gameTeamWins(t2);
+            if (wins1 > wins2) {
+                return -1;
+            } else if (wins1 < wins2) {
+                return +1;
+            }
+
             int z1 = gameNumberOfZeros(t1);
             int z2 = gameNumberOfZeros(t2);
             if (z1 > z2) {
@@ -46,6 +54,15 @@ public class MolkkyGame implements Serializable {
             } else if (z1 < z2) {
                 return -1;
             }
+
+            int p1 = gameNumberOfPenalties(t1);
+            int p2 = gameNumberOfPenalties(t2);
+            if (p1 > p2) {
+                return +1;
+            } else if (p1 < p2) {
+                return -1;
+            }
+
             return 0;
         }
     }
@@ -361,6 +378,17 @@ public class MolkkyGame implements Serializable {
         }
 
         return score;
+    }
+
+    public int gameTeamWins(MolkkyTeam t) {
+        int wins = 0;
+        for (MolkkyRound r: _rounds) {
+            if (r.teamScore(t) == _goal) {
+                wins++;
+            }
+        }
+
+        return wins;
     }
 
     public int gameNumberOfZeros(MolkkyTeam t)
