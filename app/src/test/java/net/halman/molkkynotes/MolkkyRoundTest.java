@@ -11,8 +11,10 @@ public class MolkkyRoundTest {
         MolkkyPlayer mike = new MolkkyPlayer("Mike");
         MolkkyTeam toms = new MolkkyTeam();
         MolkkyTeam mikes = new MolkkyTeam();
-        toms.addMember(tom);
-        mikes.addMember(mike);
+        toms.id(0);
+        mikes.id(1);
+        toms.addPlayer(tom);
+        mikes.addPlayer(mike);
 
         MolkkyRound round = new MolkkyRound(50, 25);
         round.addTeam(toms);
@@ -86,6 +88,9 @@ public class MolkkyRoundTest {
         assertEquals(44, round.teamScore(mikes));
         assertEquals(MolkkyRound.ZERO, round.teamHealth(toms));
         assertEquals(MolkkyRound.GOOD, round.teamHealth(mikes));
+        assertEquals(1, round.numberOfPenalties(toms));
+        assertEquals(3, round.numberOfZeros(toms));
+        assertEquals(2, round.numberOfZeros(mikes));
 
         round.currentHit(12);
         round.nextHit();

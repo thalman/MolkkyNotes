@@ -238,7 +238,7 @@ public class MolkkyRound implements Serializable {
         ArrayList<MolkkyHit> hits = teamHits(team);
 
         for (MolkkyHit hit : hits) {
-            if (hit.hit() == 0) {
+            if (hit.hit() == 0 || hit.hit() == MolkkyHit.LINECROSS) {
                 zeros++;
             }
         }
