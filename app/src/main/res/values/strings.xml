@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">MölkkyNotes</string>
+    <string name="emptyString" translatable="false"></string>
 
     <string name="tab_text_1">Players</string>
     <string name="tab_text_2">Game</string>
@@ -128,6 +129,4 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="promoteSupport">Support MölkkyNotes</string>
     <string name="promoteSupportDetail">If you enjoy using MölkkyNotes, please consider support the development by buying MölkkyNotes +.</string>
     <string name="promoteSupportNow">Buy MölkkyNotes +</string>
-
-    <string name="emptyString"></string>
 </resources>
