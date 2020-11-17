@@ -14,10 +14,18 @@ public class MolkkySheet {
     private int _text_size = 50;
     private int _offset_x = 0;
     private int _offset_y = 0;
+    private boolean _dry_run = false;
+
+    public void dryRun(boolean dry_run)
+    {
+        _dry_run = dry_run;
+    }
 
     private void drawLine(SheetDrawable d, int x1, int y1, int x2, int y2, boolean thick)
     {
-        d.drawLine(_offset_x + x1, _offset_y + y1, _offset_x + x2, _offset_y + y2, thick);
+        if (! _dry_run) {
+            d.drawLine(_offset_x + x1, _offset_y + y1, _offset_x + x2, _offset_y + y2, thick);
+        }
     }
 
     private void drawBoxedLine(SheetDrawable d, float x1, float y1, float x2, float y2, boolean thick)
@@ -29,7 +37,9 @@ public class MolkkySheet {
 
     void drawText(SheetDrawable d, int x1, int y1, int x2, int y2, String text, int textSize, int typeface, boolean centered)
     {
-        d.drawText(x1 + _offset_x, y1 + _offset_y, x2 + _offset_x, y2 + _offset_y, text, textSize, typeface, centered);
+        if (! _dry_run) {
+            d.drawText(x1 + _offset_x, y1 + _offset_y, x2 + _offset_x, y2 + _offset_y, text, textSize, typeface, centered);
+        }
     }
 
     void drawBoxedText(SheetDrawable d, float x1, float y1, float x2, float y2, String text, int textSize, int typeface, boolean centered)
@@ -47,6 +57,10 @@ public class MolkkySheet {
 
     void drawBoxedCircle(SheetDrawable d, float x1, float y1, float x2, float y2, boolean thick)
     {
+        if (_dry_run) {
+            return;
+        }
+
         x1 = x1 * _box_width + _offset_x;
         x2 = x2 * _box_width + _offset_x;
         y1 = y1 * _box_height + _offset_y;
@@ -165,7 +179,6 @@ public class MolkkySheet {
                             drawBoxedTextCN(sheet, 4 + col, line + 0.7f, 5 + col, line + 1.5f, Integer.toString(sum), _text_size);
                             if (h.hit() == 0) {
                                 drawBoxedCircle(sheet, 4 + col, line + 0.7f, 5 + col, line + 1.5f, false);
-                                // sheet.drawCircle((10 + col) * _box_width + _box_width / 2, line * _box_height + _box_height / 2, _box_width / 2 - 5);
                             }
                         }
 
@@ -195,8 +208,9 @@ public class MolkkySheet {
     public Rect title(MolkkyGame game, SheetDrawable sheet, Context context)
     {
         Drawable d = context.getResources().getDrawable(R.drawable.ic_mollky_icon);
-        sheet.drawDrawable(_offset_x, _offset_y, _offset_x + 100, _offset_y + 100, d);
-
+        if (! _dry_run) {
+            sheet.drawDrawable(_offset_x, _offset_y, _offset_x + 100, _offset_y + 100, d);
+        }
         if (game.date() != null) {
             game.dateAsString();
             String date = android.text.format.DateFormat.getLongDateFormat(context).format(game.date());

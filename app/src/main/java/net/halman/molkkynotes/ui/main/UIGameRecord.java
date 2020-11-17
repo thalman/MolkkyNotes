@@ -213,45 +213,51 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         _canvas = canvas;
-        _canvas.save();
-        _canvas.scale(_scale_factor, _scale_factor, _scale_point_x, _scale_point_y);
-        _canvas.translate(_pan_x, _pan_y);
+        boolean finished = false;
+        while(! finished) {
+            _canvas.save();
+            _canvas.scale(_scale_factor, _scale_factor, _scale_point_x, _scale_point_y);
+            _canvas.translate(_pan_x, _pan_y);
 
-        MolkkySheet sheet = new MolkkySheet();
-        Rect R = null;
-        switch (_what_to_draw) {
-            case DRAW_CURRENT_ROUND: {
-                sheet.setOffset(10, 10);
-                R = sheet.currentRound(_game, true, this, getContext());
-                sheet.setOffset(10, R.bottom);
-                Rect R2 = sheet.currentGame(_game, this, getContext());
-                R.bottom += R2.bottom;
-                R.right = Math.max(R.right, R2.right);
-                break;
-            }
-            case DRAW_GAME: {
-                sheet.setOffset(10, 10);
-                R = sheet.currentGame(_game, this, getContext());
-                int y = R.bottom;
-                for (int idx = 0; idx <  _game.rounds().size(); idx++) {
-                    sheet.setOffset(10, y);
-                    Rect R2 = sheet.round(_game, idx, false, true, this, getContext());
-                    y += R2.bottom;
+            MolkkySheet sheet = new MolkkySheet();
+            sheet.dryRun(_need_fit);
+            Rect R = null;
+            switch (_what_to_draw) {
+                case DRAW_CURRENT_ROUND: {
+                    sheet.setOffset(10, 10);
+                    R = sheet.currentRound(_game, true, this, getContext());
+                    sheet.setOffset(10, R.bottom);
+                    Rect R2 = sheet.currentGame(_game, this, getContext());
+                    R.bottom += R2.bottom;
                     R.right = Math.max(R.right, R2.right);
+                    break;
                 }
+                case DRAW_GAME: {
+                    sheet.setOffset(10, 10);
+                    R = sheet.currentGame(_game, this, getContext());
+                    int y = R.bottom;
+                    for (int idx = 0; idx < _game.rounds().size(); idx++) {
+                        sheet.setOffset(10, y);
+                        Rect R2 = sheet.round(_game, idx, false, true, this, getContext());
+                        y += R2.bottom;
+                        R.right = Math.max(R.right, R2.right);
+                    }
 
-                R.bottom = y;
-                break;
+                    R.bottom = y;
+                    break;
+                }
             }
-        }
 
-        _canvas.restore();
-        if (_need_fit && R != null) {
-            float w = getWidth();
-            float h = getHeight();
-            _scale_factor = Math.min(w / (R.right + 20), h / (R.bottom + 20));
-            invalidate();
-            _need_fit = false;
+            _canvas.restore();
+            finished = ! _need_fit;
+            if (_need_fit) {
+                if (R != null) {
+                    float w = getWidth();
+                    float h = getHeight();
+                    _scale_factor = Math.min(w / (R.right + 20), h / (R.bottom + 20));
+                }
+                _need_fit = false;
+            }
         }
     }
 }
