@@ -18,7 +18,7 @@ import java.io.FileOutputStream;
 public class ScoreExport implements MolkkySheet.SheetDrawable {
     private Canvas _canvas;
     private Bitmap _bitmap;
-    private Context _context;
+    private final Context _context;
 
     public ScoreExport(Context context)
     {
@@ -86,8 +86,7 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
         drawable.draw(_canvas);
     }
 
-    public void jpeg (MolkkyGame game, String file_name)
-    {
+    public Bitmap recordBitmap(MolkkyGame game) {
         Rect size = new Rect(0, 0, 100, 100);
 
         Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
@@ -95,7 +94,6 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
             _bitmap = Bitmap.createBitmap(size.right, size.bottom, conf);
             _canvas = new Canvas(_bitmap);
             _canvas.drawColor(Color.WHITE);
-
 
             MolkkySheet sheet = new MolkkySheet();
             sheet.setOffset(100, 100);
@@ -115,7 +113,15 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
 
             size.right = R.right + 200;
             size.bottom = y + 100;
+
         }
+
+        return _bitmap;
+    }
+
+    public void recordJpeg(MolkkyGame game, String file_name)
+    {
+        recordBitmap(game);
 
         File file = new File(file_name);
         if (file.exists()) {
@@ -123,6 +129,44 @@ public class ScoreExport implements MolkkySheet.SheetDrawable {
         }
 
         try {
+            FileOutputStream out = new FileOutputStream(file);
+            _bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Bitmap emptySheet()
+    {
+        Rect size = new Rect(0, 0, 100, 100);
+
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+        for (int i = 1; i <= 2; ++i) {
+            _bitmap = Bitmap.createBitmap(size.right, size.bottom, conf);
+            _canvas = new Canvas(_bitmap);
+            _canvas.drawColor(Color.WHITE);
+
+            MolkkySheet sheet = new MolkkySheet();
+            sheet.setOffset(100, 100);
+            Rect R = sheet.emptySheet(this, _context);
+            size.right = R.right + 200;
+            size.bottom = R.bottom + 200;
+        }
+        return _bitmap;
+    }
+
+    public void emptySheetJpeg(String file_name)
+    {
+        try {
+            File file = new File(file_name);
+            if (file.exists()) {
+                file.delete();
+            }
+
+            emptySheet();
+
             FileOutputStream out = new FileOutputStream(file);
             _bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();

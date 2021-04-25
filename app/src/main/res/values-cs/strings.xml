@@ -14,6 +14,7 @@
     <string name="menuKeepScreenOn">Nezhasínat obrazovku</string>
     <string name="menuMaxBrightness">Maximální jas obrazovky</string>
     <string name="menuPreferences">Nastavení</string>
+    <string name="menuPrint">Vytisknout prázdný zápis</string>
 
     <!-- team screen -->
     <string name="teamsPlayers">Všichni hráči</string>
@@ -98,14 +99,20 @@ odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou
     <string name="dialogNumberOfTeamsDetail">Aplikace podporuje hru maximálně deseti týmů.</string>
     <string name="dialogNumberOfPlayers">Příliš mnoho hráčů!</string>
     <string name="dialogNumberOfPlayersDetail">Aplikace podporuje hru maximálně deseti hráčů.</string>
+    <string name="dialogPrintOrSend">Co udělat?</string>
+    <string-array name="dialogPrintOrSendValues">
+        <item>Vytisknout formulář pro zápis</item>
+        <item>Sdílet nebo poslat formulář pro zápis</item>
+    </string-array>
 
     <!-- history -->
     <string name="historyDelete">Smazat utkání?</string>
     <string name="historyDeleteDetail">Záznam utkání bude odstraněn.</string>
-    <string name="historyShare">Sdílet prostřednictvím ...</string>
+    <string name="historyShare">Zápis utkáni</string>
     <string-array name="historyExports">
-        <item>CSV soubor</item>
-        <item>JPG obrázek</item>
+        <item>Sdílet zápis o utkání</item>
+        <item>Exportovat zápis jako CSV soubor</item>
+        <item>Vytisknout zápis</item>
     </string-array>
 
     <!-- sheets -->
@@ -116,6 +123,11 @@ odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou
     <string name="sheetRound">%1$d. hra</string>
     <string name="sheetGame">Utkání</string>
     <string name="sheetTotal">Celkem</string>
+    <string name="sheetCount">Počet</string>
+    <string name="sheetHits">Hod</string>
+    <string name="sheetRecord">Zápis utkání ve hře Mölkky</string>
+    <string name="sheetDate">Datum:</string>
+    <string name="sheetPlace">Místo:</string>
 
     <string name="promoteRate">Ohodnoťte MölkkyNotes</string>
     <string name="promoteRateDetail">Pokud se Vám aplikace MölkkyNotes líbí, prosím věnujte chvíli jejímu ohodnocení. Díky!</string>

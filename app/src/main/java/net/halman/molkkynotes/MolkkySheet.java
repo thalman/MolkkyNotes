@@ -82,6 +82,13 @@ public class MolkkySheet {
     }
 
 
+    void drawDrawable(SheetDrawable d, float x1, float y1, float x2, float y2, Drawable drawable)
+    {
+        if (! _dry_run) {
+            d.drawDrawable((int)(_offset_x + x1), (int)(_offset_y + y1), (int)(_offset_x + x2), (int)(_offset_y + y2), drawable);
+        }
+    }
+
     public Rect round(MolkkyGame game, int roundidx, boolean sortTeams, boolean alignColumns, SheetDrawable sheet, Context context)
     {
         if (game == null || sheet == null || context == null) {
@@ -287,6 +294,84 @@ public class MolkkySheet {
         // finish the frame
         drawBoxedLine(sheet, 0, 1, 0, line, true);
         drawBoxedLine(sheet, width, 1, width, line, true);
+
+        return new Rect(0, 0, width * _box_width, (int)(line * _box_height));
+    }
+
+    public Rect emptySheet(SheetDrawable sheet, Context context)
+    {
+        if (sheet == null || context == null) {
+            return new Rect(0, 0, 0, 0);
+        }
+
+
+        /* frame */
+        int top = 3;
+        int line = top;
+        int width = 7 + 20  + 2;
+
+        drawBoxedLine(sheet, 0, 0, width, 0, true);
+        drawBoxedLine(sheet, 0, 2.5f, width, 2.5f, true);
+        drawBoxedLine(sheet, 0, 0, 0, 2.5f, true);
+        drawBoxedLine(sheet, width, 0, width, 2.5f, true);
+        drawBoxedText(sheet, 1, 0.2f, width, 1.0f, context.getResources().getString(R.string.sheetRecord), _text_size * 12 / 10, Typeface.BOLD, false);
+        drawBoxedText(sheet, 1, 1.3f, 8, 2.3f, context.getResources().getString(R.string.sheetDate), _text_size, Typeface.BOLD, false);
+        drawBoxedText(sheet, 10, 1.3f, width, 2.3f, context.getResources().getString(R.string.sheetPlace), _text_size, Typeface.BOLD, false);
+        Drawable d = context.getResources().getDrawable(R.drawable.ic_mollky_icon);
+        if (d != null) {
+            float y = (2.5f * _box_height - 2 * _box_width)/2.0f;
+            drawDrawable(sheet,
+                    (width - 2.5f) * _box_width,
+                    y,
+                    (width - 0.5f) * _box_width,
+                    y + 2 * _box_width,
+                    d);
+        }
+
+        /* header texts */
+        drawBoxedText(sheet, 0, line, 7, line + 1, context.getResources().getString(R.string.sheetTeams), _text_size, Typeface.BOLD, true);
+        drawBoxedTextCN(sheet, 7, line, width - 2, line + 0.5f, context.getResources().getString(R.string.sheetHits), _text_size * 2 / 3);
+        drawBoxedTextCN(sheet, width - 2, line, width, line + 0.5f, context.getResources().getString(R.string.sheetCount), _text_size * 2 / 3);
+
+        /* horizontal lines */
+        drawBoxedLine(sheet, 0, line,  width, line, true);
+        drawBoxedLine(sheet, 7, line + 0.5f,  width, line + 0.5f, false);
+        line++;
+        drawBoxedLine(sheet, 0, line,  width, line, true);
+        line++;
+
+        for(int i = 0; i < 11; i++) {
+            drawBoxedLine(sheet, 1, line - 0.5f,  7, line - 0.5f, false);
+            drawBoxedLine(sheet, 0, line,  7, line, true);
+            drawBoxedLine(sheet, 7, line,  width, line, false);
+            line++;
+        }
+        drawBoxedLine(sheet, 1, line - 0.5f,  7, line - 0.5f, false);
+        drawBoxedLine(sheet, 0, line,  width, line, true);
+
+        /* vertical lines */
+        drawBoxedLine(sheet, 0, top,  0, line, true);
+        drawBoxedLine(sheet, 1, top + 1,  1, line, true);
+        drawBoxedLine(sheet, 7, top,  7, line, true);
+        drawBoxedLine(sheet, width - 2, top,  width - 2, line, true);
+        drawBoxedLine(sheet, width - 1, top + 0.5f,  width - 1, line, false);
+        drawBoxedLine(sheet, width, top,  width, line, true);
+        for (int i = 0; i < 20; i++) {
+            drawBoxedLine(sheet, 8 + i, top + 0.5f,  8 + i, line, false);
+        }
+
+        /* vertical numbers */
+        for(int i = 0; i < 12; i++) {
+            drawBoxedText(sheet, 0, i + 1 + top, 1, i + 2 + top, Integer.toString(i + 1), _text_size, Typeface.BOLD, true);
+        }
+
+        /* horizontal numbers */
+        for(int i = 0; i < 20; i++) {
+            drawBoxedText(sheet, 7 + i,  top + 0.5f, 8 + i, top + 1, Integer.toString(i + 1), _text_size * 2 / 3, Typeface.BOLD, true);
+        }
+        drawBoxedText(sheet, width - 2,  top + 0.5f, width - 1, top + 1, Integer.toString(0), _text_size * 2 / 3, Typeface.BOLD, true);
+        drawBoxedText(sheet, width - 1,  top + 0.5f, width, top + 1, Integer.toString(25), _text_size * 2 / 3, Typeface.BOLD, true);
+        drawBoxedLine(sheet, width - 0.8f,  top + 0.9f, width - 0.2f, top + 0.6f, false);
 
         return new Rect(0, 0, width * _box_width, (int)(line * _box_height));
     }

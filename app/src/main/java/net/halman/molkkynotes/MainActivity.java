@@ -3,12 +3,17 @@ package net.halman.molkkynotes;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
+import android.support.v4.print.PrintHelper;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -158,6 +163,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.menuPreferences:
                 onSetupMenuClick();
+                break;
+            case R.id.menuPrint:
+                onPrintMenuClick();
                 break;
         }
 
@@ -424,6 +432,52 @@ public class MainActivity extends AppCompatActivity
 
         builder.show();
 
+    }
+
+    private void onPrintMenuClick()
+    {
+        final Context context = this;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(R.string.dialogPrintOrSend);
+        builder.setItems(R.array.dialogPrintOrSendValues, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0: {
+                        // print
+                        PrintHelper printer = new PrintHelper(context);
+                        printer.setScaleMode(PrintHelper.SCALE_MODE_FIT);
+                        ScoreExport export = new ScoreExport(context);
+                        Bitmap sheet = export.emptySheet();
+                        printer.printBitmap("Empty Sheet Molkky", sheet);
+                        break;
+                    }
+                    case 1: {
+                        // share
+                        try {
+                            ScoreExport export = new ScoreExport(context);
+                            File dir = context.getExternalFilesDir("tmp");
+                            if (!dir.exists()) {
+                                dir.mkdirs();
+                            }
+
+                            File file = new File(dir, "empty-sheet.jpg");
+                            export.emptySheetJpeg(file.getAbsolutePath());
+                            String provider = getApplicationContext().getPackageName() + ".provider";
+                            Uri uri = FileProvider.getUriForFile(context, provider, file);
+
+                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                            sharingIntent.setType("image/*");
+                            sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                            sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            startActivity(Intent.createChooser(sharingIntent, getString(R.string.historyShare)));
+                        } catch (Exception ignored) { }
+                        break;
+                    }
+                }
+            }
+        });
+        builder.show();
     }
 
     private void onKeepScreenOn()

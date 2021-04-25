@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v4.print.PrintHelper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -344,12 +346,16 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
+                        // export JPG
+                        exportJPG();
+                        break;
+                    case 1:
                         // export CSV
                         exportCSV();
                         break;
-                    case 1:
-                        // export JPG
-                        exportJPG();
+                    case 2:
+                        // print
+                        printJPG();
                         break;
                 }
             }
@@ -408,7 +414,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
 
             File file = new File(dir, "molkky.jpg");
             ScoreExport exporter = new ScoreExport(getContext());
-            exporter.jpeg(game, file.getAbsolutePath());
+            exporter.recordJpeg(game, file.getAbsolutePath());
 
             String provider = getContext().getApplicationContext().getPackageName() + ".provider";
             Uri uri = FileProvider.getUriForFile(getContext(), provider, file);
@@ -419,6 +425,25 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
             sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(Intent.createChooser(sharingIntent, getString(R.string.historyShare)));
         } catch (Exception e) {}
+    }
+
+    private void printJPG()
+    {
+        if (_current_csv.isEmpty()) {
+            return;
+        }
+
+        try {
+            deleteTempContent();
+            MolkkyGame game = new MolkkyGame();
+            game.CSVImport(_current_csv);
+
+            PrintHelper printer = new PrintHelper(getContext());
+            printer.setScaleMode(PrintHelper.SCALE_MODE_FIT);
+            ScoreExport export = new ScoreExport(getContext());
+            Bitmap sheet = export.recordBitmap(game);
+            printer.printBitmap("Molkky match record", sheet);
+        } catch (Exception ignored) {}
     }
 
     public interface OnHistoryFragmentInteractionListener {

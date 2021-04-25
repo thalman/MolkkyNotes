@@ -17,6 +17,7 @@
     <string name="menuKeepScreenOn">Keep screen on</string>
     <string name="menuMaxBrightness">Max screen brightness</string>
     <string name="menuPreferences">Setup</string>
+    <string name="menuPrint">Print an empty sheet</string>
 
     <!-- team screen -->
     <string name="teamsPlayers">All Player</string>
@@ -102,15 +103,22 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="dialogNumberOfTeamsDetail">The application supports up to 10 teams in one game.</string>
     <string name="dialogNumberOfPlayers">Too many players!</string>
     <string name="dialogNumberOfPlayersDetail">The application supports up to 10 players in one game.</string>
+    <string name="dialogPrintOrSend">What to do?</string>
+    <string-array name="dialogPrintOrSendValues">
+        <item>Print empty sheet</item>
+        <item>Share/Send empty sheet</item>
+    </string-array>
+
 
     <!-- history -->
     <string name="historyDelete">Delete game record?</string>
     <string name="historyDeleteDetail">The game record will be deleted permanently.</string>
+    <string name="historyShare">Game Record</string>
     <string-array name="historyExports">
-        <item>CSV file</item>
-        <item>JPG image</item>
+        <item>Share the game record</item>
+        <item>Export the game record as CSV</item>
+        <item>Print the game record</item>
     </string-array>
-    <string name="historyShare">Share with ...</string>
 
 
     <!-- sheets -->
@@ -121,6 +129,11 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="sheetRound">Set %1$d</string>
     <string name="sheetGame">Game</string>
     <string name="sheetTotal">Total</string>
+    <string name="sheetCount">Count</string>
+    <string name="sheetHits">Hits</string>
+    <string name="sheetRecord">Mölkky Match Record</string>
+    <string name="sheetDate">Date:</string>
+    <string name="sheetPlace">Place:</string>
 
     <string name="promoteRate">Rate MölkkyNotes</string>
     <string name="promoteRateDetail">If you enjoy using MölkkyNotes, please take a moment to rate it. Thanks for your support!</string>

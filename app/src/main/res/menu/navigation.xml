@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/menuNewGame"
@@ -29,5 +30,8 @@
     <item
         android:id="@+id/menuPreferences"
         android:title="@string/menuPreferences" />
+    <item
+        android:id="@+id/menuPrint"
+        android:title="@string/menuPrint" />
 
 </menu>
