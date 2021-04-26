@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -52,9 +53,9 @@ public class MainActivity extends AppCompatActivity
     static final int MOVE_FORWARD = 3;
 
     private MolkkyGame _game = new MolkkyGame();
-    private Players _players = new Players();
-    private Setup _setup = new Setup();
-    private History _history = new History();
+    private final Players _players = new Players();
+    private final Setup _setup = new Setup();
+    private final History _history = new History();
     private final static String _game_state_file = "game.bin";
     private String _history_open_file = "";
     private Handler _handler = null;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         _handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void handleMessage(Message inputMessage) {
+            public void handleMessage(@NonNull Message inputMessage) {
                 switch (inputMessage.what) {
                     case Players.PLAYERS_UPDATED:
                         TeamsFragment t = teamsFragment();
@@ -134,41 +135,32 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch(item.getItemId())
-        {
-            case R.id.menuNewGame:
-                onNewGameMenuClick();
-                break;
-            case R.id.menuPlayInTeams:
-                item.setChecked(!item.isChecked());
-                _setup.playInTeams(item.isChecked());
-                break;
-            case R.id.menuAutoForward:
-                item.setChecked(!item.isChecked());
-                _setup.autoForward(item.isChecked());
-                break;
-            case R.id.menuChangeStartingTeam:
-                onChangeStartingTeam();
-                break;
-            case R.id.menuRules:
-                onRules();
-                break;
-            case R.id.menuKeepScreenOn:
-                item.setChecked(!item.isChecked());
-                _setup.keepScreenOn(item.isChecked());
-                onKeepScreenOn();
-                break;
-            case R.id.menuMaxBrightness:
-                item.setChecked(!item.isChecked());
-                _setup.setBrightness(item.isChecked());
-                onChangeBrightness();
-                break;
-            case R.id.menuPreferences:
-                onSetupMenuClick();
-                break;
-            case R.id.menuPrint:
-                onPrintMenuClick();
-                break;
+        int id = item.getItemId();
+
+        if (id == R.id.menuNewGame) {
+            onNewGameMenuClick();
+        } else if (id == R.id.menuPlayInTeams) {
+            item.setChecked(!item.isChecked());
+            _setup.playInTeams(item.isChecked());
+        } else if (id == R.id.menuAutoForward) {
+            item.setChecked(!item.isChecked());
+            _setup.autoForward(item.isChecked());
+        } else if (id == R.id.menuChangeStartingTeam) {
+            onChangeStartingTeam();
+        } else if (id == R.id.menuRules) {
+            onRules();
+        } else if (id == R.id.menuKeepScreenOn) {
+            item.setChecked(!item.isChecked());
+            _setup.keepScreenOn(item.isChecked());
+            onKeepScreenOn();
+        } else if (id == R.id.menuMaxBrightness) {
+            item.setChecked(!item.isChecked());
+            _setup.setBrightness(item.isChecked());
+            onChangeBrightness();
+        } else if (id == R.id.menuPreferences) {
+            onSetupMenuClick();
+        } else if (id == R.id.menuPrint) {
+            onPrintMenuClick();
         }
 
         if (item.isCheckable()) {
@@ -203,7 +195,7 @@ public class MainActivity extends AppCompatActivity
             oos.flush();
             oos.close();
             file.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -373,9 +365,9 @@ public class MainActivity extends AppCompatActivity
         final View dialog_layout = inflater.inflate(R.layout.setup_dialog, null);
         final MainActivity activity = this;
         EditText goal = dialog_layout.findViewById(R.id.goalValue);
-        goal.setText(Integer.toString(_setup.goal()));
+        goal.setText(getString(R.string.gCurrentHit, _setup.goal()));
         EditText penalty = dialog_layout.findViewById(R.id.penaltyOverValue);
-        penalty.setText(Integer.toString(_setup.penaltyOverGoal()));
+        penalty.setText(getString(R.string.gCurrentHit, _setup.penaltyOverGoal()));
         Spinner spinner = dialog_layout.findViewById(R.id.setupNextSetTeamValue);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                R.array.dialogNextSetTeamValues, R.layout.white_spinner);
@@ -420,7 +412,7 @@ public class MainActivity extends AppCompatActivity
                     _game.setup(_setup);
                 } catch (Exception e) {
                     Log.d("MA", e.toString());
-                };
+                }
                 dialog.dismiss();
             }
         });
@@ -446,7 +438,7 @@ public class MainActivity extends AppCompatActivity
         View dialog_layout = inflater.inflate(R.layout.items_dialog, null);
         ListView listView = dialog_layout.findViewById(R.id.dialogListView);
         String [] lines = getResources().getStringArray(R.array.dialogPrintOrSendValues);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.items_dialog_item, lines);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.items_dialog_item, lines);
         listView.setAdapter(adapter);
         builder.setView(dialog_layout);
 
