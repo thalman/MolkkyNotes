@@ -1,10 +1,11 @@
 <resources>
+    <!-- en molkky uses Game/Set/Throw -->
     <string name="app_name" translatable="false">MölkkyNotes</string>
     <string name="sponsoredVersion" translatable="false">no</string>
     <string name="emptyString" translatable="false" />
 
     <string name="tab_text_1">Players</string>
-    <string name="tab_text_2">Game</string>
+    <string name="tab_text_2">Set</string>
     <string name="tab_text_3">Score</string>
     <string name="tab_text_4">History</string>
 
@@ -20,8 +21,8 @@
     <string name="menuPrint">Print an empty sheet</string>
 
     <!-- team screen -->
-    <string name="teamsPlayers">Available players:</string>
-    <string name="teamsWhoWillPlay">Game:</string>
+    <string name="teamsPlayers">Available players</string>
+    <string name="teamsWhoWillPlay">Game</string>
     <string name="teamsAverage">~ %1$s</string>
     <string name="teamsTitle">team %1$d</string>
     <string name="teamsDeletePlayer">Remove the player?</string>
@@ -103,10 +104,10 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="dialogNumberOfTeamsDetail">The application supports up to 10 teams in one game.</string>
     <string name="dialogNumberOfPlayers">Too many players!</string>
     <string name="dialogNumberOfPlayersDetail">The application supports up to 10 players in one game.</string>
-    <string name="dialogPrintOrSend">What to do?</string>
+    <string name="dialogPrintOrSend">An Empty Sheet</string>
     <string-array name="dialogPrintOrSendValues">
-        <item>Print empty sheet</item>
-        <item>Share/Send empty sheet</item>
+        <item>Print an empty sheet</item>
+        <item>Share/Send an empty sheet</item>
     </string-array>
 
 
@@ -123,15 +124,15 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
 
     <!-- sheets -->
     <string name="sheetTitle">Mölkky game %1$s %2$s</string>
-    <string name="sheetTeams">Player/Team</string>
+    <string name="sheetTeams">Name/Team</string>
     <string name="sheetPoints">Points</string>
     <string name="sheetScore">Score</string>
     <string name="sheetRound">Set %1$d</string>
     <string name="sheetGame">Game</string>
     <string name="sheetTotal">Total</string>
     <string name="sheetCount">Count</string>
-    <string name="sheetHits">Hits</string>
-    <string name="sheetRecord">Mölkky Match Record</string>
+    <string name="sheetHits">Throw</string>
+    <string name="sheetRecord">Mölkky Game Record</string>
     <string name="sheetDate">Date:</string>
     <string name="sheetPlace">Place:</string>
 

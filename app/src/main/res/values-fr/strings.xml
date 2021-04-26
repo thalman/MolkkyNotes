@@ -1,34 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tab_text_1">Jeuer</string>
-    <string name="tab_text_2">Jeu</string>
+    <!-- en molkky uses Game/Set/Throw -->
+    <string name="app_name" translatable="false">MölkkyNotes</string>
+    <string name="sponsoredVersion" translatable="false">no</string>
+    <string name="emptyString" translatable="false" />
+
+    <string name="tab_text_1">Players</string>
+    <string name="tab_text_2">Set</string>
     <string name="tab_text_3">Score</string>
-    <string name="tab_text_4">Histoire</string>
+    <string name="tab_text_4">History</string>
 
     <!-- menu -->
-    <string name="menuStartNewGame">Nouveau Jeu</string>
+    <string name="menuStartNewGame">New Game</string>
     <string name="menuPlayInTeams">Add players into teams</string>
     <string name="menuAutoForward">Move forward automatically</string>
-    <string name="menuChangeStartingTeam">Change staring team</string>
+    <string name="menuChangeStartingTeam">Change starting team</string>
     <string name="menuRules">Mölkky Rules</string>
     <string name="menuKeepScreenOn">Keep screen on</string>
     <string name="menuMaxBrightness">Max screen brightness</string>
     <string name="menuPreferences">Setup</string>
+    <string name="menuPrint">Print an empty sheet</string>
 
     <!-- team screen -->
-    <string name="teamsPlayers">All Player</string>
-    <string name="teamsWhoWillPlay">Who will play</string>
+    <string name="teamsPlayers">Available players</string>
+    <string name="teamsWhoWillPlay">Game</string>
     <string name="teamsAverage">~ %1$s</string>
-    <string name="teamsGameInProgress">Game has started already!</string>
-    <string name="teamsGameInProgressDeail">It is not possible to change teams in the middle of game. Use menu to start new game.</string>
     <string name="teamsTitle">team %1$d</string>
-    <string name="teamsDeletePlayer">Remove player?</string>
-    <string name="teamsDeletePlayerDetail">Player will be permanently deleted from the list.</string>
+    <string name="teamsDeletePlayer">Remove the player?</string>
+    <string name="teamsDeletePlayerDetail">The player will be permanently deleted from the list.</string>
 
     <!-- game screen -->
     <string name="gNext">Next:</string>
+    <string name="gNextScore" translatable="false">%1$d (%2$d)</string>
     <string name="gPlayersScore">%1$d (%2$d left)</string> <!-- 3 (47 left) -->
     <string name="gPlayersScoreWithWarning">%1$d (%2$d left), %3$s!</string> <!-- 3 (47 left), 2 zeros!-->
+    <string name="gCurrentHit">%1$d</string> <!-- 12 -->
+    <string name="gRoundProgress">%1$d/%2$d</string> <!-- 1/6 -->
     <string name="gFoul">Foul</string> <!-- crossing the foul line -->
     <string name="gameSetupGame">Set up Mölkky</string>
     <string name="gameChangeTheHit">Change the hit?</string>
@@ -42,12 +48,12 @@
     <string name="resultsGameOver">End Of The Game</string>
     <string name="resultsRoundInProgress">Next set can\'t be started!</string>
     <string name="resultsRoundInProgressDetail">Current set is not finished yet.</string>
-    <string name="resultsStartNewGame">Start new game?</string>
+    <string name="resultsStartNewGame">Start a new game?</string>
     <string name="resultsStartNewGameDetail">End the game and start a new one.</string>
     <string name="resultsNoZeros">no zeros</string>
     <plurals name="resultsZeros">
-    <item quantity="one">%1$d zero</item>
-    <item quantity="other">%1$d zeros</item>
+        <item quantity="one">%1$d zero</item>
+        <item quantity="other">%1$d zeros</item>
     </plurals>
     <string name="resultsExportAs">Share game record</string>
 
@@ -60,7 +66,7 @@
     <string name="dOK">OK</string>
     <string name="dAdd">Add</string>
     <string name="dCancel">Cancel</string>
-    <string name="dialogStartNewGame">Start new game?</string>
+    <string name="dialogStartNewGame">Start a new game?</string>
     <string name="dialogRoundInProgress">Current set is not finished!</string>
     <string name="dialogRoundInProgressChangeTeam">It is not possible to change the starting team in the middle of the set.</string>
     <string name="dialogSetup">Game setup</string>
@@ -68,8 +74,8 @@
     <string name="dialogPenaltyOver">Penalty when over goal</string>
     <string name="dialogNextSetTeamLabel">Who starts the set</string>
     <string-array name="dialogNextSetTeamValues">
-    <item>Next team in order</item>
-    <item>Ask</item>
+        <item>Next team in order</item>
+        <item>Ask</item>
     </string-array>
     <string name="dialogNextSetTeam">Who will start the set?</string>
     <string name="dialogAddPlayerToTeam">Add %1$s to:</string>
@@ -82,7 +88,7 @@
 \nAll throws are taken into account.\n
 \nA pin is not considered fallen if it is leaning on another pin or on the Mölkky throwing
 skittle. After a throw, fallen pins are put upright at the place where they fell.\n
-\nIf one pin falls, the score is equal the number on the skittle. When more than one skittle
+\nIf one pin falls, the score is equal to the number on the skittle. When more than one skittle
 falls, the score is equal the number of fallen skittles.\n
 \nIf a player (team) misses (has no scores) three times in a row, he/she (it) is out of
 the game with 0 points. The game ends, when the first player (or team) reaches
@@ -98,15 +104,22 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="dialogNumberOfTeamsDetail">The application supports up to 10 teams in one game.</string>
     <string name="dialogNumberOfPlayers">Too many players!</string>
     <string name="dialogNumberOfPlayersDetail">The application supports up to 10 players in one game.</string>
+    <string name="dialogPrintOrSend">An Empty Sheet</string>
+    <string-array name="dialogPrintOrSendValues">
+        <item>Print an empty sheet</item>
+        <item>Share/Send an empty sheet</item>
+    </string-array>
+
 
     <!-- history -->
     <string name="historyDelete">Delete game record?</string>
     <string name="historyDeleteDetail">The game record will be deleted permanently.</string>
+    <string name="historyShare">Game Record</string>
     <string-array name="historyExports">
-    <item>CSV file</item>
-    <item>JPG image</item>
+        <item>Share the game record</item>
+        <item>Export the game record as CSV</item>
+        <item>Print the game record</item>
     </string-array>
-    <string name="historyShare">Share with ...</string>
 
 
     <!-- sheets -->
@@ -118,8 +131,8 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="sheetGame">Game</string>
     <string name="sheetTotal">Total</string>
     <string name="sheetCount">Count</string>
-    <string name="sheetHits">Hits</string>
-    <string name="sheetRecord">Mölkky Match Record</string>
+    <string name="sheetHits">Throw</string>
+    <string name="sheetRecord">Mölkky Game Record</string>
     <string name="sheetDate">Date:</string>
     <string name="sheetPlace">Place:</string>
 
@@ -129,7 +142,6 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="promoteRateLater">Later</string>
     <string name="promoteRateNo">No, thanks</string>
     <string name="promoteSupport">Support MölkkyNotes</string>
-    <string name="promoteSupportDetail">If you enjoy using MölkkyNotes, please consider support the development by buying MölkkyNotes +.</string>
+    <string name="promoteSupportDetail">If you enjoy using MölkkyNotes, please consider supporting the development by buying MölkkyNotes +.</string>
     <string name="promoteSupportNow">Buy MölkkyNotes +</string>
-    <string name="menuPrint">Print an empty sheet</string>
 </resources>

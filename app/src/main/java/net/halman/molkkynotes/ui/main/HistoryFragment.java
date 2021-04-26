@@ -341,7 +341,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
 
     private void onMailClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
-        builder.setTitle(R.string.resultsExportAs);
+        builder.setTitle(R.string.historyShare);
 
         String [] items = getResources().getStringArray(R.array.historyExports);
         ListView listView = ItemsListDialog.setItems(builder, getContext(), items);
