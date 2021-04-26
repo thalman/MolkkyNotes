@@ -17,7 +17,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import net.halman.molkkynotes.History;
 import net.halman.molkkynotes.HistoryAdapter;
@@ -340,9 +342,15 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
     private void onMailClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
         builder.setTitle(R.string.resultsExportAs);
-        builder.setItems(R.array.historyExports, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
+
+        String [] items = getResources().getStringArray(R.array.historyExports);
+        ListView listView = ItemsListDialog.setItems(builder, getContext(), items);
+        final AlertDialog ad = builder.show();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
                     case 0:
                         // export JPG
                         exportJPG();
@@ -356,9 +364,10 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
                         printJPG();
                         break;
                 }
+
+                ad.dismiss();
             }
         });
-        builder.show();
     }
 
     private void exportCSV()

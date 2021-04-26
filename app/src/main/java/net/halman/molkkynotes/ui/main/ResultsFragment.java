@@ -8,7 +8,9 @@ import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import net.halman.molkkynotes.MolkkyGame;
 import net.halman.molkkynotes.R;
@@ -165,20 +167,22 @@ public class ResultsFragment extends Fragment {
         }
 
         if (ask) {
-            AlertDialog.Builder b = TeamListDialog.getBuilder(getContext(), game, false, new TeamListDialog.OnTeamSelectedListener() {
+            AlertDialog.Builder b =  new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
+            b.setTitle(R.string.dialogNextSetTeam);
+            String [] teams = ItemsListDialog.getTeamList(getContext(), game, false);
+            ListView listView = ItemsListDialog.setItems(b, getContext(), teams);
+            final AlertDialog ad = b.show();
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onTeamSelected(int which) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (_listener != null) {
                         game.startNextRound();
-                        game.changeCurrentRoundTeams(which);
+                        game.changeCurrentRoundTeams(position);
                         _listener.switchTab(1);
+                        ad.dismiss();
                     }
                 }
             });
-            if (b != null) {
-                b.setTitle(R.string.dialogNextSetTeam);
-                b.show();
-            }
         }
     }
 

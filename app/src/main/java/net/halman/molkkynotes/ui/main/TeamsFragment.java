@@ -13,7 +13,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import net.halman.molkkynotes.TeamMembersAdapter;
 import net.halman.molkkynotes.MolkkyGame;
@@ -378,23 +380,33 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
 
         final MolkkyGame game = _listener.game();
         final MolkkyPlayer player = new MolkkyPlayer(p);
-        AlertDialog.Builder builder = TeamListDialog.getBuilder(getContext(), game, also_new_team, new TeamListDialog.OnTeamSelectedListener() {
+        AlertDialog.Builder builder =  new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(R.string.dialogNextSetTeam);
+        builder.setTitle(getString(R.string.dialogAddPlayerToTeam, p.name()));
+
+        String [] teams = ItemsListDialog.getTeamList(getContext(), game, also_new_team);
+        if (game.teams().size() == 0 || (game.teams().size() == 1 && also_new_team)) {
+            game.addPlayer(player);
+            updateScreen();
+            return;
+        }
+
+        ListView listView = ItemsListDialog.setItems(builder, getContext(), teams);
+        final AlertDialog ad = builder.show();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onTeamSelected(int which) {
-                if (which == game.teams().size()) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == game.teams().size()) {
                     game.addPlayer(player);
                 } else {
-                    MolkkyTeam t = game.teams().get(which);
+                    MolkkyTeam t = game.teams().get(position);
                     t.addPlayer(player);
                 }
+                ad.dismiss();
                 updateScreen();
             }
         });
-
-        if (builder != null) {
-            builder.setTitle(getString(R.string.dialogAddPlayerToTeam, p.name()));
-            builder.show();
-        }
     }
 
     private ItemTouchHelper.Callback createTeamsItemTouchHelper(final TeamMembersAdapter adapter) {

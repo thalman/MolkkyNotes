@@ -16,7 +16,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.print.PrintHelper;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +33,7 @@ import net.halman.molkkynotes.ui.main.GameFragment;
 import net.halman.molkkynotes.ui.main.HistoryFragment;
 import net.halman.molkkynotes.ui.main.ResultsFragment;
 import net.halman.molkkynotes.ui.main.SectionsPagerAdapter;
-import net.halman.molkkynotes.ui.main.TeamListDialog;
+import net.halman.molkkynotes.ui.main.ItemsListDialog;
 import net.halman.molkkynotes.ui.main.TeamsFragment;
 
 import java.io.File;
@@ -42,8 +41,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity
         implements TeamsFragment.OnFragmentInteractionListener,
@@ -445,15 +443,13 @@ public class MainActivity extends AppCompatActivity
         builder.setTitle(R.string.dialogPrintOrSend);
 
         LayoutInflater inflater = getLayoutInflater();
-        final View dialog_layout = inflater.inflate(R.layout.items_dialog, null);
-        final MainActivity activity = this;
-        final ListView listView = dialog_layout.findViewById(R.id.dialogListView);
-
+        View dialog_layout = inflater.inflate(R.layout.items_dialog, null);
+        ListView listView = dialog_layout.findViewById(R.id.dialogListView);
         String [] lines = getResources().getStringArray(R.array.dialogPrintOrSendValues);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.items_dialog_item, lines);
         listView.setAdapter(adapter);
-
         builder.setView(dialog_layout);
+
         final AlertDialog ad = builder.show();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -538,21 +534,24 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        AlertDialog.Builder builder = TeamListDialog.getBuilder(this, _game, false, new TeamListDialog.OnTeamSelectedListener() {
+        AlertDialog.Builder builder =  new AlertDialog.Builder(this, R.style.MolkkyAlertDialogStyle);
+        builder.setTitle(R.string.dialogNextSetTeam);
+
+        String [] teams = ItemsListDialog.getTeamList(this, _game, false);
+        ListView listView = ItemsListDialog.setItems(builder, this, teams);
+        final AlertDialog ad = builder.show();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onTeamSelected(int which) {
-                _game.changeCurrentRoundTeams(which);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                _game.changeCurrentRoundTeams(position);
                 GameFragment gf = gameFragment();
                 if (gf != null) {
                     gf.updateScreen();
                 }
+
+                ad.dismiss();
             }
         });
-
-        if (builder != null) {
-            builder.setTitle(R.string.dialogNextSetTeam);
-            builder.show();
-        }
     }
 
     private void onChangeBrightness()
