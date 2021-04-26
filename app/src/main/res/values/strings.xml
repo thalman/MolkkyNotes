@@ -12,7 +12,7 @@
     <string name="menuStartNewGame">New Game</string>
     <string name="menuPlayInTeams">Add players into teams</string>
     <string name="menuAutoForward">Move forward automatically</string>
-    <string name="menuChangeStartingTeam">Change staring team</string>
+    <string name="menuChangeStartingTeam">Change starting team</string>
     <string name="menuRules">Mölkky Rules</string>
     <string name="menuKeepScreenOn">Keep screen on</string>
     <string name="menuMaxBrightness">Max screen brightness</string>
@@ -20,14 +20,14 @@
     <string name="menuPrint">Print an empty sheet</string>
 
     <!-- team screen -->
-    <string name="teamsPlayers">All Player</string>
-    <string name="teamsWhoWillPlay">Who will play</string>
+    <string name="teamsPlayers">Available players:</string>
+    <string name="teamsWhoWillPlay">Game:</string>
     <string name="teamsAverage">~ %1$s</string>
     <string name="teamsGameInProgress">Game has started already!</string>
-    <string name="teamsGameInProgressDeail">It is not possible to change teams in the middle of game. Use menu to start new game.</string>
+    <string name="teamsGameInProgressDeail">It is not possible to change teams in the middle of the game. Use the menu to start a new game.</string>
     <string name="teamsTitle">team %1$d</string>
-    <string name="teamsDeletePlayer">Remove player?</string>
-    <string name="teamsDeletePlayerDetail">Player will be permanently deleted from the list.</string>
+    <string name="teamsDeletePlayer">Remove the player?</string>
+    <string name="teamsDeletePlayerDetail">The player will be permanently deleted from the list.</string>
 
     <!-- game screen -->
     <string name="gNext">Next:</string>
@@ -47,7 +47,7 @@
     <string name="resultsGameOver">End Of The Game</string>
     <string name="resultsRoundInProgress">Next set can\'t be started!</string>
     <string name="resultsRoundInProgressDetail">Current set is not finished yet.</string>
-    <string name="resultsStartNewGame">Start new game?</string>
+    <string name="resultsStartNewGame">Start a new game?</string>
     <string name="resultsStartNewGameDetail">End the game and start a new one.</string>
     <string name="resultsNoZeros">no zeros</string>
     <plurals name="resultsZeros">
@@ -65,7 +65,7 @@
     <string name="dOK">OK</string>
     <string name="dAdd">Add</string>
     <string name="dCancel">Cancel</string>
-    <string name="dialogStartNewGame">Start new game?</string>
+    <string name="dialogStartNewGame">Start a new game?</string>
     <string name="dialogRoundInProgress">Current set is not finished!</string>
     <string name="dialogRoundInProgressChangeTeam">It is not possible to change the starting team in the middle of the set.</string>
     <string name="dialogSetup">Game setup</string>
@@ -87,7 +87,7 @@
 \nAll throws are taken into account.\n
 \nA pin is not considered fallen if it is leaning on another pin or on the Mölkky throwing
 skittle. After a throw, fallen pins are put upright at the place where they fell.\n
-\nIf one pin falls, the score is equal the number on the skittle. When more than one skittle
+\nIf one pin falls, the score is equal to the number on the skittle. When more than one skittle
 falls, the score is equal the number of fallen skittles.\n
 \nIf a player (team) misses (has no scores) three times in a row, he/she (it) is out of
 the game with 0 points. The game ends, when the first player (or team) reaches
@@ -141,6 +141,6 @@ frame, it is a foul and throw is (the) called as a miss (0 points).\n
     <string name="promoteRateLater">Later</string>
     <string name="promoteRateNo">No, thanks</string>
     <string name="promoteSupport">Support MölkkyNotes</string>
-    <string name="promoteSupportDetail">If you enjoy using MölkkyNotes, please consider support the development by buying MölkkyNotes +.</string>
+    <string name="promoteSupportDetail">If you enjoy using MölkkyNotes, please consider supporting the development by buying MölkkyNotes +.</string>
     <string name="promoteSupportNow">Buy MölkkyNotes +</string>
 </resources>
