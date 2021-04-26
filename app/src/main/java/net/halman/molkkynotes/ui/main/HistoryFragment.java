@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.print.PrintHelper;
@@ -23,14 +24,12 @@ import net.halman.molkkynotes.HistoryAdapter;
 import net.halman.molkkynotes.MolkkyGame;
 import net.halman.molkkynotes.R;
 import net.halman.molkkynotes.ScoreExport;
-import net.halman.molkkynotes.Setup;
 
 import java.io.File;
 
 public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistoryListener {
     private HistoryFragment.OnHistoryFragmentInteractionListener _listener;
     private RecyclerView _history_list_view;
-    private ItemTouchHelper _history_touch_helper;
     private UIGameRecord _game_record;
     private HistoryAdapter _history_adapter;
     private ImageView _close_button;
@@ -106,7 +105,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
             History history = _listener.history();
             _history_adapter = new HistoryAdapter(history, this);
             _history_list_view.setAdapter(_history_adapter);
-            _history_touch_helper = new ItemTouchHelper(createItemTouchHelper(_history_adapter));
+            ItemTouchHelper _history_touch_helper = new ItemTouchHelper(createItemTouchHelper(_history_adapter));
             _history_touch_helper.attachToRecyclerView(_history_list_view);
 
             RecyclerView.LayoutManager L = new LinearLayoutManager(getContext());
@@ -157,21 +156,21 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
     }
 
     private ItemTouchHelper.Callback createItemTouchHelper(final HistoryAdapter adapter) {
-        ItemTouchHelper.Callback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        return new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 adapter.onRemove(viewHolder.getAdapterPosition());
             }
 
             @Override
-            public int getMovementFlags(RecyclerView recyclerView,
-                                        RecyclerView.ViewHolder viewHolder) {
+            public int getMovementFlags(@NonNull RecyclerView recyclerView,
+                                        @NonNull RecyclerView.ViewHolder viewHolder) {
 
                 final int dragFlags = 0;
                 final int swipeFlags = ItemTouchHelper.LEFT;
@@ -179,7 +178,6 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
             }
 
         };
-        return simpleCallback;
     }
 
     public void onCloseHistory()
@@ -212,7 +210,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
                         _listener.history().reload();
                     }
                     onCloseHistory();
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
             }
         });
 
@@ -287,7 +285,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
 
         try {
             confirmDelete(_listener.history().getPath(idx));
-        } catch (Exception e) {};
+        } catch (Exception ignored) {}
     }
 
     public void onHistoryLongClick(View view)
@@ -296,7 +294,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
 
         try {
             confirmDelete(item);
-        } catch (Exception e) {}
+        } catch (Exception ignore) {}
     }
 
     public void confirmDelete(final String file_name)
@@ -313,7 +311,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
                     if (_listener != null) {
                         _listener.history().reload();
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
             }
         });
 
@@ -379,7 +377,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
             sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
             sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(Intent.createChooser(sharingIntent, getString(R.string.historyShare)));
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 
     private void deleteTempContent() {
@@ -393,7 +391,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
                     }
                 }
             }
-        } catch (Exception e) {};
+        } catch (Exception ignore) {}
     }
 
     private void exportJPG()
@@ -424,7 +422,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
             sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
             sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(Intent.createChooser(sharingIntent, getString(R.string.historyShare)));
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 
     private void printJPG()
@@ -448,7 +446,6 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
 
     public interface OnHistoryFragmentInteractionListener {
         History history();
-        Setup setup();
         String historyOpenFile();
         void historySaveStatus(String file);
     }
