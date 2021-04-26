@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +35,7 @@ import net.halman.molkkynotes.Setup;
 public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMembersListener, PlayersAdapter.OnPlayerListener {
     private OnFragmentInteractionListener _listener;
 
-    private RecyclerView _all_players = null;
-    private ItemTouchHelper _players_touch_helper = null;
     private PlayersAdapter _players_adapter = null;
-    private LinearLayoutManager _layout_manager = null;
-    private RecyclerView _teams_view = null;
     private TeamMembersAdapter _teams_adapter = null;
     private ItemTouchHelper _teams_touch_helper = null;
     private UIButton _mix = null;
@@ -63,8 +59,8 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         // Inflate the layout for this fragment
         View result = inflater.inflate(R.layout.fragment_teams, container, false);
 
-        _all_players = result.findViewById(R.id.allPlayers);
-        _teams_view = result.findViewById(R.id.frgTeamsTeams);
+        RecyclerView _all_players = result.findViewById(R.id.allPlayers);
+        RecyclerView _teams_view = result.findViewById(R.id.frgTeamsTeams);
 
         _mix = result.findViewById(R.id.tMix);
         _mix.setOnClickListener(
@@ -103,9 +99,9 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
             _players_adapter = new PlayersAdapter(players, getResources(), _listener.game(), this);
 
             _all_players.setAdapter(_players_adapter);
-            _layout_manager = new LinearLayoutManager(getContext());
+            LinearLayoutManager _layout_manager = new LinearLayoutManager(getContext());
             _all_players.setLayoutManager(_layout_manager);
-            _players_touch_helper = new ItemTouchHelper(createPlayersItemTouchHelper(_players_adapter));
+            ItemTouchHelper _players_touch_helper = new ItemTouchHelper(createPlayersItemTouchHelper(_players_adapter));
             _players_touch_helper.attachToRecyclerView(_all_players);
 
             _teams_adapter = new TeamMembersAdapter(getContext(), _listener.game(), this);
@@ -113,10 +109,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
             _teams_view.setLayoutManager(new LinearLayoutManager(getContext()));
             _teams_touch_helper = new ItemTouchHelper(createTeamsItemTouchHelper(_teams_adapter));
             _teams_touch_helper.attachToRecyclerView(_teams_view);
-        } else {
-            _all_players = null;
         }
-
 
         updateScreen();
         return result;
@@ -404,22 +397,22 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
     }
 
     private ItemTouchHelper.Callback createTeamsItemTouchHelper(final TeamMembersAdapter adapter) {
-        ItemTouchHelper.Callback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        return new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 adapter.onMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return true;
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 adapter.onRemoveItem(viewHolder.getAdapterPosition());
             }
 
             @Override
-            public int getMovementFlags(RecyclerView recyclerView,
-                                        RecyclerView.ViewHolder viewHolder) {
+            public int getMovementFlags(@NonNull RecyclerView recyclerView,
+                                        @NonNull RecyclerView.ViewHolder viewHolder) {
 
                 final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
                 final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
@@ -444,7 +437,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
             }
 
             @Override
-            public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
                 super.clearView(recyclerView, viewHolder);
 
                 if (viewHolder instanceof TeamMembersAdapter.TeamMembersViewHolder) {
@@ -459,25 +452,24 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
                 adapter.cleanupEmptyTeams();
             }
         };
-        return simpleCallback;
     }
 
     private ItemTouchHelper.Callback createPlayersItemTouchHelper(final PlayersAdapter adapter) {
-        ItemTouchHelper.Callback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        return new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull  RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 adapter.onRemove(viewHolder.getAdapterPosition());
             }
 
             @Override
-            public int getMovementFlags(RecyclerView recyclerView,
-                                        RecyclerView.ViewHolder viewHolder) {
+            public int getMovementFlags(@NonNull RecyclerView recyclerView,
+                                        @NonNull RecyclerView.ViewHolder viewHolder) {
 
                 final int dragFlags = 0;
                 final int swipeFlags = ItemTouchHelper.RIGHT;
@@ -485,7 +477,6 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
             }
 
         };
-        return simpleCallback;
     }
 
 
@@ -539,10 +530,6 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
         MolkkyGame game();
