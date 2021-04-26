@@ -32,6 +32,8 @@
     <string name="gNextScore" translatable="false">%1$d (%2$d)</string>
     <string name="gPlayersScore">%1$d (%2$d left)</string> <!-- 3 (47 left) -->
     <string name="gPlayersScoreWithWarning">%1$d (%2$d left), %3$s!</string> <!-- 3 (47 left), 2 zeros!-->
+    <string name="gCurrentHit">%1$d</string> <!-- 12 -->
+    <string name="gRoundProgress">%1$d/%2$d</string> <!-- 1/6 -->
     <string name="gFoul">Foul</string> <!-- crossing the foul line -->
     <string name="gameSetupGame">Set up Mölkky</string>
     <string name="gameChangeTheHit">Change the hit?</string>

@@ -279,8 +279,8 @@ public class GameFragment extends Fragment {
             _current_hit.setVisibility(View.VISIBLE);
             _next_player_layout.setVisibility(View.VISIBLE);
             _setup_molkky.setVisibility(View.GONE);
-            for (int i = 0; i < _buttons.length; i++) {
-                _buttons[i].active(true);
+            for (UIButton button : _buttons) {
+                button.active(true);
             }
 
             updateNextPlayer();
@@ -308,10 +308,10 @@ public class GameFragment extends Fragment {
                         _current_hit.setText(getText(R.string.gFoul));
                         break;
                     default:
-                        _current_hit.setText(Integer.toString(game.hit().hit()));
+                        _current_hit.setText(getString(R.string.gCurrentHit, game.hit().hit()));
                         break;
                 }
-                _current_round.setText("" + (game.round() + 1) + "/" + (game.roundProgress() + 1));
+                _current_round.setText(getString(R.string.gRoundProgress,(game.round() + 1), (game.roundProgress() + 1)));
             } else {
                 _current_player.setText("");
                 _current_score.setText("");
@@ -417,55 +417,38 @@ public class GameFragment extends Fragment {
 
         _listener.cancelForwardMove();
         
-        switch (button) {
-            case R.id.gButton0:
-                setGameHit(0);
-                break;
-            case R.id.gButton1:
-                setGameHit(1);
-                break;
-            case R.id.gButton2:
-                setGameHit(2);
-                break;
-            case R.id.gButton3:
-                setGameHit(3);
-                break;
-            case R.id.gButton4:
-                setGameHit(4);
-                break;
-            case R.id.gButton5:
-                setGameHit(5);
-                break;
-            case R.id.gButton6:
-                setGameHit(6);
-                break;
-            case R.id.gButton7:
-                setGameHit(7);
-                break;
-            case R.id.gButton8:
-                setGameHit(8);
-                break;
-            case R.id.gButton9:
-                setGameHit(9);
-                break;
-            case R.id.gButton10:
-                setGameHit(10);
-                break;
-            case R.id.gButton11:
-                setGameHit(11);
-                break;
-            case R.id.gButton12:
-                setGameHit(12);
-                break;
-            case R.id.gButtonFoul:
-                setGameHit(MolkkyHit.LINECROSS);
-                break;
-            case R.id.gBack:
-                gameStepBack();
-                break;
-            case R.id.gForward:
-                gameStepForward();
-                break;
+        if (button == R.id.gButton0) {
+            setGameHit(0);
+        } else if (button == R.id.gButton1) {
+            setGameHit(1);
+        } else if (button == R.id.gButton2) {
+            setGameHit(2);
+        } else if (button ==  R.id.gButton3) {
+            setGameHit(3);
+        } else if (button ==  R.id.gButton4) {
+            setGameHit(4);
+        } else if (button ==  R.id.gButton5) {
+            setGameHit(5);
+        } else if (button ==  R.id.gButton6) {
+            setGameHit(6);
+        } else if (button ==  R.id.gButton7) {
+            setGameHit(7);
+        } else if (button ==  R.id.gButton8) {
+            setGameHit(8);
+        } else if (button ==  R.id.gButton9) {
+            setGameHit(9);
+        } else if (button ==  R.id.gButton10) {
+            setGameHit(10);
+        } else if (button ==  R.id.gButton11) {
+            setGameHit(11);
+        } else if (button ==  R.id.gButton12) {
+            setGameHit(12);
+        } else if (button ==  R.id.gButtonFoul) {
+            setGameHit(MolkkyHit.LINECROSS);
+        } else if (button ==  R.id.gBack) {
+            gameStepBack();
+        } else if (button ==  R.id.gForward) {
+            gameStepForward();
         }
     }
 
