@@ -1,8 +1,5 @@
 <resources>
     <!-- en molkky uses Game/Set/Throw -->
-    <string name="app_name" translatable="false">MölkkyNotes</string>
-    <string name="sponsoredVersion" translatable="false">no</string>
-    <string name="emptyString" translatable="false" />
 
     <string name="tab_text_1">Players</string>
     <string name="tab_text_2">Set</string>
