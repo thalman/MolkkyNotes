@@ -11,12 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import net.halman.molkkynotes.MolkkyGame;
-import net.halman.molkkynotes.MolkkyTeam;
 import net.halman.molkkynotes.R;
 import net.halman.molkkynotes.Setup;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +29,6 @@ public class ResultsFragment extends Fragment {
     private UIButton _next_round = null;
     private UIButton _game_over = null;
     private UIGameRecord _round_score = null;
-    private ImageView _fit_score = null;
 
     public ResultsFragment() {
         // Required empty public constructor
@@ -74,7 +71,7 @@ public class ResultsFragment extends Fragment {
         _round_score = v.findViewById(R.id.resultRoundScore);
         _round_score.whatToDraw(UIGameRecord.DRAW_CURRENT_ROUND);
 
-        _fit_score = v.findViewById(R.id.resultFit);
+        ImageView _fit_score = v.findViewById(R.id.resultFit);
         _fit_score.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -207,10 +204,6 @@ public class ResultsFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnResultsFragmentInteractionListener {
         MolkkyGame game();
