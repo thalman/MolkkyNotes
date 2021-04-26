@@ -20,8 +20,6 @@
     <string name="teamsPlayers">Dostupní hráči:</string>
     <string name="teamsWhoWillPlay">Utkání:</string>
     <string name="teamsAverage">~ %1$s</string>
-    <string name="teamsGameInProgress">Už se hraje!</string>
-    <string name="teamsGameInProgressDeail">Není možné měnit týmy uprostřed utkání. Použijte nabídku pro zahájení nového utkání.</string>
     <string name="teamsTitle">%1$d. tým</string>
     <string name="teamsDeletePlayer">Smazat hráče?</string>
     <string name="teamsDeletePlayerDetail">Hráč bude odstraněn ze seznamu.</string>

@@ -68,6 +68,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
                 @Override
                 public void onClick(View view) {
                     if (gameInProgress()) {
+                        _listener.switchTab(1);
                         return;
                     }
 
@@ -485,21 +486,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
             return true;
         }
 
-        if (! _listener.game().gameStarted()) {
-            return false;
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MolkkyAlertDialogStyle);
-        builder.setTitle(R.string.teamsGameInProgress);
-        builder.setMessage(R.string.teamsGameInProgressDeail);
-        builder.setPositiveButton(R.string.dOK, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-        return true;
+        return  _listener.game().gameStarted();
     }
 
     private boolean playerAlreadyInTheGame (MolkkyPlayer p) {

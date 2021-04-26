@@ -23,8 +23,6 @@
     <string name="teamsPlayers">Available players:</string>
     <string name="teamsWhoWillPlay">Game:</string>
     <string name="teamsAverage">~ %1$s</string>
-    <string name="teamsGameInProgress">Game has started already!</string>
-    <string name="teamsGameInProgressDeail">It is not possible to change teams in the middle of the game. Use the menu to start a new game.</string>
     <string name="teamsTitle">team %1$d</string>
     <string name="teamsDeletePlayer">Remove the player?</string>
     <string name="teamsDeletePlayerDetail">The player will be permanently deleted from the list.</string>
