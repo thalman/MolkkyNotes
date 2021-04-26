@@ -16,6 +16,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.print.PrintHelper;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import net.halman.molkkynotes.ui.main.GameFragment;
@@ -40,6 +42,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements TeamsFragment.OnFragmentInteractionListener,
@@ -437,12 +441,25 @@ public class MainActivity extends AppCompatActivity
     private void onPrintMenuClick()
     {
         final Context context = this;
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MolkkyAlertDialogStyle);
         builder.setTitle(R.string.dialogPrintOrSend);
-        builder.setItems(R.array.dialogPrintOrSendValues, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
+
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialog_layout = inflater.inflate(R.layout.items_dialog, null);
+        final MainActivity activity = this;
+        final ListView listView = dialog_layout.findViewById(R.id.dialogListView);
+
+        String [] lines = getResources().getStringArray(R.array.dialogPrintOrSendValues);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.items_dialog_item, lines);
+        listView.setAdapter(adapter);
+
+        builder.setView(dialog_layout);
+        final AlertDialog ad = builder.show();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?>adapter, View v, int position, long id) {
+                switch (position) {
                     case 0: {
                         // print
                         PrintHelper printer = new PrintHelper(context);
@@ -475,9 +492,9 @@ public class MainActivity extends AppCompatActivity
                         break;
                     }
                 }
+                ad.dismiss();
             }
         });
-        builder.show();
     }
 
     private void onKeepScreenOn()
