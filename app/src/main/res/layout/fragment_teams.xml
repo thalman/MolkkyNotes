@@ -43,13 +43,13 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/allPlayers"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
         <View
             android:layout_width="1dp"
@@ -57,7 +57,7 @@
             android:layout_margin="5dp"
             android:background="@color/colorWhite" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/frgTeamsTeams"
             android:layout_width="0dp"
             android:layout_height="match_parent"
