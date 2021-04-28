@@ -37,8 +37,8 @@
     <string name="gRoundProgress">%1$d/%2$d</string> <!-- 1/6 -->
     <string name="gFoul">Foul</string> <!-- crossing the foul line -->
     <string name="gameSetupGame">Set up Mölkky</string>
-    <string name="gameChangeTheHit">Change the hit?</string>
-    <string name="gameChangeTheHitDetail">Do you really want to change the hit?</string>
+    <string name="gameChangeTheHit">"Change the score?</string>
+    <string name="gameChangeTheHitDetail">Do you really want to change the score?</string>
 
     <!-- results screen -->
     <string name="resultsRound">Set</string>
