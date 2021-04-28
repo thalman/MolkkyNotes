@@ -5,7 +5,7 @@
     <string name="emptyString" translatable="false" />
 
     <string name="tab_text_1">Players</string>
-    <string name="tab_text_2">Set</string>
+    <string name="tab_text_2">Game</string>
     <string name="tab_text_3">Score</string>
     <string name="tab_text_4">History</string>
 
