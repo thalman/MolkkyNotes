@@ -37,25 +37,20 @@
     <string name="gRoundProgress">%1$d/%2$d</string> <!-- 1/6 -->
     <string name="gFoul">Foul</string> <!-- crossing the foul line -->
     <string name="gameSetupGame">Set up Mölkky</string>
-    <string name="gameChangeTheHit">"Change the score?</string>
+    <string name="gameChangeTheHit">Change the score?</string>
     <string name="gameChangeTheHitDetail">Do you really want to change the score?</string>
 
     <!-- results screen -->
     <string name="resultsRound">Set</string>
-    <string name="resultsRoundWithNumber">Set %1$d</string>
     <string name="resultsGame">Game</string>
     <string name="resultsNextRound">Next Set</string>
     <string name="resultsGameOver">End Of The Game</string>
     <string name="resultsRoundInProgress">Next set can\'t be started!</string>
     <string name="resultsRoundInProgressDetail">Current set is not finished yet.</string>
-    <string name="resultsStartNewGame">Start a new game?</string>
-    <string name="resultsStartNewGameDetail">End the game and start a new one.</string>
-    <string name="resultsNoZeros">no zeros</string>
     <plurals name="resultsZeros">
         <item quantity="one">%1$d zero</item>
         <item quantity="other">%1$d zeros</item>
     </plurals>
-    <string name="resultsExportAs">Share game record</string>
 
     <!-- dialogs -->
     <string name="dAddPlayer">Add new player</string>
@@ -80,7 +75,6 @@
     <string name="dialogNextSetTeam">Who will start the set?</string>
     <string name="dialogAddPlayerToTeam">Add %1$s to:</string>
     <string name="dialogNewTeam">New team</string>
-    <string name="dialogRemovePlayerFromTeam">Remove player from team</string>
     <string name="dialogPlayerInTheGame">Player is already included</string>
     <string name="dialogPlayerInTheGameDetail">The player can\'t be listed twice in one game.</string>
     <string name="dialogRules">Mölkky Rules</string>
@@ -100,10 +94,6 @@ to the rear, if the thrower goes forward and/or sideways, in other words over th
 frame, it is a foul and throw is (the) called as a miss (0 points).\n
 \nWhen the team has 37 points or more, foul will be penalized by dropping the points to 25.
     </string>
-    <string name="dialogNumberOfTeams">Too many teams!</string>
-    <string name="dialogNumberOfTeamsDetail">The application supports up to 10 teams in one game.</string>
-    <string name="dialogNumberOfPlayers">Too many players!</string>
-    <string name="dialogNumberOfPlayersDetail">The application supports up to 10 players in one game.</string>
     <string name="dialogPrintOrSend">An Empty Sheet</string>
     <string-array name="dialogPrintOrSendValues">
         <item>Print an empty sheet</item>

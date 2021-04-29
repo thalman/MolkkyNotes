@@ -38,21 +38,16 @@
 
     <!-- results screen -->
     <string name="resultsRound">Hra</string>
-    <string name="resultsRoundWithNumber">%1$d. hra</string>
     <string name="resultsGame">Utkání</string>
     <string name="resultsNextRound">Další hra</string>
     <string name="resultsGameOver">Konec utkání</string>
     <string name="resultsRoundInProgress">Další hra nemůže začít!</string>
     <string name="resultsRoundInProgressDetail">Aktuální hra ještě neskončilo.</string>
-    <string name="resultsStartNewGame">Začít nové utkání?</string>
-    <string name="resultsStartNewGameDetail">Zapas bude ukončen a začne nový.</string>
-    <string name="resultsNoZeros">žádná nula</string>
     <plurals name="resultsZeros">
         <item quantity="one">%1$d nula</item>
         <item quantity="few">%1$d nuly</item>
         <item quantity="other">%1$d nul</item>
     </plurals>
-    <string name="resultsExportAs">Sdílet zápis utkání</string>
 
     <!-- dialogs -->
     <string name="dAddPlayer">Nový hráč</string>
@@ -77,7 +72,6 @@
     <string name="dialogNextSetTeam">Kdo začne hru?</string>
     <string name="dialogAddPlayerToTeam">Ke komu přidat hráče %1$s:</string>
     <string name="dialogNewTeam">Nový tým</string>
-    <string name="dialogRemovePlayerFromTeam">Odebrat hráče z týmu</string>
     <string name="dialogPlayerInTheGame">Hráč už je ve hře</string>
     <string name="dialogPlayerInTheGameDetail">Hráč nemůže být ve hře dvakrát.</string>
     <string name="dialogRules">Pravidla Mölkky</string>
@@ -96,10 +90,6 @@ a pokračuje ve hře.\n
 dozadu. Pokud by hráč šel dopředu a nebo do strany, jinými slovy přes vyznačené Mölkky
 odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou kuželku (0 bodů).\n
 \nPokud má hráč (tým) 37 bodů a více, je přešlap penalizován snížením skóre na 25 bodů.</string>
-    <string name="dialogNumberOfTeams">Příliš mnoho týmů!</string>
-    <string name="dialogNumberOfTeamsDetail">Aplikace podporuje hru maximálně deseti týmů.</string>
-    <string name="dialogNumberOfPlayers">Příliš mnoho hráčů!</string>
-    <string name="dialogNumberOfPlayersDetail">Aplikace podporuje hru maximálně deseti hráčů.</string>
     <string name="dialogPrintOrSend">Prázdný zápis</string>
     <string-array name="dialogPrintOrSendValues">
         <item>Vytisknout formulář pro zápis</item>
