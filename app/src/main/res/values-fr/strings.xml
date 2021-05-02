@@ -1,133 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- en molkky uses Game/Set/Throw -->
+    <!-- en molkky uses Game/Set/Throw terms -->
+    <!-- Fr molkky utilise Jeu?/partie or manche/? -->
+    <!-- http://www.ff-molkky.fr/telecharger/regles-du-jeu/ -->
+    <!-- original english file, see link bellow -->
+    <!-- https://github.com/thalman/MolkkyNotes/blob/master/app/src/main/res/values/strings.xml -->
 
-    <string name="tab_text_1">Players</string>
-    <string name="tab_text_2">Set</string>
+    <string name="tab_text_1">Joueurs</string>
+    <string name="tab_text_2">Partie</string>
     <string name="tab_text_3">Score</string>
-    <string name="tab_text_4">History</string>
+    <string name="tab_text_4">Historique</string>
 
     <!-- menu -->
-    <string name="menuStartNewGame">New Game</string>
-    <string name="menuPlayInTeams">Add players into teams</string>
-    <string name="menuAutoForward">Move forward automatically</string>
-    <string name="menuChangeStartingTeam">Change starting team</string>
-    <string name="menuRules">Mölkky Rules</string>
-    <string name="menuKeepScreenOn">Keep screen on</string>
-    <string name="menuMaxBrightness">Max screen brightness</string>
-    <string name="menuPreferences">Setup</string>
-    <string name="menuPrint">Print an empty sheet</string>
+    <string name="menuStartNewGame">Nouvelle partie</string>
+    <string name="menuPlayInTeams">Ajouter des joueurs dans les équipes</string>
+    <string name="menuAutoForward">Avancer automatiquement</string>
+    <string name="menuChangeStartingTeam">Changer l\'équipe de départ</string>
+    <string name="menuRules">Règles du Mölkky</string>
+    <string name="menuKeepScreenOn">Maintenir l\'écran allumé</string>
+    <string name="menuMaxBrightness">Luminosité maximale de l\'écran</string>
+    <string name="menuPreferences">Configuration</string>
+    <string name="menuPrint">Imprimer une grille de score vide</string>
 
-    <!-- team screen -->
-    <string name="teamsPlayers">Available players</string>
-    <string name="teamsWhoWillPlay">Game</string>
-    <string name="teamsAverage">~ %1$s</string>
-    <string name="teamsTitle">team %1$d</string>
-    <string name="teamsDeletePlayer">Remove the player?</string>
-    <string name="teamsDeletePlayerDetail">The player will be permanently deleted from the list.</string>
+    <!-- écran d'équipe -->
+    <string name="teamsPlayers">Joueurs disponibles</string>
+    <string name="teamsWhoWillPlay">Jeu</string>
+    <string name="teamsAverage">\~ %1$s</string>
+    <string name="teamsTitle">équipe %1$d</string>
+    <string name="teamsDeletePlayer">Supprimer le joueur ? </string>
+    <string name="teamsDeletePlayerDetail">Le joueur sera définitivement supprimé de la liste.</string>
 
-    <!-- game screen -->
-    <string name="gNext">Next:</string>
-    <string name="gPlayersScore">%1$d (%2$d left)</string> <!-- 3 (47 left) -->
-    <string name="gPlayersScoreWithWarning">%1$d (%2$d left), %3$s!</string> <!-- 3 (47 left), 2 zeros!-->
+    <!-- Écran de jeu -->
+    <string name="gNext">Suivant:</string>
+    <string name="gPlayersScore">%1$d (%2$d restant(s))</string> <!-- 3 (47 restant(s)) -->
+    <string name="gPlayersScoreWithWarning">%1$d (%2$d restant(s)), %3$s!</string> <!-- 3 (47 restant(s)), 2 zeros!-->
     <string name="gCurrentHit">%1$d</string> <!-- 12 -->
     <string name="gRoundProgress">%1$d/%2$d</string> <!-- 1/6 -->
-    <string name="gFoul">Foul</string> <!-- crossing the foul line -->
-    <string name="gameSetupGame">Set up Mölkky</string>
-    <string name="gameChangeTheHit">Change the hit?</string>
-    <string name="gameChangeTheHitDetail">Do you really want to change the hit?</string>
+    <string name="gFoul">Faute</string> <!-- franchissement de la ligne de faute -->
+    <string name="gameSetupGame">Configurer Mölkky</string>
+    <string name="gameChangeTheHit">Rééditer le score du tour ? </string>
+    <string name="gameChangeTheHitDetail">Voulez-vous vraiment rééditer le score du tour?</string>
 
-    <!-- results screen -->
-    <string name="resultsRound">Set</string>
-    <string name="resultsGame">Game</string>
-    <string name="resultsNextRound">Next Set</string>
-    <string name="resultsGameOver">End Of The Game</string>
-    <string name="resultsRoundInProgress">Next set can\'t be started!</string>
-    <string name="resultsRoundInProgressDetail">Current set is not finished yet.</string>
+    <!-- écran des résultats -->
+    <string name="resultsRound">Tour</string>
+    <string name="resultsGame">Partie</string>
+    <string name="resultsNextRound">Tour suivant</string>
+    <string name="resultsGameOver">Fin de la partie</string>
+    <string name="resultsRoundInProgress">Le prochain tour ne peut pas être lancé !</string>
+    <string name="resultsRoundInProgressDetail">Le tour actuel n\'est pas encore terminé.</string>
     <plurals name="resultsZeros">
-        <item quantity="one">%1$d zero</item>
-        <item quantity="other">%1$d zeros</item>
+        <item quantity="one">%1$d zéro</item> <!-- expands to "1 zero" -->
+        <item quantity="other">%1$d zéros</item> <!-- expands to "2 zeros" -->
     </plurals>
 
-    <!-- dialogs -->
-    <string name="dAddPlayer">Add new player</string>
-    <string name="dEditPlayer">Edit player</string>
-    <string name="dDelete">Delete</string>
-    <string name="dSave">Save</string>
-    <string name="dPlayersNameHint">Name</string>
+    <!-- dialogues -->
+    <string name="dAddPlayer">Ajouter un nouveau joueur</string>
+    <string name="dEditPlayer">Modifier un joueur</string>
+    <string name="dDelete">Supprimer</string>
+    <string name="dSave">Enregister</string>
+    <string name="dPlayersNameHint">Nom</string>
     <string name="dOK">OK</string>
-    <string name="dAdd">Add</string>
-    <string name="dCancel">Cancel</string>
-    <string name="dialogStartNewGame">Start a new game?</string>
-    <string name="dialogRoundInProgress">Current set is not finished!</string>
-    <string name="dialogRoundInProgressChangeTeam">It is not possible to change the starting team in the middle of the set.</string>
-    <string name="dialogSetup">Game setup</string>
-    <string name="dialogGoal">Goal</string>
-    <string name="dialogPenaltyOver">Penalty when over goal</string>
-    <string name="dialogNextSetTeamLabel">Who starts the set</string>
+    <string name="dAdd">Ajouter</string>
+    <string name="dCancel">Annuler</string>
+    <string name="dialogStartNewGame">Démarrer une nouvelle partie?</string>
+    <string name="dialogRoundInProgress">La partie en cours n\'est pas terminée!</string>
+    <string name="dialogRoundInProgressChangeTeam">Il n\'est pas possible de changer l\'équipe de départ au milieu du tour.</string>
+    <string name="dialogSetup">Configuration du jeu</string>
+    <string name="dialogGoal">But</string>
+    <string name="dialogPenaltyOver">Pénalité au dessus du but</string>
+    <string name="dialogNextSetTeamLabel">Qui commence le tour</string>
     <string-array name="dialogNextSetTeamValues">
-        <item>Next team in order</item>
-        <item>Ask</item>
+        <item>Suivant l\'équipe dans l\'ordre</item>
+        <item>Demander</item>
     </string-array>
-    <string name="dialogNextSetTeam">Who will start the set?</string>
-    <string name="dialogAddPlayerToTeam">Add %1$s to:</string>
-    <string name="dialogNewTeam">New team</string>
-    <string name="dialogPlayerInTheGame">Player is already included</string>
-    <string name="dialogPlayerInTheGameDetail">The player can\'t be listed twice in one game.</string>
-    <string name="dialogRules">Mölkky Rules</string>
-    <string name="dialogRulesDetail">The aim of the game is to reach exactly 50 points.\n
-\nAll throws are taken into account.\n
-\nA pin is not considered fallen if it is leaning on another pin or on the Mölkky throwing
-skittle. After a throw, fallen pins are put upright at the place where they fell.\n
-\nIf one pin falls, the score is equal to the number on the skittle. When more than one skittle
-falls, the score is equal the number of fallen skittles.\n
-\nIf a player (team) misses (has no scores) three times in a row, he/she (it) is out of
-the game with 0 points. The game ends, when the first player (or team) reaches
-exactly 50 points.\n
-\nIf a player (or team) scores over 50, that player’s (team’s) score is lowered to 25 points
-and continues playing.\n
-\nSides of the Mölkky frame are set to 45 degree angle and thrower has to leave the frame,
-to the rear, if the thrower goes forward and/or sideways, in other words over the Mölkky
-frame, it is a foul and throw is (the) called as a miss (0 points).\n
-\nWhen the team has 37 points or more, foul will be penalized by dropping the points to 25.
+    <string name="dialogNextSetTeam">Qui va commencer le tour ? </string>
+    <string name="dialogAddPlayerToTeam">Ajouter %1$s à:</string>
+    <string name="dialogNewTeam">Nouvelle équipe</string>
+    <string name="dialogPlayerInTheGame">Le joueur est déjà inclus</string>
+    <string name="dialogPlayerInTheGameDetail">Le joueur ne peut pas être inscrit deux fois dans une partie.</string>
+    <string name="dialogRules">Règles du Mölkky</string>
+    <string name="dialogRulesDetail">Le principe du jeu est de faire tomber des quilles en bois à l’aide
+d’un lanceur appelé Mölkky. Les quilles sont marquées de 1 à 12. La première équipe arrivant à totaliser
+exactement 50 points gagne la partie.
+\n\n
+Au début d’une partie, les quilles sont placées à 3.50m des joueurs. Lorsqu’une quille a été abattue,
+on la redresse sur son pied (et non à la tête), le numéro face à la zone de lancer, juste là où elle
+se trouve et sans la soulever du sol. C’est ainsi qu’au cours de la partie, les quilles s’éparpillent et s’éloignent.
+\n\n
+Les joueurs (ou équipes) jouent chacun à leur tour.
+\n\n
+Il y a deux façons de marquer des points. Si un joueur fait tomber plusieurs quilles, il gagne autant
+de points que de quilles abattues. Si un joueur fait tomber une seule quille, il gagne autant de points
+que le nombre inscrit dessus.
+\n\n
+Une quille n’est considérée comme abattue que si elle est tombée entièrement sur le sol et ne repose sur aucune autre.
+\n\n
+L’équipe gagnante est la première qui arrive à totaliser exactement 50 points. Si une équipe dépasse ce score, elle retombe à 25.
+\n\n
+Élimination : Le joueur (s’il est tout seul) ou l’équipe qui fait trois blancs consécutifs (trois
+lancers au cours duquel aucun point n’est marqué, ou un mordu sur la ligne de lancement) est éliminé.
+Bien entendu, si tous les joueurs sont éliminés avant que quiconque atteigne 50 points, le dernier en jeu a gagné.
+\n\n
+Le Mölkkaari est la zone délimitée pour effectuer son lancer. Les dimensions du Mölkkaari sont les
+suivantes, 4 morceaux de bois de 24cm de long. Les morceaux mesurent 3,2cm de large pour 1,8cm d’épaisseur.
+Le positionnement au sol est en forme de trapèze (voir image ci-dessous), les deux morceaux latéraux
+étant écartés à 45°. Le lancer doit avoir lieu derrière le mölkkaari sans le toucher.
+\n\n
+Le joueur doit quitter l’espace du Mölkkaari en repartant vers l’arrière, il ne doit pas franchir
+le Mölkkaari, sous peine de considérer le lancer comme nul.
+\n\n
+En cas de faute, volontaire ou pas, le lancer est considéré comme nul et l’équipe marque 0 point (coup
+identique à un blanc), de plus son score retombe à 25 si l’équipe a un score supérieur ou égal à 37 points.
     </string>
-    <string name="dialogPrintOrSend">An Empty Sheet</string>
+    <string name="dialogPrintOrSend">Une grille de score vide</string>
     <string-array name="dialogPrintOrSendValues">
-        <item>Print an empty sheet</item>
-        <item>Share/Send an empty sheet</item>
+        <item>Imprimer une grille de score vide</item>
+        <item>Partager/Envoyer une grille de score vide</item>
     </string-array>
 
-
-    <!-- history -->
-    <string name="historyDelete">Delete game record?</string>
-    <string name="historyDeleteDetail">The game record will be deleted permanently.</string>
-    <string name="historyShare">Game Record</string>
+    <!-- Historique -->
+    <string name="historyDelete">Supprimer la fiche de jeu ? </string>
+    <string name="historyDeleteDetail">L\'enregistrement de jeu sera supprimé définitivement.</string>
+    <string name="historyShare">Dossier de jeu</string>
     <string-array name="historyExports">
-        <item>Share the game record</item>
-        <item>Export the game record as CSV</item>
-        <item>Print the game record</item>
+        <item>Partager le dossier de jeu</item>.
+        <item>Exporter l\'historique de jeu en CSV</item>
+        <item>Imprimer le dossier de jeu</item>
     </string-array>
 
-
-    <!-- sheets -->
+    <!-- feuilles -->
     <string name="sheetTitle">Mölkky game %1$s %2$s</string>
-    <string name="sheetTeams">Player/Team</string>
+    <string name="sheetTeams">Nom/Equipe</string>
     <string name="sheetPoints">Points</string>
     <string name="sheetScore">Score</string>
-    <string name="sheetRound">Set %1$d</string>
-    <string name="sheetGame">Game</string>
+    <string name="sheetRound">Tour %1$d</string>
+    <string name="sheetGame">Partie</string>
     <string name="sheetTotal">Total</string>
-    <string name="sheetCount">Count</string>
-    <string name="sheetHits">Throw</string>
-    <string name="sheetRecord">Mölkky Game Record</string>
+    <string name="sheetCount">Compte</string>
+    <string name="sheetHits">Lancer</string>
+    <string name="sheetRecord">Record de jeu Mölkky</string>
     <string name="sheetDate">Date:</string>
-    <string name="sheetPlace">Place:</string>
-
+    <string name="sheetPlace">Lieu:</string>
     <string name="promoteRate">Rate MölkkyNotes</string>
-    <string name="promoteRateDetail">If you enjoy using MölkkyNotes, please take a moment to rate it. Thanks for your support!</string>
-    <string name="promoteRateNow">Rate</string>
-    <string name="promoteRateLater">Later</string>
-    <string name="promoteRateNo">No, thanks</string>
-    <string name="promoteSupport">Support MölkkyNotes</string>
-    <string name="promoteSupportDetail">If you enjoy using MölkkyNotes, please consider supporting the development by buying MölkkyNotes +.</string>
-    <string name="promoteSupportNow">Buy MölkkyNotes +</string>
+    <string name="promoteRateDetail">Si vous aimez utiliser MölkkyNotes, prenez un moment pour le noter. Merci de votre soutien !</string>
+    <string name="promoteRateNow">Noter</string>
+    <string name="promoteRateLater">Plus tard</string>
+    <string name="promoteRateNo">Non, merci</string>
+    <string name="promoteSupport">Soutenir MölkkyNotes</string>
+    <string name="promoteSupportDetail">Si vous aimez utiliser MölkkyNotes, pensez à soutenir le développement en achetant MölkkyNotes +.</string>
+    <string name="promoteSupportNow">Achetez MölkkyNotes +</string>
 </resources>
