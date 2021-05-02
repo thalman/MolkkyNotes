@@ -78,17 +78,22 @@ public class MolkkyTeam implements Serializable {
         return currentPlayer();
     }
 
-    public String name()
+    public String name(String separator)
     {
         StringBuilder result = new StringBuilder("");
         for(int a = 0; a < _players.size(); a++) {
             result.append(_players.get(a).name());
             if (a < _players.size() - 1) {
-                result.append( ", ");
+                result.append(separator);
             }
         }
 
         return result.toString();
+    }
+
+    public String name()
+    {
+        return name(", ");
     }
 
     public int getPlayersIndex(String playersName)
@@ -141,6 +146,11 @@ public class MolkkyTeam implements Serializable {
         if (index >= 0 && index < _players.size()) {
             _players.remove(index);
         }
+    }
+
+    public void removeAllPlayer()
+    {
+        _players.clear();
     }
 
     public ArrayList<MolkkyPlayer> players()

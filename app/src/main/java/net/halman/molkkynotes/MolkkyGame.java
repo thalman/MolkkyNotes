@@ -664,7 +664,7 @@ public class MolkkyGame implements Serializable {
                 for (MolkkyTeam team: round.teams()) {
                     columns.clear();
                     columns.add("team" + team.id());
-                    columns.add(team.name());
+                    columns.add(team.name("; "));
                     columns.add(Integer.toString(round.teamScore(team)));
                     columns.add(Integer.toString(round.numberOfZeros(team)));
                     columns.add(Integer.toString(round.numberOfPenalties(team)));
@@ -778,8 +778,12 @@ public class MolkkyGame implements Serializable {
                             if (t == null) {
                                 throw new IOException();
                             }
-
-                            round.addTeam(t);
+                            MolkkyTeam rt = new MolkkyTeam(t);
+                            rt.removeAllPlayer();
+                            for (String name: l[1].split(" *; *")) {
+                                rt.addPlayer(new MolkkyPlayer(name));
+                            }
+                            round.addTeam(rt);
                         }
 
                         // fill hits
