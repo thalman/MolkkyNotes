@@ -47,12 +47,14 @@ public class History {
                 }
             });
 
-            for(File F: files) {
-                HistoryItem i = new HistoryItem();
-                i.path = F.getAbsolutePath();
-                i.name = niceDate(MolkkyGame.CVSDate(F.getAbsolutePath())) + " - " + MolkkyGame.CVSTitle(F.getAbsolutePath());
-                i.filename = F.getName();
-                _history_items.add(i);
+            if (files != null) {
+                for (File F : files) {
+                    HistoryItem i = new HistoryItem();
+                    i.path = F.getAbsolutePath();
+                    i.name = niceDate(MolkkyGame.CVSDate(F.getAbsolutePath())) + " - " + MolkkyGame.CVSTitle(F.getAbsolutePath());
+                    i.filename = F.getName();
+                    _history_items.add(i);
+                }
             }
 
             Collections.sort(_history_items, new Comparator<HistoryItem>() {
