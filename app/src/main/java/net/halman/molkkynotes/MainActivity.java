@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity
         HistoryFragment.OnHistoryFragmentInteractionListener
 {
     static final int MOVE_FORWARD = 3;
+    static final int SWITCH_TAB = 4;
+    static final int MIX_TEAMS = 5;
+    static final int MIX_TEAMS_PSEUDO = 6;
 
     private MolkkyGame _game = new MolkkyGame();
     private final Players _players = new Players();
@@ -106,6 +109,16 @@ public class MainActivity extends AppCompatActivity
                         if (g != null) {
                             g.gameStepForward();
                         }
+                        break;
+                    case SWITCH_TAB:
+                        switchTab(inputMessage.arg1);
+                        break;
+                    case MIX_TEAMS:
+                        mixing();
+                        break;
+                    case MIX_TEAMS_PSEUDO:
+                        pseudoMixing();
+                        break;
                     default:
                         super.handleMessage(inputMessage);
                 }
@@ -224,6 +237,57 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void pseudoMixing()
+    {
+        if (! _game.gameStarted()) {
+            _game.pseudoShuffleTeams();
+            _game.refreshTeamsInNotStartedGame();
+            TeamsFragment tf = teamsFragment();
+            if (tf != null) {
+                tf.updateScreen();
+            }
+            GameFragment gf = gameFragment();
+            if (gf != null) {
+                gf.updateScreen();
+            }
+        }
+    }
+
+    public void mixing()
+    {
+        if (! _game.gameStarted()) {
+            _game.shuffleTeams();
+            _game.refreshTeamsInNotStartedGame();
+            TeamsFragment tf = teamsFragment();
+            if (tf != null) {
+                tf.updateScreen();
+            }
+            GameFragment gf = gameFragment();
+            if (gf != null) {
+                gf.updateScreen();
+            }
+        }
+    }
+
+    public void startGame()
+    {
+        _handler.removeMessages(SWITCH_TAB);
+        _handler.removeMessages(MIX_TEAMS_PSEUDO);
+        _handler.removeMessages(MIX_TEAMS);
+        for(int d = 0; d <= 900; d += 300) {
+            _handler.sendEmptyMessageDelayed(MIX_TEAMS_PSEUDO, d);
+        }
+        _handler.sendEmptyMessageDelayed(MIX_TEAMS, 1200);
+        _handler.sendMessageDelayed(_handler.obtainMessage(SWITCH_TAB, 1,0), 2500);
+    }
+
+    public void cancelGameStart()
+    {
+        _handler.removeMessages(SWITCH_TAB);
+        _handler.removeMessages(MIX_TEAMS_PSEUDO);
+        _handler.removeMessages(MIX_TEAMS);
+    }
+
     public MolkkyGame game()
     {
         return _game;
@@ -271,7 +335,7 @@ public class MainActivity extends AppCompatActivity
 
     public void onTabChange(int position)
     {
-        Log.d("UI", "Selected tab " + position);
+        _handler.removeMessages(SWITCH_TAB);
     }
 
     private void updatePlayersStatistics()

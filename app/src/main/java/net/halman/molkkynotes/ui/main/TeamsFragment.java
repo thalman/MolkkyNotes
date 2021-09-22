@@ -76,9 +76,7 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
 
                     MolkkyGame game = _listener.game();
                     if (game.teams().size() > 1) {
-                        game.shuffleTeams();
-                        updateScreen();
-                        _listener.switchTab(1);
+                        _listener.startGame();
                     }
                 }
             }
@@ -184,6 +182,8 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         if (_listener == null || player == null) {
             return;
         }
+
+        _listener.cancelGameStart();
 
         if (_listener.game().gameStarted()) {
             // game already started only teams modification
@@ -534,6 +534,8 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         MolkkyGame game();
         Players players();
         void switchTab(int i);
+        void startGame();
+        void cancelGameStart();
         Setup setup();
     }
 }

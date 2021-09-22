@@ -113,6 +113,17 @@ public class MolkkyGame implements Serializable {
         addRound();
     }
 
+    void refreshTeamsInNotStartedGame()
+    {
+        if (! gameStarted() ) {
+            int rc = roundCursor();
+            clearRounds();
+            if (rc > -1) {
+                nextHit();
+            }
+        }
+    }
+
     public void start()
     {
         _rounds.clear();
@@ -504,6 +515,7 @@ public class MolkkyGame implements Serializable {
             return;
         }
 
+        removeTrailingEmptyTeams();
         ArrayList<MolkkyTeam> shuffle = new ArrayList<MolkkyTeam>();
         Random rand = new Random();
 
@@ -514,6 +526,21 @@ public class MolkkyGame implements Serializable {
             _teams.remove(idx);
         }
 
+        _teams = shuffle;
+    }
+
+    public void pseudoShuffleTeams()
+    {
+        if (_teams.size() <= 1 || gameStarted()) {
+            return;
+        }
+
+        removeTrailingEmptyTeams();
+        ArrayList<MolkkyTeam> shuffle = new ArrayList<MolkkyTeam>();
+        for (int idx = 1; idx < _teams.size(); idx += 1 ) {
+            shuffle.add(_teams.get(idx));
+        }
+        shuffle.add(_teams.get(0));
         _teams = shuffle;
     }
 
