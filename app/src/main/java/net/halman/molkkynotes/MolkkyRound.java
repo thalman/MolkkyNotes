@@ -313,7 +313,7 @@ public class MolkkyRound implements Serializable {
                 teams_in++;
             }
         }
-        if (teams_in == 1) {
+        if (teams_in <= 1) {
             return true;
         }
 
