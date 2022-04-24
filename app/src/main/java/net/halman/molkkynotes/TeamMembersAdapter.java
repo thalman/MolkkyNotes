@@ -191,9 +191,13 @@ public class TeamMembersAdapter extends RecyclerView.Adapter<TeamMembersAdapter.
     {
         if (_game != null) {
             if (_game.cleanupEmptyTeams()) {
-                notifyDataSetChanged();
+                try {
+                    notifyDataSetChanged();
+                } catch (Exception ignored) {}
                 if (_listener != null) {
-                    _listener.onTeamsDataSetChanged();
+                    try {
+                        _listener.onTeamsDataSetChanged();
+                    } catch (Exception ignored) {}
                 }
             }
         }
