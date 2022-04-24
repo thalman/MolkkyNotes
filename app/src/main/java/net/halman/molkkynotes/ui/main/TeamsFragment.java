@@ -279,11 +279,17 @@ public class TeamsFragment extends Fragment implements TeamMembersAdapter.TeamMe
         }
 
         MolkkyGame game = _listener.game();
-        _teams_adapter.setGame(game);
-        _teams_adapter.cleanupEmptyTeams();
-        _teams_adapter.notifyDataSetChanged();
-        _players_adapter.game(game);
-        _mix.active(mixButtonActive(game));
+        if (_teams_adapter != null) {
+            _teams_adapter.setGame(game);
+            _teams_adapter.cleanupEmptyTeams();
+            _teams_adapter.notifyDataSetChanged();
+        }
+        if (_players_adapter != null) {
+            _players_adapter.game(game);
+        }
+        if (_mix != null) {
+            _mix.active(mixButtonActive(game));
+        }
     }
 
     public void userAddDialog () {
