@@ -87,36 +87,43 @@ public class UIGameRecord extends View implements MolkkySheet.SheetDrawable {
 
         switch(action & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN: {
-                final float x = (ev.getX() - _scale_point_x) / _scale_factor;
-                final float y = (ev.getY() - _scale_point_y) / _scale_factor;
-                _last_touch_x = x;
-                _last_touch_y = y;
+                try {
+                    final float x = (ev.getX() - _scale_point_x) / _scale_factor;
+                    final float y = (ev.getY() - _scale_point_y) / _scale_factor;
+                    _last_touch_x = x;
+                    _last_touch_y = y;
+                } catch (Exception ignored) {}
                 break;
             }
 
             case MotionEvent.ACTION_MOVE: {
-                final float x = (ev.getX() - _scale_point_x)/_scale_factor;
-                final float y = (ev.getY() - _scale_point_y)/_scale_factor;
-                // Only move if the ScaleGestureDetector isn't processing a gesture.
-                if (!_scale_detector.isInProgress()) {
-                    final float dx = x - _last_touch_x; // change in X
-                    final float dy = y - _last_touch_y; // change in Y
-                    _pan_x += dx;
-                    _pan_y += dy;
-                    invalidate();
-                }
+                try {
+                    final float x = (ev.getX() - _scale_point_x) / _scale_factor;
+                    final float y = (ev.getY() - _scale_point_y) / _scale_factor;
+                    // Only move if the ScaleGestureDetector isn't processing a gesture.
+                    if (!_scale_detector.isInProgress()) {
+                        final float dx = x - _last_touch_x; // change in X
+                        final float dy = y - _last_touch_y; // change in Y
+                        _pan_x += dx;
+                        _pan_y += dy;
+                        invalidate();
+                    }
 
-                _last_touch_x = x;
-                _last_touch_y = y;
+                    _last_touch_x = x;
+                    _last_touch_y = y;
+                } catch (Exception ignored) {}
                 break;
             }
 
             case MotionEvent.ACTION_UP: {
-                final float x = (ev.getX() - _scale_point_x)/_scale_factor;
-                final float y = (ev.getY() - _scale_point_y)/_scale_factor;
-                _last_touch_x = 0;
-                _last_touch_y = 0;
-                invalidate();
+                try {
+                    final float x = (ev.getX() - _scale_point_x) / _scale_factor;
+                    final float y = (ev.getY() - _scale_point_y) / _scale_factor;
+                    _last_touch_x = 0;
+                    _last_touch_y = 0;
+                    invalidate();
+                } catch (Exception ignored) {};
+                break;
             }
         }
 
