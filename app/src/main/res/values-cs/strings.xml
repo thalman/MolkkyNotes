@@ -99,7 +99,7 @@ odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou
     <!-- history -->
     <string name="historyDelete">Smazat utkání?</string>
     <string name="historyDeleteDetail">Zápis utkání bude odstraněn.</string>
-    <string name="historyShare">Prázdný zápis</string>
+    <string name="historyShare">Zápis utkání</string>
     <string-array name="historyExports">
         <item>Sdílet zápis o utkání</item>
         <item>Exportovat zápis jako CSV soubor</item>
