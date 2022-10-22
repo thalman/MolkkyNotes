@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Dimensions originally defined in res/values/dimens.xml for screens with more than 790dp. -->
+    <dimen name="activity_horizontal_margin">64dp</dimen>
+    <dimen name="font_size_small">23sp</dimen>
+    <dimen name="font_size">28sp</dimen>
+    <dimen name="font_size_large">34sp</dimen>
+    <dimen name="font_size_huge">43sp</dimen>
+    <dimen name="image_button_size">50sp</dimen>
+
+    <dimen name="design_tab_text_size" tools:override="true">20sp</dimen>
+    <dimen name="design_tab_text_size_2line" tools:override="true">20sp</dimen>
+</resources>
