@@ -50,5 +50,4 @@
     <style name="BlackAndWhite.Button">
         <item name="android:textColor">#FFFFFF</item>
     </style>
-
 </resources>

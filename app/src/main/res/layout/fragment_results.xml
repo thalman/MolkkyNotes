@@ -42,11 +42,11 @@
 
     <ImageView
         android:id="@+id/resultFit"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="@dimen/font_size_huge"
+        android:layout_height="@dimen/font_size_huge"
+        android:layout_marginTop="@dimen/font_size_small"
+        android:layout_marginEnd="@dimen/font_size_small"
+        android:layout_marginRight="@dimen/font_size_small"
         android:alpha="0.8"
         android:contentDescription="@string/emptyString"
         app:layout_constraintEnd_toEndOf="parent"

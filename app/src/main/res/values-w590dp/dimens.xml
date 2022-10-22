@@ -1,0 +1,9 @@
+<resources>
+    <!-- Dimensions originally defined in res/values/dimens.xml for screens with more than 410dp. -->
+    <dimen name="activity_horizontal_margin">64dp</dimen>
+    <dimen name="font_size_small">20sp</dimen>
+    <dimen name="font_size">26sp</dimen>
+    <dimen name="font_size_large">31sp</dimen>
+    <dimen name="font_size_huge">39sp</dimen>
+    <dimen name="image_button_size">45sp</dimen>
+</resources>

@@ -12,11 +12,11 @@
         android:layout_weight="2"
         android:padding="5dp"
         android:text="@string/emptyString"
-        android:textSize="20sp" />
+        android:textSize="@dimen/font_size" />
 
     <ImageView
         android:id="@+id/teamPlayerDragHandle"
-        android:layout_width="20dp"
+        android:layout_width="@dimen/font_size"
         android:layout_height="match_parent"
         android:layout_weight="0"
         android:contentDescription="@string/emptyString"
