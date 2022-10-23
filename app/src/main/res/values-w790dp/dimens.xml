@@ -8,5 +8,5 @@
     <dimen name="image_button_size">50sp</dimen>
 
     <dimen name="design_tab_text_size" tools:override="true">20sp</dimen>
-    <dimen name="design_tab_text_size_2line" tools:override="true">20sp</dimen>
+    <dimen name="design_tab_text_size_2line" tools:override="true">18sp</dimen>
 </resources>
