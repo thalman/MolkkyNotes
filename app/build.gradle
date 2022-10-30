@@ -6,8 +6,8 @@ android {
         applicationId "net.halman.molkkynotes"
         minSdkVersion 16
         targetSdkVersion 32
-        versionCode 406
-        versionName "4.6"
+        versionCode 407
+        versionName "4.7"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
