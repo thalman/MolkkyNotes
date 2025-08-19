@@ -141,6 +141,8 @@ identique à un blanc), de plus son score retombe à 25 si l’équipe a un scor
     <string name="sheetRecord">Record de jeu Mölkky</string>
     <string name="sheetDate">Date:</string>
     <string name="sheetPlace">Lieu:</string>
+    <string name="sheetWins">Vict.</string>
+
     <string name="promoteRate">Rate MölkkyNotes</string>
     <string name="promoteRateDetail">Si vous aimez utiliser MölkkyNotes, prenez un moment pour le noter. Merci de votre soutien !</string>
     <string name="promoteRateNow">Noter</string>

@@ -4,10 +4,10 @@ android {
     defaultConfig {
         applicationId "net.halman.molkkynotes"
         minSdkVersion 19
-        targetSdkVersion 34
-        compileSdk 34
-        versionCode 408
-        versionName "4.8"
+        targetSdkVersion 35
+        compileSdk 35
+        versionCode 409
+        versionName "4.9"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true

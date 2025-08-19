@@ -46,6 +46,7 @@
     <plurals name="resultsZeros">
         <item quantity="one">%1$d nula</item>
         <item quantity="few">%1$d nuly</item>
+        <item quantity="many">%1$d nul</item>
         <item quantity="other">%1$d nul</item>
     </plurals>
 
@@ -119,6 +120,7 @@ odhodiště, je to přešlap a hod je označen jako by hráč neschodil žádnou
     <string name="sheetRecord">Zápis utkání ve hře Mölkky</string>
     <string name="sheetDate">Datum:</string>
     <string name="sheetPlace">Místo:</string>
+    <string name="sheetWins">Výhry</string>
 
     <string name="promoteRate">Ohodnoťte MölkkyNotes</string>
     <string name="promoteRateDetail">Pokud se Vám aplikace MölkkyNotes líbí, prosím věnujte chvíli jejímu ohodnocení. Díky!</string>
